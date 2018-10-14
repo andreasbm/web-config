@@ -23,18 +23,15 @@ export default function litHTML (config) {
 	return {
 		name: 'litHTML',
 		resolveId: (id, importer) => {
-			if (importer && filter(id)) {
-				return path.resolve(path.dirname(importer), id)
-			}
-
-			return null;
+			if (!importer || !filter(id)) return;
+			return path.resolve(path.dirname(importer), id);
 		},
 		transform: (code, id) => {
-			if (filter(id)) {
-				return processFile({code, id});
-			}
+			if (!filter(id)) return;
 
-			return null;
+			if (id.endsWith("my.component.ts")) {
+				console.log("WUHUU", id, code);
+			}
 		}
 	}
 };
