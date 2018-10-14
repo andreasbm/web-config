@@ -1,12 +1,16 @@
 import * as escodegen from 'escodegen';
 import * as esprima from 'esprima';
-import * as htmlMinifier from 'html-minifier';
 import * as estraverse from 'estraverse';
+import * as htmlMinifier from 'html-minifier';
 import path from "path";
-import { createFilter } from 'rollup-pluginutils';
+import {createFilter} from 'rollup-pluginutils';
 
+/**
+ * The default configuration for the minify-lit-html plugin.
+ * @type {{include: RegExp[], exclude: Array, esprima: {sourceType: string, loc: boolean, range: boolean}, htmlMinifier: {caseSensitive: boolean, collapseWhitespace: boolean, minifyCSS: boolean, preventAttributesEscaping: boolean, removeComments: boolean, ignoreCustomFragments: RegExp[]}}}
+ */
 const defaultConfig = {
-	include: [ /\.js$/, /\.ts$/],
+	include: [/\.js$/, /\.ts$/],
 	exclude: [],
 	esprima: {
 		sourceType: "module",
@@ -28,6 +32,7 @@ const defaultConfig = {
 
 /**
  * Creates a transformer that traverses an ast, minifying the html`...` parts from lit-html.
+ * This function is heavily inspired by https://github.com/edge0701/minify-lit-html-loader/blob/master/src/index.ts.
  * @param code
  * @param config
  * @returns {function(*=): *}
@@ -40,43 +45,42 @@ function createTransformer ({code, config}) {
 
 				// If the node type is a TaggedTemplateExpression we know we are looking at a html`...` part.
 				if (node.type === "TaggedTemplateExpression") {
+					if ((node.tag.type === "Identifier" && node.tag.name === "html")
+						|| (node.tag.type === "MemberExpression"
+							&& node.tag.property.type === "Identifier"
+							&& node.tag.property.name === "html")) {
 
-					if ((node.tag.type === 'Identifier'
-						&& node.tag.name === 'html') ||
-						(node.tag.type === 'MemberExpression' &&
-							node.tag.property.type === 'Identifier' &&
-							node.tag.property.name === 'html')) {
+						// Minify the HTML inside the html tagged template literals.
 						const mini = htmlMinifier.minify(
-							chunks.slice(node.quasi.range[0] + 1,
-								node.quasi.range[1] - 1).join(''),
-							config.htmlMinifier);
+							chunks.slice(node.quasi.range[0] + 1, node.quasi.range[1] - 1).join(''),
+							config.htmlMinifier
+						);
+
+						// Return the new node
 						return {
 							...node,
 							quasi: {
 								...node.quasi,
-								quasis: [
-									{
-										type: 'TemplateElement',
-										value: {
-											raw: mini,
-										},
-										range: [ node.quasi.range[0], mini.length ],
+								quasis: [{
+									type: "TemplateElement",
+									value: {
+										raw: mini
 									},
-								],
-							},
+									range: [node.quasi.range[0], mini.length]
+								}]
+							}
 						};
 					}
 				}
 			},
-			fallback: 'iteration',
+			fallback: "iteration",
 		});
 	}
 }
 
 
 /**
- * Minifies the lit-html files.
- * This function is heavily inspired by https://github.com/edge0701/minify-lit-html-loader/blob/master/src/index.ts.
+ * Processes the code by minifying the html using in the tagged template literals.
  * @param code
  * @param id
  * @param config
@@ -108,6 +112,11 @@ function processFile ({code, id, config}) {
 	});
 }
 
+/**
+ * Minifies the html of files using lit-html.
+ * @param config
+ * @returns {{name: string, resolveId: (function(*=, *=): *), transform: (function(*, *=): Promise<void>)}}
+ */
 export default function minifyLitHTML (config) {
 	const {include, exclude, esprima, htmlMinifier} = {...defaultConfig, ...config};
 
