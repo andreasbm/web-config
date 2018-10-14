@@ -87,28 +87,33 @@ function createTransformer ({code, config}) {
  * @returns {Promise<void>}
  */
 function processFile ({code, id, config}) {
-	return new Promise(res => {
+	return new Promise((res, rej) => {
 
-		// Create transformer that traverses the ast and minifies the html`...` parts.
-		const transform = createTransformer({code, config});
+		try {
+			// Create transformer that traverses the ast and minifies the html`...` parts.
+			const transform = createTransformer({code, config});
 
-		// Build an ast from the current config
-		const ast = esprima.parse(code, config.esprima);
+			// Build an ast from the current config
+			const ast = esprima.parse(code, config.esprima);
 
-		// Create new ast using the transformer
-		const newAst = transform(ast);
+			// Create new ast using the transformer
+			const newAst = transform(ast);
 
-		// Regenerate the code based on the new ast.
-		const gen = escodegen.generate(newAst, {
-			sourceMap: id,
-			sourceMapWithCode: true,
-			sourceContent: code,
-		});
+			// Regenerate the code based on the new ast.
+			const gen = escodegen.generate(newAst, {
+				sourceMap: id,
+				sourceMapWithCode: true,
+				sourceContent: code,
+			});
 
-		res({
-			code: gen.code,
-			map: gen.map.toString(),
-		})
+			res({
+				code: gen.code,
+				map: gen.map.toString(),
+			})
+		} catch (err) {
+			console.log("OMG NOOO", code);
+			rej(err);
+		}
 	});
 }
 

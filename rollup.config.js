@@ -8,6 +8,7 @@ import cleaner from 'rollup-plugin-cleaner';
 import copy from 'rollup-plugin-copy';
 import filesize from "rollup-plugin-filesize";
 import gzip from "rollup-plugin-gzip";
+import builtins from 'rollup-plugin-node-builtins';
 import license from "rollup-plugin-license";
 import livereload from 'rollup-plugin-livereload'
 import resolve from 'rollup-plugin-node-resolve';
@@ -60,7 +61,7 @@ export default {
 			dir: folders.dist,
 			entryFileNames: "[name]-[hash].js",
 			chunkFileNames: "[name]-[hash][extname]",
-			format: "esm",
+			format: "cjs", // (amd, cjs, esm, iife, umd)
 			sourcemap: true
 		}
 	],
@@ -88,21 +89,26 @@ export default {
 			browser: true,
 			jsnext: true,
 			main: false,
-			modulesOnly: true
-		}),
-
-		// At the moment, the majority of packages on NPM are exposed as CommonJS modules
-		commonjs({
-			include: "node_modules/**",
+			modulesOnly: false
 		}),
 
 		// Teaches Rollup how to transpile Typescript
 		ts(),
 
-		// Teaches Rollup how to transpile code by looking at the .browserslistrc config
-		babel({
-			exclude: 'node_modules/**',
+		// At the moment, the majority of packages on NPM are exposed as CommonJS modules
+		commonjs({
+			include: "**/node_modules/**",
 		}),
+
+		// Teaches Rollup how to transpile code by looking at the .babelrc config
+		// Documentation: https://babeljs.io/docs/en/index.html
+		babel({
+			exclude: "**/node_modules/**",
+			runtimeHelpers: true
+		}),
+
+		// Trying to get it to work..
+		builtins(),
 
 		// Copies resources to the dist folder
 		copy([
@@ -158,7 +164,7 @@ export default {
 			terser(),
 
 			// Gzips all of the files
-			gzip({
+			/*gzip({
 				// TODO: Figure out why it the copied files (eg. assets) are not gzipped.
 				// The additional files should contain all the assets...
 				filter: () => false,
@@ -166,7 +172,7 @@ export default {
 					level: 9
 				},
 				additionalFiles: readdir(folders.dist).filter(path => !path.endsWith(".gz"))
-			}),
+			}),*/
 
 			// Prints the total file-size in the console
 			filesize(),
@@ -187,6 +193,6 @@ export default {
 		] : [])
 	],
 	experimentalCodeSplitting: true,
-	treeshake: true,
+	treeshake: isProd,
 	context: "window"
 }

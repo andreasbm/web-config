@@ -19,10 +19,10 @@
 		"lib": [
 			"es2015.promise",
 			"dom",
-			"es6",
 			"scripthost",
 			"es7",
-		  	"es2017",
+			"es6",
+			"es2017",
 			"es2017.object",
 			"es2015.proxy"
 		]
