@@ -6,7 +6,11 @@ import {readFile, writeFileSync} from 'fs';
  * @type {{template: null, target: null}}
  */
 const defaultConfig = {
+
+	// HTML template (needs to contain a body tag)
 	template: null,
+
+	// The target destination for the generated file
 	target: null
 };
 
@@ -16,7 +20,7 @@ const defaultConfig = {
  * @param bundle
  * @param template
  * @param target
- * @returns {Promise<any>}
+ * @returns {Promise<void>}
  */
 function generateFile ({bundle, template, target}) {
 	return new Promise((res, rej) => {

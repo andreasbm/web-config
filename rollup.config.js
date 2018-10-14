@@ -79,6 +79,7 @@ export default {
 		// Teaches Rollup how to import SCSS when using the "import css from "./styles.scss" syntax.
 		importSCSS({
 			plugins: scssPlugins,
+			globals: ["main.scss"]
 		}),
 
 		// Teaches Rollup how to find external modules
