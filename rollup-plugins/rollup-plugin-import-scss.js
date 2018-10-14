@@ -71,7 +71,7 @@ function processFile ({code, id, processor, overwrite}) {
  * @param config
  * @returns {{name: string, resolveId: resolveId, transform: transform}}
  */
-export default function importSCSS (config) {
+export default function importSCSS (config = defaultConfig) {
 	const {plugins, extensions, globals} = {...defaultConfig, ...config};
 
 	// Determines whether the file should be handled by the plugin or not.

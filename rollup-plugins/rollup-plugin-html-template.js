@@ -64,7 +64,7 @@ function generateFile ({bundle, template, target}) {
  * @param config
  * @returns {{name: string, generateBundle: (function(*, *, *): Promise<any>)}}
  */
-export default function htmlTemplate (config) {
+export default function htmlTemplate (config = defaultConfig) {
 	const {template, target} = {...defaultConfig, ...config};
 
 	if (template == null || target == null) {

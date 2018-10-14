@@ -104,9 +104,6 @@ export default {
 			exclude: 'node_modules/**',
 		}),
 
-		// Minifies the lit-html files
-		minifyLitHTML(),
-
 		// Copies resources to the dist folder
 		copy([
 			[folders.src_assets, folders.dist_assets]
@@ -144,6 +141,9 @@ export default {
 
 		// Production
 		...(isProd ? [
+
+			// Minifies the lit-html files
+			minifyLitHTML(),
 
 			// Collects all the license files
 			license({
