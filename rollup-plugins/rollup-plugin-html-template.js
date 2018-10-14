@@ -12,6 +12,7 @@ const defaultConfig = {
 
 /**
  * Injects the sources for the bundle entrypoints and generates a HTML file.
+ * Inspired by https://github.com/bengsfort/rollup-plugin-generate-html-template/blob/master/src/index.js
  * @param bundle
  * @param template
  * @param target
@@ -27,24 +28,29 @@ function generateFile ({bundle, template, target}) {
 			}
 
 			// Convert the buffer into a string
-			const tmpl = buffer.toString('utf8');
+			const template = buffer.toString('utf8');
 
 			// Grab the index of the body close tag
-			const bodyCloseTag = tmpl.lastIndexOf('</body>');
+			const bodyCloseTagIndex = template.lastIndexOf('</body>');
 
 			// Grab fileNames of the entry points
 			const fileNames = Object.entries(bundle).filter(([key, value]) => value.isEntry).map(([key, value]) => value.fileName);
 
 			// Inject the script tag before the body close tag.
-			const injected = [
-				tmpl.slice(0, bodyCloseTag),
+			const html = [
+				template.slice(0, bodyCloseTagIndex),
 				fileNames.map(filename => `<script src="${filename}" type="text/javascript"></script>\n`),
-				tmpl.slice(bodyCloseTag, tmpl.length),
+				template.slice(bodyCloseTagIndex, template.length),
 			].join('');
 
 			// Write the injected template to a file.
-			writeFileSync(target, injected);
-			res();
+			try {
+				writeFileSync(target, html);
+				res();
+
+			} catch (err) {
+				rej(err);
+			}
 		})
 	});
 }

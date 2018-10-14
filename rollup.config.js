@@ -36,7 +36,8 @@ const folders = {
 
 const files = {
 	main: path.join(folders.src, "main.ts"),
-	index: path.join(folders.src, "index.html")
+	src_index: path.join(folders.src, "index.html"),
+	dist_index: path.join(folders.dist, "index.html")
 };
 
 console.log({isProd, isDev, isLibrary, isServe});
@@ -113,10 +114,10 @@ export default {
 			return acc;
 		}, {})),
 
-		// Create a HTML template with the injected scripts from the entry points
+		// Creates a HTML template with the injected scripts from the entry points
 		htmlTemplate({
-			template: path.join(folders.src, "index.html"),
-			target: path.join(folders.dist, "index.html")
+			template: files.src_index,
+			target: files.dist_index
 		}),
 
 		// Serve
