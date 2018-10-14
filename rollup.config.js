@@ -20,7 +20,7 @@ import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
 import importSCSS from "./rollup-plugins/rollup-plugin-import-scss";
 import progress from 'rollup-plugin-progress';
 import visualizer from 'rollup-plugin-visualizer';
-import litHTML from "./rollup-plugins/rollup-plugin-lit-html";
+import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
 
 const isProd = process.env.NODE_ENV === "prod";
 const isDev = process.env.NODE_ENV === "dev";
@@ -105,7 +105,7 @@ export default {
 		}),
 
 		// Minifies the lit-html files
-		litHTML(),
+		minifyLitHTML(),
 
 		// Copies resources to the dist folder
 		copy([

@@ -1,8 +1,8 @@
-import { customElement, LitElement, html } from "@polymer/lit-element";
+import { customElement, html, LitElement } from "@polymer/lit-element";
 import css from "./my.component.scss";
 
 @customElement("my-component" as any)
-export class MyComponent extends LitElement{
+export class MyComponent extends LitElement {
 	render () {
 		return html`
 			<style>
@@ -11,5 +11,11 @@ export class MyComponent extends LitElement{
 			<p>It workz</p>
 			<span>I think..</span>
 		`;
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		"my-component": MyComponent;
 	}
 }
