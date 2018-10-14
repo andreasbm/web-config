@@ -36,7 +36,7 @@ const folders = {
 };
 
 const files = {
-	main: path.join(folders.src, "main.ts"),
+	main: path.join(folders.src, "test.ts"),
 	src_index: path.join(folders.src, "index.html"),
 	dist_index: path.join(folders.dist, "index.html")
 };
@@ -61,26 +61,17 @@ export default {
 			dir: folders.dist,
 			entryFileNames: "[name]-[hash].js",
 			chunkFileNames: "[name]-[hash][extname]",
-			format: "esm", // (amd, cjs, esm, iife, umd)
+			format: "es", // (amd, cjs, esm, iife, umd)
 			sourcemap: true
 		}
 	],
 	plugins: [
-
-		// Shows a progress indicator while building
-		progress(),
 
 		// Cleans the dist folder to get rid of files from the previous build
 		cleaner({
 			targets: [
 				folders.dist
 			]
-		}),
-
-		// Teaches Rollup how to import SCSS when using the "import css from "./styles.scss" syntax.
-		importSCSS({
-			plugins: scssPlugins,
-			globals: ["main.scss"]
 		}),
 
 		// Teaches Rollup how to find external modules
@@ -92,101 +83,24 @@ export default {
 			modulesOnly: false
 		}),
 
-		// Teaches Rollup how to transpile Typescript
-		ts(),
-
 		// At the moment, the majority of packages on NPM are exposed as CommonJS modules
 		commonjs({
 			include: "**/node_modules/**",
 		}),
 
+		ts(),
+
 		// Teaches Rollup how to transpile code by looking at the .babelrc config
 		// Documentation: https://babeljs.io/docs/en/index.html
-		// babel({
-		// 	exclude: "**/node_modules/**",
-		// 	runtimeHelpers: true,
-		// 	externalHelpers: true,
-		// 	extensions: [".ts", ".js"]
-		// }),
+		babel({
+			exclude: "**/node_modules/**",
+			runtimeHelpers: true,
+			//externalHelpers: true,
+			extensions: [".ts", ".js"]
+		}),
 
 		// Trying to get it to work..
 		builtins(),
-
-		// Copies resources to the dist folder
-		copy([
-			[folders.src_assets, folders.dist_assets]
-		].reduce((acc, [from, to]) => {
-			acc[from] = to;
-			return acc;
-		}, {})),
-
-		// Creates a HTML template with the injected scripts from the entry points
-		htmlTemplate({
-			template: files.src_index,
-			target: files.dist_index,
-			include: /main-.*\.js$/
-		}),
-
-		// Serve
-		...(isServe ? [
-
-			// Serves the application files
-			serve({
-				open: true,
-				contentBase: folders.dist,
-				historyApiFallback: true,
-				host: "localhost",
-				port: 1338,
-				headers: {
-					"Access-Control-Allow-Origin": "*",
-				}
-			}),
-
-			// Reloads the page when run in watch mode
-			livereload({
-				watch: folders.dist
-			})
-		] : []),
-
-		// Production
-		...(isProd ? [
-
-			// Minifies the lit-html files
-			minifyLitHTML(),
-
-			// Collects all the license files
-			license({
-				sourceMap: true,
-				includePrivate: true,
-				thirdParty: {
-					output: path.join(folders.dist, "licenses.txt")
-				}
-			}),
-
-			// Minifies the code
-			terser(),
-
-			// Gzips all of the files
-			/*gzip({
-				// TODO: Figure out why it the copied files (eg. assets) are not gzipped.
-				// The additional files should contain all the assets...
-				filter: () => false,
-				gzipOptions: {
-					level: 9
-				},
-				additionalFiles: readdir(folders.dist).filter(path => !path.endsWith(".gz"))
-			}),*/
-
-			// Prints the total file-size in the console
-			filesize(),
-
-			// Create a HTML file visualizing the size of each module
-			visualizer({
-				filename: path.join(folders.dist, "stats.html"),
-				sourcemap: true
-			})
-		] : [])
-
 	],
 	external: [
 		...(isLibrary ? [
@@ -196,6 +110,6 @@ export default {
 		] : [])
 	],
 	experimentalCodeSplitting: true,
-	treeshake: isProd,
+	//treeshake: isProd,
 	context: "window"
 }

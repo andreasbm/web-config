@@ -1,5 +1,5 @@
 import { customElement, html, LitElement } from "@polymer/lit-element";
-import css from "./my.component.scss";
+import css from "./my-component.scss";
 
 @customElement("my-component" as any)
 export class MyComponent extends LitElement {

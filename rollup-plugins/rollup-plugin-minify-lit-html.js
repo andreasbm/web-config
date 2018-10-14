@@ -19,9 +19,11 @@ const defaultConfig = {
 	},
 	htmlMinifier: {
 		caseSensitive: true,
-		collapseWhitespace: true,
-		minifyCSS: true,
+		minifyCSS: false, /* Should be set as true, but for some reason in the current setup this just removes all styles */
 		preventAttributesEscaping: true,
+		preserveLineBreaks: false,
+		collapseWhitespace: true,
+		conservativeCollapse: true,
 		removeComments: true,
 		ignoreCustomFragments: [
 			/<\s/,
@@ -111,8 +113,10 @@ function processFile ({code, id, config}) {
 				map: gen.map.toString(),
 			})
 		} catch (err) {
-			console.log("OMG NOOO", code);
-			rej(err);
+			console.warn(`\nThe minifyLitHTML plugin could not parse line "${err.lineNumber}" in "${id}" due to "${err.description}"\n`);
+			res();
+			//console.log("OMG NOOO", code);
+			//rej(err);
 		}
 	});
 }

@@ -1,4 +1,5 @@
 import {readFile, writeFileSync} from 'fs';
+import {createFilter} from 'rollup-pluginutils';
 
 /**
  * Default configuration for the html template plugin.
@@ -11,7 +12,10 @@ const defaultConfig = {
 	template: null,
 
 	// The target destination for the generated file
-	target: null
+	target: null,
+
+	include: [],
+	exclude: []
 };
 
 /**
@@ -20,9 +24,11 @@ const defaultConfig = {
  * @param bundle
  * @param template
  * @param target
+ * @param include
+ * @param exclude
  * @returns {Promise<void>}
  */
-function generateFile ({bundle, template, target}) {
+function generateFile ({bundle, template, target, include, exclude}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -32,19 +38,20 @@ function generateFile ({bundle, template, target}) {
 			}
 
 			// Convert the buffer into a string
-			const template = buffer.toString('utf8');
+			const template = buffer.toString("utf8");
 
 			// Grab the index of the body close tag
 			const bodyCloseTagIndex = template.lastIndexOf('</body>');
 
 			// Grab fileNames of the entry points
-			const fileNames = Object.entries(bundle).filter(([key, value]) => value.isEntry).map(([key, value]) => value.fileName);
+			const filter = createFilter(include, exclude);
+			const fileNames = Object.entries(bundle).filter(([key, value]) => filter(value.fileName)).map(([key, value]) => value.fileName);
 
 			// Inject the script tag before the body close tag.
 			const html = [
 				template.slice(0, bodyCloseTagIndex),
-				fileNames.map(filename => `<script src="${filename}" type="text/javascript"></script>\n`),
-				template.slice(bodyCloseTagIndex, template.length),
+				...fileNames.map(filename => `<script src="${filename}" type="text/javascript"></script>\n`),
+				template.slice(bodyCloseTagIndex, template.length)
 			].join('');
 
 			// Write the injected template to a file.
@@ -65,7 +72,7 @@ function generateFile ({bundle, template, target}) {
  * @returns {{name: string, generateBundle: (function(*, *, *): Promise<any>)}}
  */
 export default function htmlTemplate (config = defaultConfig) {
-	const {template, target} = {...defaultConfig, ...config};
+	const {template, target, include, exclude} = {...defaultConfig, ...config};
 
 	if (template == null || target == null) {
 		throw new Error(`The htmlTemplate plugin needs both a template and a target`);
@@ -75,7 +82,7 @@ export default function htmlTemplate (config = defaultConfig) {
 		name: 'htmlTemplate',
 		generateBundle: (outputOptions, bundle, isWrite) => {
 			if (isWrite) {
-				return generateFile({bundle, template, target});
+				return generateFile({bundle, template, target, include, exclude});
 			}
 		},
 	}
