@@ -1,0 +1,13 @@
+:root {
+	--test: red;
+}
+
+/* This is a comment */
+body {
+	background: var(--test);
+
+	p {
+		color: yellow;
+	}
+}
+
