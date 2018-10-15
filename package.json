@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"description": "A simple configuration to quickly get started with new web applications.",
 	"author": "Appnest",
+	"main": "index.js",
 	"bugs": {
 		"url": "https://github.com/andreasbm/web-config/issues"
 	},

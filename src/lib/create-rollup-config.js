@@ -16,9 +16,9 @@ import {terser} from "rollup-plugin-terser";
 import ts from 'rollup-plugin-typescript2';
 import visualizer from 'rollup-plugin-visualizer';
 import pkg from "../../package.json";
-import htmlTemplate from "../../rollup-plugins/rollup-plugin-html-template";
-import importSCSS from "../../rollup-plugins/rollup-plugin-import-scss";
-import minifyLitHTML from "../../rollup-plugins/rollup-plugin-minify-lit-html";
+import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
+import importSCSS from "./rollup-plugins/rollup-plugin-import-scss";
+import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";

@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require("fs-extra");
 
 const distPath = "dist";
-const libPath = "src/lib";
 
 /**
  * Builds the library.
@@ -15,13 +14,20 @@ async function build () {
 	await cleanDist();
 
 	// Copy the lib files
-	await copyFiles(libPath, distPath, [
+	await copyFiles("src/lib", distPath, [
 		"babel.config.js",
 		"create-babel-config.js",
 		"create-rollup-config.js",
 		"index.js",
 		"tsconfig.json",
 		"tslint.json"
+	]);
+
+	// Copy rollup plugins
+	await copyFiles("src/lib/rollup-plugins", `${distPath}/rollup-plugins`, [
+		"rollup-plugin-html-template.js",
+		"rollup-plugin-import-scss.js",
+		"rollup-plugin-minify-lit-html.js"
 	]);
 
 	// Copy the root files
