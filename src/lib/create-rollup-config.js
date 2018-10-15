@@ -15,7 +15,6 @@ import serve from 'rollup-plugin-serve'
 import {terser} from "rollup-plugin-terser";
 import ts from 'rollup-plugin-typescript2';
 import visualizer from 'rollup-plugin-visualizer';
-import pkg from "../../package.json";
 import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
 import importSCSS from "./rollup-plugins/rollup-plugin-import-scss";
 import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
@@ -177,7 +176,7 @@ export const defaultProdPlugins = ({dist}) => [
 /**
  * Default external dependencies.
  */
-export const defaultExternals = () => [
+export const defaultExternals = (pkg) => [
 	...Object.keys(pkg.dependencies || {}),
 	...Object.keys(pkg.devDependencies || {}),
 	...builtinModules

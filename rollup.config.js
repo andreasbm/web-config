@@ -1,4 +1,5 @@
 import path from "path";
+import pkg from "./package.json";
 import {isProd, isServe, isLibrary, defaultOutputConfig, defaultPlugins, defaultServePlugins, defaultProdPlugins, defaultExternals} from "./src/lib/create-rollup-config.js";
 
 const folders = {
@@ -54,7 +55,7 @@ export default {
 	],
 	external: [
 		...(isLibrary ? [
-			...defaultExternals()
+			...defaultExternals(pkg)
 		] : [])
 	],
 	experimentalCodeSplitting: true,
