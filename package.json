@@ -1,6 +1,32 @@
 {
 	"name": "@appnest/web-config",
 	"version": "0.0.37",
+	"description": "A simple configuration to quickly get started with new web applications.",
+	"author": "Appnest",
+	"bugs": {
+		"url": "https://github.com/andreasbm/web-config/issues"
+	},
+	"homepage": "https://github.com/andreasbm/web-config#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/andreasbm/web-config.git"
+	},
+	"keywords": [
+		"configuration",
+		"webapp",
+		"custom",
+		"elements",
+		"web",
+		"component",
+		"rollup",
+		"lit-html",
+		"template",
+		"tslint",
+		"typescript",
+		"postcss",
+		"tsconfig"
+	],
+	"license": "MIT",
 	"scripts": {
 		"b:dev": "rollup -c --environment NODE_ENV:dev",
 		"b:prod": "rollup -c --environment NODE_ENV:prod",
