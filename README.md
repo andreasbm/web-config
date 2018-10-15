@@ -12,6 +12,7 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A `tslint.json` file to configure your linting
 - A `postcss.config.js` file to configure how the SCSS is transpiled
 - A `babel.config.js` file to configure how the Javascript is transpiled
+- A `typings.d.ts` file you can use as inspiration for your own `typings.d.ts` file
 - A `.gitignore` file you can use as inspiration for your own `.gitignore` file
 - A `.browserslistrc` you can use as inspiration for your own `.browserslistrc` file
 
@@ -123,6 +124,22 @@ export default defaultBabelConfig();
 ```
 
 ## 🖌 How to load stylesheets
+
+### Add the following to your `typings.d.ts` file!
+
+This is to make Typescript not complaining about SCSS and CSS imports
+
+```
+declare module "*.scss" {
+ const content: string;
+ export default content;
+}
+
+declare module "*.css" {
+ const content: string;
+ export default content;
+}
+```
 
 ### Load a global stylesheet (it will be added to the template file)
 

@@ -1,11 +1,11 @@
 import {builtinModules} from "module";
 import path from "path";
-import {isProd, isServe, isLibrary, defaultOutputConfig, defaultPlugins, defaultServePlugins, defaultProdPlugins, defaultExternals} from "./create-rollup-config.js";
+import {isProd, isServe, isLibrary, defaultOutputConfig, defaultPlugins, defaultServePlugins, defaultProdPlugins, defaultExternals} from "./src/lib/create-rollup-config.js";
 
 const folders = {
 	dist: path.resolve(__dirname, "dist"),
-	src: path.resolve(__dirname, "src"),
-	src_assets: path.resolve(__dirname, "src/assets"),
+	src: path.resolve(__dirname, "src/demo"),
+	src_assets: path.resolve(__dirname, "src/demo/assets"),
 	dist_assets: path.resolve(__dirname, "dist/assets")
 };
 
