@@ -48,7 +48,7 @@ function cleanDist () {
  * @param inSrc
  * @param outSrc
  * @param files
- * @returns {Promise<any>}
+ * @returns {Promise<void>}
  */
 function copyFiles (inSrc, outSrc, files) {
 	return new Promise((res, rej) => {
