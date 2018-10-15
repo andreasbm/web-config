@@ -21,11 +21,15 @@ import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
 import importSCSS from "./rollup-plugins/rollup-plugin-import-scss";
 import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
 
+// Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";
 export const isDev = process.env.NODE_ENV === "dev";
 export const isLibrary = process.env.NODE_ENV === "library";
 export const isServe = process.env.ROLLUP_WATCH || false;
 
+/**
+ * The default scss plugins.
+ */
 export const scssPlugins = [
 	postcssPresetEnv(),
 
@@ -34,16 +38,22 @@ export const scssPlugins = [
 	] : [])
 ];
 
-export const defaultOutputConfig = ({dist}) => {
+/**
+ * Default configuration for the output.
+ */
+export const defaultOutputConfig = ({dist, format}) => {
 	return {
 		dir: dist,
 		entryFileNames: "[name]-[hash].js",
 		chunkFileNames: "[name]-[hash][extname]",
-		format: "esm", // (system, amd, cjs, esm, iife, umd)
+		format, // (system, amd, cjs, esm, iife, umd)
 		sourcemap: true
 	}
 };
 
+/**
+ * Default configuration for the plugins that runs every time the bundle is created.
+ */
 export const defaultPlugins = ({dist, scssGlobals, resources, htmlTemplateConfig}) => [
 
 	// Shows a progress indicator while building
@@ -103,6 +113,9 @@ export const defaultPlugins = ({dist, scssGlobals, resources, htmlTemplateConfig
 	htmlTemplate(htmlTemplateConfig),
 ];
 
+/**
+ * Default plugins that only run when the bundle is being served.
+ */
 export const defaultServePlugins = ({dist, port}) => [
 
 	// Serves the application files
@@ -111,7 +124,7 @@ export const defaultServePlugins = ({dist, port}) => [
 		contentBase: dist,
 		historyApiFallback: true,
 		host: "localhost",
-		port: 1338,
+		port,
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 		}
@@ -123,6 +136,9 @@ export const defaultServePlugins = ({dist, port}) => [
 	})
 ];
 
+/**
+ * Default plugins that only run when the bundle is being created in prod mode.
+ */
 export const defaultProdPlugins = ({dist}) => [
 
 	// Minifies the lit-html files
@@ -161,6 +177,9 @@ export const defaultProdPlugins = ({dist}) => [
 	})
 ];
 
+/**
+ * Default external dependencies.
+ */
 export const defaultExternals = () => [
 	...Object.keys(pkg.dependencies || {}),
 	...Object.keys(pkg.devDependencies || {}),

@@ -15,7 +15,8 @@ const defaultConfig = {
 	target: null,
 
 	include: [],
-	exclude: []
+	exclude: [],
+	type: "text/javascript"
 };
 
 /**
@@ -28,7 +29,7 @@ const defaultConfig = {
  * @param exclude
  * @returns {Promise<void>}
  */
-function generateFile ({bundle, template, target, include, exclude}) {
+function generateFile ({bundle, template, target, include, exclude, scriptType}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -52,7 +53,7 @@ function generateFile ({bundle, template, target, include, exclude}) {
 			// Inject the script tag before the body close tag.
 			const html = [
 				template.slice(0, bodyCloseTagIndex),
-				...fileNames.map(filename => `<script src="${filename}" type="text/javascript"></script>\n`),
+				...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
 				template.slice(bodyCloseTagIndex, template.length)
 			].join('');
 
@@ -74,7 +75,7 @@ function generateFile ({bundle, template, target, include, exclude}) {
  * @returns {{name: string, generateBundle: (function(*, *, *): Promise<any>)}}
  */
 export default function htmlTemplate (config = defaultConfig) {
-	const {template, target, include, exclude} = {...defaultConfig, ...config};
+	const {template, target, include, exclude, scriptType} = {...defaultConfig, ...config};
 
 	if (template == null || target == null) {
 		throw new Error(`The htmlTemplate plugin needs both a template and a target`);
@@ -84,7 +85,7 @@ export default function htmlTemplate (config = defaultConfig) {
 		name: 'htmlTemplate',
 		generateBundle: (outputOptions, bundle, isWrite) => {
 			if (isWrite) {
-				return generateFile({bundle, template, target, include, exclude});
+				return generateFile({bundle, template, target, include, exclude, scriptType});
 			}
 		},
 	}
