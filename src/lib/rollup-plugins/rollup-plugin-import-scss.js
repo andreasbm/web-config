@@ -52,6 +52,14 @@ function exportGlobalOverwrite (css) {
  */
 function processFile ({code, id, processor, overwrite}) {
 	return new Promise(res => {
+
+		// The magic strings cannot handle empty code, therefore we already abort now.
+		if (code.trim() === "") {
+			return res({
+				code: overwrite("")
+			});
+		}
+
 		const container = new MagicString(code);
 		const processOptions = {from: id, to: id, map: {inline: false, annotation: false}};
 
@@ -93,6 +101,7 @@ export default function importSCSS (config = defaultConfig) {
 			if (!filter(id)) return;
 
 			if (isGlobal(id)) {
+				console.log(`"${code}"`);
 				return processFile({code, id, processor, overwrite: exportGlobalOverwrite});
 			}
 
