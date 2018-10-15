@@ -18,6 +18,15 @@ const defaultConfig = {
 	globals: []
 };
 
+const emptySourcemap = {
+	version: 3,
+	file: null,
+	sources: [ null ],
+	sourcesContent: [ null ],
+	names: [],
+	mappings: ""
+};
+
 /**
  * Overwrites the css file with "export default".
  * @param css
@@ -53,10 +62,11 @@ function exportGlobalOverwrite (css) {
 function processFile ({code, id, processor, overwrite}) {
 	return new Promise(res => {
 
-		// The magic strings cannot handle empty code, therefore we already abort now.
+		// The magic strings cannot handle empty strings, therefore we test whether we should already abort now.
 		if (code.trim() === "") {
 			return res({
-				code: overwrite("")
+				code: overwrite(""),
+				map: emptySourcemap
 			});
 		}
 

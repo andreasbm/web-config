@@ -1,4 +1,5 @@
-import {readFile, writeFileSync} from 'fs';
+import {readFile} from 'fs';
+import fse from "fs-extra";
 import {createFilter} from 'rollup-pluginutils';
 
 /**
@@ -27,6 +28,7 @@ const defaultConfig = {
  * @param target
  * @param include
  * @param exclude
+ * @param scriptType
  * @returns {Promise<void>}
  */
 function generateFile ({bundle, template, target, include, exclude, scriptType}) {
@@ -48,7 +50,7 @@ function generateFile ({bundle, template, target, include, exclude, scriptType})
 			const filter = createFilter(include, exclude);
 			const fileNames = Object.entries(bundle).filter(([key, value]) => filter(value.fileName)).map(([key, value]) => value.fileName);
 
-			// TODO: Make it so the path is based on the module type (eg. type="module", type="text/javascript" nomodule etc).
+			// TODO: Make it so the script type is based on the module type (eg. type="module", type="text/javascript" nomodule etc).
 
 			// Inject the script tag before the body close tag.
 			const html = [
@@ -59,7 +61,7 @@ function generateFile ({bundle, template, target, include, exclude, scriptType})
 
 			// Write the injected template to a file.
 			try {
-				writeFileSync(target, html);
+				fse.outputFileSync(target, html);
 				res();
 
 			} catch (err) {
