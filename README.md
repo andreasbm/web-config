@@ -10,7 +10,6 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A Rollup plugin that minifies the html from files using the `lit-html` library.
 - A `tsconfig.json` file to configure your Typescript
 - A `tslint.json` file to configure your linting
-- A `postcss.config.js` file to configure how the SCSS is transpiled
 - A `babel.config.js` file to configure how the Javascript is transpiled
 - A `typings.d.ts` file you can use as inspiration for your own `typings.d.ts` file
 - A `.gitignore` file you can use as inspiration for your own `.gitignore` file
@@ -109,18 +108,21 @@ export default {
 }
 ```
 
-## 👍 Step 5 - Setup `postcss.config.js`
-
-```javascript
-const defaultConfig = require("./node_modules/@appnest/web-config/postcss.config");
-module.exports = defaultConfig;
-```
-
-## 👊 Step 6 - Setup `babel.config.js`
+## 👊 Step 5 - Setup `babel.config.js`
 
 ```javascript
 import {defaultBabelConfig} from "@appnest/web-config";
 export default defaultBabelConfig();
+```
+
+## ✌️ Step 6 - Setup `.browserslistrc`
+
+Add a `.browserslistrc` file to tell the Rollup plugins how the js/css should be transpiled.
+
+```
+last 1 version
+> 1%
+not dead
 ```
 
 ## 🖌 How to load stylesheets

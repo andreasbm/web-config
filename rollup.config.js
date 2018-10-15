@@ -1,4 +1,3 @@
-import {builtinModules} from "module";
 import path from "path";
 import {isProd, isServe, isLibrary, defaultOutputConfig, defaultPlugins, defaultServePlugins, defaultProdPlugins, defaultExternals} from "./src/lib/create-rollup-config.js";
 
