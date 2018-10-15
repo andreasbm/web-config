@@ -47,6 +47,8 @@ function generateFile ({bundle, template, target, include, exclude}) {
 			const filter = createFilter(include, exclude);
 			const fileNames = Object.entries(bundle).filter(([key, value]) => filter(value.fileName)).map(([key, value]) => value.fileName);
 
+			// TODO: Make it so the path is based on the module type (eg. type="module", type="text/javascript" nomodule etc).
+
 			// Inject the script tag before the body close tag.
 			const html = [
 				template.slice(0, bodyCloseTagIndex),

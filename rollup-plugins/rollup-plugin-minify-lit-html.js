@@ -19,7 +19,7 @@ const defaultConfig = {
 	},
 	htmlMinifier: {
 		caseSensitive: true,
-		minifyCSS: false, /* Should be set as true, but for some reason in the current setup this just removes all styles */
+		minifyCSS: false, /* Should be set as true, but the HTML minifier won't allow the <style>${css}</style> syntax, so I disabled it */
 		preventAttributesEscaping: true,
 		preserveLineBreaks: false,
 		collapseWhitespace: true,
@@ -27,7 +27,9 @@ const defaultConfig = {
 		removeComments: true,
 		ignoreCustomFragments: [
 			/<\s/,
-			/<=/
+			/<=/,
+			/\$\{/,
+			/\}/
 		]
 	}
 };
