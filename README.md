@@ -12,6 +12,8 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A `tslint.json` file to configure your linting
 - A `postcss.config.js` file to configure how the SCSS is transpiled
 - A `babel.config.js` file to configure how the Javascript is transpiled
+- A `.gitignore` file you can use as inspiration for your own `.gitignore` file
+- A `.browserslistrc` you can use as inspiration for your own `.browserslistrc` file
 
 ## 🎉 Step 1 - Install the dependency
 
