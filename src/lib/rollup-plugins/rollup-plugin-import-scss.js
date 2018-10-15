@@ -101,7 +101,6 @@ export default function importSCSS (config = defaultConfig) {
 			if (!filter(id)) return;
 
 			if (isGlobal(id)) {
-				console.log(`"${code}"`);
 				return processFile({code, id, processor, overwrite: exportGlobalOverwrite});
 			}
 
