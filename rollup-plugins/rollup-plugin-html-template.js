@@ -16,7 +16,7 @@ const defaultConfig = {
 
 	include: [],
 	exclude: [],
-	type: "text/javascript"
+	scriptType: "text/javascript"
 };
 
 /**

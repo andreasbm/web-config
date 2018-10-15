@@ -9,7 +9,6 @@ import copy from 'rollup-plugin-copy';
 import filesize from "rollup-plugin-filesize";
 import license from "rollup-plugin-license";
 import livereload from 'rollup-plugin-livereload'
-import builtins from 'rollup-plugin-node-builtins';
 import resolve from 'rollup-plugin-node-resolve';
 import progress from 'rollup-plugin-progress';
 import serve from 'rollup-plugin-serve'
@@ -93,15 +92,13 @@ export const defaultPlugins = ({dist, scssGlobals, resources, htmlTemplateConfig
 
 	// Teaches Rollup how to transpile code by looking at the .babelrc config
 	// Documentation: https://babeljs.io/docs/en/index.html
-	babel({
-		exclude: "**/node_modules/**",
-		runtimeHelpers: true,
-		externalHelpers: true,
-		extensions: [".ts", ".js"]
-	}),
-
-	// Trying to get it to work..
-	builtins(),
+	// TODO: Fix Uncaught TypeError: Class constructor LitElement cannot be invoked without 'new' on serve
+	// babel({
+	// 	exclude: "**/node_modules/**",
+	// 	runtimeHelpers: true,
+	// 	externalHelpers: true,
+	// 	extensions: [".ts", ".js"]
+	// }),
 
 	// Copies resources to the dist folder
 	copy(resources.reduce((acc, [from, to]) => {
