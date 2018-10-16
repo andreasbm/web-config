@@ -27,12 +27,14 @@ async function build () {
 	await copyFiles("src/lib/rollup-plugins", `${distPath}/rollup-plugins`, [
 		"rollup-plugin-html-template.js",
 		"rollup-plugin-import-scss.js",
-		"rollup-plugin-minify-lit-html.js"
+		"rollup-plugin-minify-lit-html.js",
+		"util.js"
 	]);
 
 	// Copy the root files
 	await copyFiles("", distPath, [
 		".gitignore",
+		".npmignore",
 		".browserslistrc",
 		"README.md",
 		"package.json"

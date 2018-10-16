@@ -4,6 +4,7 @@ import * as estraverse from 'estraverse';
 import * as htmlMinifier from 'html-minifier';
 import path from "path";
 import {createFilter} from 'rollup-pluginutils';
+import {emptySourcemap} from "./util.js";
 
 /**
  * The default configuration for the minify-lit-html plugin.
@@ -116,9 +117,12 @@ function processFile ({code, id, config}) {
 			})
 		} catch (err) {
 			console.warn(`\nThe minifyLitHTML plugin could not parse line "${err.lineNumber}" in "${id}" due to "${err.description}"\n`);
-			res();
-			//console.log("OMG NOOO", code);
-			//rej(err);
+
+			// Sometimes we cannot parse the file. This should however not stop the build from finishing.
+			res({
+				code,
+				map: emptySourcemap
+			});
 		}
 	});
 }

@@ -1,6 +1,7 @@
 import MagicString from "magic-string";
 import path from "path";
 import postcss from "postcss";
+import {emptySourcemap} from "./util.js";
 
 /**
  * Default configuration for the import SCSS plugin.
@@ -16,15 +17,6 @@ const defaultConfig = {
 
 	// Global files that are injected into the DOM.
 	globals: []
-};
-
-const emptySourcemap = {
-	version: 3,
-	file: null,
-	sources: [ null ],
-	sourcesContent: [ null ],
-	names: [],
-	mappings: ""
 };
 
 /**

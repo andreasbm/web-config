@@ -1,0 +1,2 @@
+# Intentionally left blank
+# We want NPM to ship the .gitignore and therefore overwrites the default ignore
