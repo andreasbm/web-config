@@ -1,8 +1,28 @@
 const rimraf = require("rimraf");
 const path = require("path");
 const fs = require("fs-extra");
+const rollup = require('rollup');
+const pkg = require("./package.json");
 
 const distPath = "dist";
+
+const inputOptions = {
+	input: "./src/lib/index.js",
+	external: [
+		...Object.keys(pkg.dependencies || {}),
+		...Object.keys(pkg.devDependencies || {}),
+	]
+};
+
+const outputOptionsEsm = {
+	format: "esm",
+	file: "dist/index.esm.js"
+};
+
+const outputOptionsCjs = {
+	format: "cjs",
+	file: "dist/index.cjs.js"
+};
 
 /**
  * Builds the library.
@@ -13,23 +33,25 @@ async function build () {
 	// Clean the dist folders
 	await cleanDist();
 
+	await transpileJs();
+
 	// Copy the lib files
 	await copyFiles("src/lib", distPath, [
-		"babel.config.js",
+		/*"babel.config.js",
 		"create-babel-config.js",
 		"create-rollup-config.js",
-		"index.js",
+		"index.js",*/
 		"tsconfig.json",
 		"tslint.json"
 	]);
 
 	// Copy rollup plugins
-	await copyFiles("src/lib/rollup-plugins", `${distPath}/rollup-plugins`, [
+	/*await copyFiles("src/lib/rollup-plugins", `${distPath}/rollup-plugins`, [
 		"rollup-plugin-html-template.js",
 		"rollup-plugin-import-scss.js",
 		"rollup-plugin-minify-lit-html.js",
 		"util.js"
-	]);
+	]);*/
 
 	// Copy the root files
 	await copyFiles("", distPath, [
@@ -39,6 +61,15 @@ async function build () {
 		"README.md",
 		"package.json"
 	]);
+}
+
+async function transpileJs () {
+
+	// create a bundle
+	const bundle = await rollup.rollup(inputOptions);
+
+	await bundle.write(outputOptionsEsm);
+	await bundle.write(outputOptionsCjs);
 }
 
 /**

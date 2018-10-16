@@ -3,7 +3,8 @@
 	"version": "0.1.6",
 	"description": "A simple configuration to quickly get started with new web applications.",
 	"author": "Appnest",
-	"module": "index.js",
+	"main": "index.cjs.js",
+	"module": "index.esm.js",
 	"bugs": {
 		"url": "https://github.com/andreasbm/web-config/issues"
 	},
