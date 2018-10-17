@@ -64,9 +64,11 @@ export default {
   ],
   plugins: [
     ...defaultPlugins({
-      targets: [
-        folders.dist
-      ],
+      cleanerConfig: {
+        targets: [
+          folders.dist
+        ]
+      },
       resources: [[folders.src_assets, folders.dist_assets]],
       htmlTemplateConfig: {
         template: files.src_index,
