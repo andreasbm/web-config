@@ -4,6 +4,7 @@ import {resolve} from "path";
 /**
  * #########################################
  *  Disclaimer: This code is primarily from https://github.com/thgh/rollup-plugin-livereload
+ *  I changed the code so it Rollup can also bundle Web Workers by checking whether the document is defined.
  * #########################################
  */
 

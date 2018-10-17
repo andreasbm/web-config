@@ -43,7 +43,7 @@ export const defaultOutputConfig = (config) => {
 	// format: (system, amd, cjs, esm, iife, umd)
 	return {
 		entryFileNames: "[name]-[hash].js",
-		chunkFileNames: "[name]-[hash][extname]",
+		chunkFileNames: "[name]-[hash].js",
 		sourcemap: true,
 		...config
 	}
@@ -110,7 +110,7 @@ export const defaultPlugins = ({cleanerConfig, resources, importStylesConfig, js
 	// }),
 
 	// Copies resources to the dist folder
-	copy(resources.reduce((acc, [from, to]) => {
+	copy((resources || []).reduce((acc, [from, to]) => {
 		acc[from] = to;
 		return acc;
 	}, {})),
