@@ -31,7 +31,7 @@ const defaultConfig = {
  * @param scriptType
  * @returns {Promise<void>}
  */
-function generateFile ({bundle, template, target, include, exclude, scriptType}) {
+function generateFile ({bundle, template, target, filter, scriptType}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -47,7 +47,6 @@ function generateFile ({bundle, template, target, include, exclude, scriptType})
 			const bodyCloseTagIndex = template.lastIndexOf('</body>');
 
 			// Grab fileNames of the entry points
-			const filter = createFilter(include, exclude);
 			const unfilteredFilenames = Object.entries(bundle).map(([key, value]) => value.fileName);
 			const fileNames = unfilteredFilenames.filter(name => filter(name));
 
@@ -84,6 +83,7 @@ function generateFile ({bundle, template, target, include, exclude, scriptType})
  */
 export default function htmlTemplate (config = defaultConfig) {
 	const {template, target, include, exclude, scriptType} = {...defaultConfig, ...config};
+	const filter = createFilter(include, exclude);
 
 	if (template == null || target == null) {
 		throw new Error(`The htmlTemplate plugin needs both a template and a target`);
@@ -93,7 +93,7 @@ export default function htmlTemplate (config = defaultConfig) {
 		name: 'htmlTemplate',
 		generateBundle: (outputOptions, bundle, isWrite) => {
 			if (isWrite) {
-				return generateFile({bundle, template, target, include, exclude, scriptType});
+				return generateFile({bundle, template, target, filter, scriptType});
 			}
 		},
 	}

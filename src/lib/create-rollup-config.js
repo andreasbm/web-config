@@ -6,7 +6,6 @@ import commonjs from 'rollup-plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 import filesize from "rollup-plugin-filesize";
 import license from "rollup-plugin-license";
-import livereload from 'rollup-plugin-livereload'
 import resolve from 'rollup-plugin-node-resolve';
 import progress from 'rollup-plugin-progress';
 import serve from 'rollup-plugin-serve'
@@ -16,6 +15,7 @@ import visualizer from 'rollup-plugin-visualizer';
 import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
 import importStyles from "./rollup-plugins/rollup-plugin-import-styles";
 import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
+import livereload from './rollup-plugins/rollup-plugin-livereload'
 import precss from 'precss';
 import json from 'rollup-plugin-json';
 

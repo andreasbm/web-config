@@ -25,7 +25,8 @@
 			"es2017",
 			"es2017.object",
 			"es2015.proxy",
-			"esnext"
+			"esnext",
+			"webworker"
 		]
 	}
 }
