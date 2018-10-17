@@ -63,8 +63,17 @@ function processFile ({code, id, processor, overwrite}) {
 		}
 
 		const container = new MagicString(code);
-		const processOptions = {from: id, to: id, map: {inline: false, annotation: false}};
 
+		// Construct the options
+		const processOptions = {
+			from: id,
+			to: id,
+			map: {
+				inline: false,
+				annotation: false
+			}};
+
+		// Process the file content
 		processor.process(container.toString(), processOptions).then(result => {
 			const css = result.css;
 			container.overwrite(0, container.length(), overwrite(css));
@@ -77,11 +86,12 @@ function processFile ({code, id, processor, overwrite}) {
 }
 
 /**
- * A Rollup plugin that makes it possible to import SCSS and CSS files using the "import css from 'styles.scss'" syntax.
+ * A Rollup plugin that makes it possible to import style files using postcss.
+ * Looks for the "import css from 'styles.scss'" and "import 'styles.scss'" syntax.
  * @param config
  * @returns {{name: string, resolveId: resolveId, transform: transform}}
  */
-export default function importSCSS (config = defaultConfig) {
+export default function importStyles (config = defaultConfig) {
 	const {plugins, extensions, globals} = {...defaultConfig, ...config};
 
 	// Determines whether the file should be handled by the plugin or not.
@@ -94,19 +104,14 @@ export default function importSCSS (config = defaultConfig) {
 	const processor = postcss(plugins);
 
 	return {
-		name: 'importSCSS',
+		name: 'importStyles',
 		resolveId: (id, importer) => {
 			if (!importer || !filter(id)) return;
 			return path.resolve(path.dirname(importer), id);
 		},
 		transform: (code, id) => {
 			if (!filter(id)) return;
-
-			if (isGlobal(id)) {
-				return processFile({code, id, processor, overwrite: exportGlobalOverwrite});
-			}
-
-			return processFile({code, id, processor, overwrite: exportDefaultOverwrite});
+			return processFile({code, id, processor, overwrite: isGlobal(id) ? exportGlobalOverwrite : exportDefaultOverwrite});
 		}
 	}
 };

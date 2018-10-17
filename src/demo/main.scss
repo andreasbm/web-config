@@ -8,6 +8,10 @@ body {
 
 	p {
 		color: yellow;
+
+		&.highlight {
+			color: red;
+		}
 	}
 }
 

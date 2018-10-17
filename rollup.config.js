@@ -1,6 +1,15 @@
 import path from "path";
 import pkg from "./package.json";
-import {isProd, isServe, isLibrary, defaultOutputConfig, defaultPlugins, defaultServePlugins, defaultProdPlugins, defaultExternals} from "./src/lib/create-rollup-config.js";
+import {
+	defaultExternals,
+	defaultOutputConfig,
+	defaultPlugins,
+	defaultProdPlugins,
+	defaultServePlugins,
+	isLibrary,
+	isProd,
+	isServe
+} from "./src/lib/create-rollup-config.js";
 
 const folders = {
 	dist: path.resolve(__dirname, "dist"),
@@ -27,28 +36,40 @@ export default {
 	],
 	plugins: [
 		...defaultPlugins({
-			dist: folders.dist,
-			scssGlobals: ["main.scss"],
+			targets: [
+				folders.dist
+			],
 			resources: [[folders.src_assets, folders.dist_assets]],
 			htmlTemplateConfig: {
 				template: files.src_index,
 				target: files.dist_index,
-				include: /main-.*\.js$/
+				include: /main(-.*)?\.js$/
+			},
+			importStylesConfig: {
+				globals: ["main.scss"]
 			}
 		}),
 
 		// Serve
 		...(isServe ? [
 			...defaultServePlugins({
-				port: 1338,
-				dist: folders.dist
+				serveConfig: {
+					port: 1338,
+					contentBase: folders.dist
+				},
+				livereloadConfig: {
+					watch: folders.dist
+				}
 			})
 		] : []),
 
 		// Production
 		...(isProd ? [
 			...defaultProdPlugins({
-				dist: folders.dist
+				dist: folders.dist,
+				visualizerConfig: {
+					filename: path.join(folders.dist, "stats.html")
+				}
 			})
 		] : [])
 
