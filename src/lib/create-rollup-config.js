@@ -1,6 +1,5 @@
 import cssnano from "cssnano";
 import {builtinModules} from "module";
-import path from "path";
 import babel from 'rollup-plugin-babel';
 import cleaner from 'rollup-plugin-cleaner';
 import commonjs from 'rollup-plugin-commonjs';
@@ -18,6 +17,7 @@ import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
 import importStyles from "./rollup-plugins/rollup-plugin-import-styles";
 import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
 import precss from 'precss';
+import json from 'rollup-plugin-json';
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";
@@ -52,7 +52,7 @@ export const defaultOutputConfig = (config) => {
 /**
  * Default configuration for the plugins that runs every time the bundle is created.
  */
-export const defaultPlugins = ({cleanerConfig, resources, importStylesConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig}) => [
+export const defaultPlugins = ({cleanerConfig, resources, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig}) => [
 
 	// Shows a progress indicator while building
 	progress({
@@ -90,6 +90,13 @@ export const defaultPlugins = ({cleanerConfig, resources, importStylesConfig, ht
 	commonjs({
 		include: "**/node_modules/**",
 		...commonjsConfig
+	}),
+
+	// Teaches Rollup how to import json files
+	json({
+		preferConst: true,
+		compact: true,
+		...jsonConfig
 	}),
 
 	// Teaches Rollup how to transpile code by looking at the .babelrc config
