@@ -39,13 +39,13 @@ export const scssPlugins = [
 /**
  * Default configuration for the output.
  */
-export const defaultOutputConfig = ({dist, format}) => {
+export const defaultOutputConfig = (config) => {
+	// format: (system, amd, cjs, esm, iife, umd)
 	return {
-		dir: dist,
 		entryFileNames: "[name]-[hash].js",
 		chunkFileNames: "[name]-[hash][extname]",
-		format, // (system, amd, cjs, esm, iife, umd)
-		sourcemap: true
+		sourcemap: true,
+		...config
 	}
 };
 

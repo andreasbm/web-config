@@ -59,7 +59,7 @@ export default {
   output: [
     defaultOutputConfig({
       format: "esm",
-      dist: folders.dist
+      dir: folders.dist
     })
   ],
   plugins: [
