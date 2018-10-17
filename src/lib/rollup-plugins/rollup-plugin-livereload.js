@@ -41,15 +41,15 @@ export default function livereload (config) {
 		banner () {
 			return `
 			/* Livereload */
-			(function(doc, type, v, e) {
-				if (doc == null) return;
-				v = doc.createElement(type);
-				v.async = true;
-				v.src = "//" + (location.host || "localhost").split(":")[0] + ":${port}/livereload.js?snipver=1";
-				e = doc.getElementsByTagName(type)[0];
-				e.parentNode.insertBefore(v, e)}
-				
-			)(document, "script");`
+			if (typeof document !== 'undefined') {
+				(function(doc, type, v, e) {
+					v = doc.createElement(type);
+					v.async = true;
+					v.src = "//" + (location.host || "localhost").split(":")[0] + ":${port}/livereload.js?snipver=1";
+					e = doc.getElementsByTagName(type)[0];
+					e.parentNode.insertBefore(v, e)}
+				)(document, "script");
+			}`
 
 		},
 		ongenerate () {

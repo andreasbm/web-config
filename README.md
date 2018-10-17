@@ -7,6 +7,7 @@ This is an opinionated simple configuration I sometimes use when getting started
 - An extensible `create-rollup-config.js` for using Rollup with SCSS, single-page webapp, chunking, treeshaking, typescript, production minifying etc.
 - A Rollup plugin to inject the entry files into an `index.html` file.
 - A Rollup plugin to load style files using the ES6 import syntax.
+- A Rollup plugin to enables livereload.
 - A Rollup plugin that minifies the html from files using the `lit-html` library.
 - A `tsconfig.json` file to configure your Typescript
 - A `tslint.json` file to configure your linting
