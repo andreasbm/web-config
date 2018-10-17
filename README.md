@@ -26,69 +26,95 @@ npm i @appnest/web-config --save-dev
 Here's an example on what your Rollup configuration file could look like:
 
 ```javascript
-import {builtinModules} from "module";
 import path from "path";
-import {isProd, isServe, isLibrary, defaultOutputConfig, defaultPlugins, defaultServePlugins, defaultProdPlugins, defaultExternals} from "@appnest/web-config";
+import pkg from "./package.json";
+import {
+  defaultExternals,
+  defaultOutputConfig,
+  defaultPlugins,
+  defaultProdPlugins,
+  defaultServePlugins,
+  isLibrary,
+  isProd,
+  isServe
+} from "@appnest/web-config";
 
 const folders = {
- dist: path.resolve(__dirname, "dist"),
- src: path.resolve(__dirname, "src"),
- src_assets: path.resolve(__dirname, "src/assets"),
- dist_assets: path.resolve(__dirname, "dist/assets")
+  dist: path.resolve(__dirname, "dist"),
+  src: path.resolve(__dirname, "src/demo"),
+  src_assets: path.resolve(__dirname, "src/demo/assets"),
+  dist_assets: path.resolve(__dirname, "dist/assets")
 };
 
 const files = {
- main: path.join(folders.src, "main.ts"),
- src_index: path.join(folders.src, "index.html"),
- dist_index: path.join(folders.dist, "index.html")
+  main: path.join(folders.src, "main.ts"),
+  src_index: path.join(folders.src, "index.html"),
+  dist_index: path.join(folders.dist, "index.html")
 };
 
 export default {
- input: {
-  main: files.main
- },
- output: [
-  defaultOutputConfig({
-   format: "esm",
-   dist: folders.dist
-  })
- ],
- plugins: [
-  ...defaultPlugins({
-   dist: folders.dist,
-   scssGlobals: ["main.scss"],
-   resources: [[folders.src_assets, folders.dist_assets]],
-   htmlTemplateConfig: {
-    template: files.src_index,
-    target: files.dist_index,
-    include: /main-.*\.js$/
-   }
-  }),
+  input: {
+    main: files.main
+  },
+  output: [
+    defaultOutputConfig({
+      format: "esm",
+      dist: folders.dist
+    })
+  ],
+  plugins: [
+    ...defaultPlugins({
+      targets: [
+        folders.dist
+      ],
+      resources: [[folders.src_assets, folders.dist_assets]],
+      htmlTemplateConfig: {
+        template: files.src_index,
+        target: files.dist_index,
+        include: /main(-.*)?\.js$/
+      },
+      importStylesConfig: {
+        globals: ["main.scss"]
+      }
+    }),
 
-  // Serve
-  ...(isServe ? [
-   ...defaultServePlugins({
-    port: 1338,
-    dist: folders.dist
-   })
-  ] : []),
+    // Serve
+    ...(isServe ? [
+      ...defaultServePlugins({
+        serveConfig: {
+          port: 1338,
+          contentBase: folders.dist
+        },
+        livereloadConfig: {
+          watch: folders.dist
+        }
+      })
+    ] : []),
 
-  // Production
-  ...(isProd ? [
-   ...defaultProdPlugins({
-    dist: folders.dist
-   })
-  ] : [])
+    // Production
+    ...(isProd ? [
+      ...defaultProdPlugins({
+        dist: folders.dist,
+        visualizerConfig: {
+          filename: path.join(folders.dist, "stats.html")
+        },
+        licenseConfig: {
+          thirdParty: {
+            output: path.join(folders.dist, "licenses.txt")
+          }
+        }
+      })
+    ] : [])
 
- ],
- external: [
-  ...(isLibrary ? [
-   ...defaultExternals()
-  ] : [])
- ],
- experimentalCodeSplitting: true,
- treeshake: isProd,
- context: "window"
+  ],
+  external: [
+    ...(isLibrary ? [
+      ...defaultExternals(pkg)
+    ] : [])
+  ],
+  experimentalCodeSplitting: true,
+  treeshake: isProd,
+  context: "window"
 }
 ```
 

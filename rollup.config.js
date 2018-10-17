@@ -69,6 +69,11 @@ export default {
 				dist: folders.dist,
 				visualizerConfig: {
 					filename: path.join(folders.dist, "stats.html")
+				},
+				licenseConfig: {
+					thirdParty: {
+						output: path.join(folders.dist, "licenses.txt")
+					}
 				}
 			})
 		] : [])

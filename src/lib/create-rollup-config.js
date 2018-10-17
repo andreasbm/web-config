@@ -150,9 +150,6 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 	license({
 		sourceMap: true,
 		includePrivate: true,
-		thirdParty: {
-			output: path.join(dist, "licenses.txt")
-		},
 		...licenseConfig
 	}),
 
@@ -179,7 +176,6 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 
 	// Create a HTML file visualizing the size of each module
 	visualizer({
-		filename: path.join(dist, "stats.html"),
 		sourcemap: true,
 		...visualizerConfig
 	})
