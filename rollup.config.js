@@ -36,7 +36,9 @@ export default {
 	],
 	plugins: [
 		...defaultPlugins({
-			resources: [[folders.src_assets, folders.dist_assets]],
+			copyConfig: {
+				resources: [[folders.src_assets, folders.dist_assets]],
+			},
 			cleanerConfig: {
 				targets: [
 					folders.dist

@@ -5,6 +5,7 @@ import * as htmlMinifier from 'html-minifier';
 import path from "path";
 import {createFilter} from 'rollup-pluginutils';
 import {emptySourcemap} from "./util.js";
+import colors from "colors";
 
 /**
  * The default configuration for the minify-lit-html plugin.
@@ -116,7 +117,7 @@ function processFile ({code, id, config}) {
 				map: gen.map.toString(),
 			})
 		} catch (err) {
-			console.warn(`\nThe minifyLitHTML plugin could not parse line "${err.lineNumber}" in "${id}" due to "${err.description}"\n`);
+			console.log(colors.red(`[minifyLitHTML] - Could not parse line "${err.lineNumber}" in "${id}" due to "${err.description}"\n`));
 
 			// Sometimes we cannot parse the file. This should however not stop the build from finishing.
 			res({

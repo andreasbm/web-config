@@ -1,5 +1,6 @@
 import {createServer} from "livereload";
 import {resolve} from "path";
+import colors from "colors";
 
 /**
  * #########################################
@@ -55,20 +56,13 @@ export default function livereload (config) {
 		},
 		ongenerate () {
 			if (verbose) {
-				console.log(green(`[livereload] - Enabled`))
+				console.log(colors.green(`[livereload] - Enabled`));
 			}
 		}
 	}
 }
 
-/**
- * Turns the text green.
- * @param text
- * @returns {string}
- */
-function green (text) {
-	return '\u001b[1m\u001b[32m' + text + '\u001b[39m\u001b[22m'
-}
+
 
 /**
  * Subscribes the server to close when required.

@@ -1,6 +1,7 @@
 import {readFile} from 'fs';
 import fse from "fs-extra";
 import {createFilter} from 'rollup-pluginutils';
+import colors from "colors";
 
 /**
  * Default configuration for the html template plugin.
@@ -52,7 +53,7 @@ function generateFile ({bundle, template, target, filter, scriptType}) {
 
 			// Error handling
 			if (fileNames.length === 0) {
-				console.warn(`[htmlTemplate] - No files were included in the "${target}" file. Make sure to specify the files that should be included using the include option. Currently the include option has been set to "${include}" and the exclude option to "${exclude}". The filenames passed to the plugin are "${unfilteredFilenames.join(", ")}"`)
+				console.log(colors.yellow(`[htmlTemplate] - No files were included in the "${target}" file. Make sure to specify the files that should be included using the include option. Currently the include option has been set to "${include}" and the exclude option to "${exclude}". The filenames passed to the plugin are "${unfilteredFilenames.join(", ")}"\n`));
 			}
 
 			// TODO: Make it so the script type is based on the module type (eg. type="module", type="text/javascript" nomodule etc).

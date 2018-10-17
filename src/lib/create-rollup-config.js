@@ -3,7 +3,6 @@ import {builtinModules} from "module";
 import babel from 'rollup-plugin-babel';
 import cleaner from 'rollup-plugin-cleaner';
 import commonjs from 'rollup-plugin-commonjs';
-import copy from 'rollup-plugin-copy';
 import filesize from "rollup-plugin-filesize";
 import license from "rollup-plugin-license";
 import resolve from 'rollup-plugin-node-resolve';
@@ -16,6 +15,7 @@ import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
 import importStyles from "./rollup-plugins/rollup-plugin-import-styles";
 import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
 import livereload from './rollup-plugins/rollup-plugin-livereload'
+import copy from './rollup-plugins/rollup-plugin-copy'
 import precss from 'precss';
 import json from 'rollup-plugin-json';
 
@@ -52,7 +52,7 @@ export const defaultOutputConfig = (config) => {
 /**
  * Default configuration for the plugins that runs every time the bundle is created.
  */
-export const defaultPlugins = ({cleanerConfig, resources, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig}) => [
+export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig}) => [
 
 	// Shows a progress indicator while building
 	progress({
@@ -109,11 +109,10 @@ export const defaultPlugins = ({cleanerConfig, resources, importStylesConfig, js
 	// 	extensions: [".ts", ".js"]
 	// }),
 
-	// Copies resources to the dist folder
-	copy((resources || []).reduce((acc, [from, to]) => {
-		acc[from] = to;
-		return acc;
-	}, {})),
+	// Copies resources
+	copy({
+		...copyConfig
+	}),
 
 	// Creates a HTML template with the injected scripts from the entry points
 	htmlTemplate({
