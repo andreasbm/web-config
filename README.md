@@ -70,7 +70,9 @@ export default {
           folders.dist
         ]
       },
-      resources: [[folders.src_assets, folders.dist_assets]],
+      copyConfig: {
+        resources: [[folders.src_assets, folders.dist_assets]],
+      },
       htmlTemplateConfig: {
         template: files.src_index,
         target: files.dist_index,
