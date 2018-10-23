@@ -167,11 +167,13 @@ It is now time to add the testing setup.
 const {defaultResolvePlugins, defaultKarmaConfig} = require("@appnest/web-config");
 
 module.exports = (config) => {
-  config.set(defaultKarmaConfig({
+  config.set({
+    ...defaultKarmaConfig({
+      rollupPlugins: defaultResolvePlugins()
+    }),
     basePath: "src",
-    logLevel: config.LOG_INFO,
-    rollupPlugins: defaultResolvePlugins()
-  }));
+    logLevel: config.LOG_INFO
+  });
 };
 ```
 

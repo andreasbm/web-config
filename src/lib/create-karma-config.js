@@ -1,25 +1,18 @@
 /**
  * Creates a default karma configuration.
- * @param basePath
- * @param logLevel
  * @param files
+ * @param mime
  * @param preprocessors
- * @param port
- * @param singleRun
  * @param browsers
  * @param karmaPlugins
  * @param rollupPlugins
  */
-export const defaultKarmaConfig = ({basePath, logLevel, files, preprocessors, port, singleRun, browsers, karmaPlugins, rollupPlugins} = {}) => {
+export const defaultKarmaConfig = ({files, mime, preprocessors, browsers, karmaPlugins, rollupPlugins} = {}) => {
 	return {
-		basePath: basePath || "",
-		port: port || 9876,
-		captureTimeout: 60000,
 		concurrency: Infinity,
-		logLevel: logLevel,
-		singleRun: singleRun || true,
 		colors: true,
 		autoWatch: true,
+		singleRun: true,
 		plugins: [
 			"karma-mocha",
 			"karma-chai",
@@ -36,7 +29,7 @@ export const defaultKarmaConfig = ({basePath, logLevel, files, preprocessors, po
 			 * because the preprocessor will use its own.
 			 */
 			{pattern: "**/*.test.{ts,js}", watched: false},
-			...(files || {})
+			...(files || [])
 		],
 		preprocessors: {
 			"**/*.test.{ts,js}": ["rollup"],
@@ -57,7 +50,8 @@ export const defaultKarmaConfig = ({basePath, logLevel, files, preprocessors, po
 		// The below line tricks karma into thinking .ts files are cool
 		// See https://github.com/webpack-contrib/karma-webpack/issues/298#issuecomment-367081075 for more info
 		mime: {
-			"text/x-typescript": ["ts"]
+			"text/x-typescript": ["ts"],
+			...(mime || {})
 		}
 	}
 };
