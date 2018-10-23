@@ -164,7 +164,7 @@ not dead
 It is now time to add the testing setup.
 
 ```javascript
-const {defaultResolvePlugins, defaultKarmaConfig} = "@appnest/web-config";
+const {defaultResolvePlugins, defaultKarmaConfig} = require("@appnest/web-config");
 
 module.exports = (config) => {
   config.set(defaultKarmaConfig({
