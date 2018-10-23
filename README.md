@@ -159,6 +159,22 @@ last 1 version
 not dead
 ```
 
+## Step 7 - Setup `karma.conf.js`
+
+It is now time to add the testing setup.
+
+```javascript
+const {defaultResolvePlugins, defaultKarmaConfig} = "@appnest/web-config";
+
+module.exports = (config) => {
+  config.set(defaultKarmaConfig({
+    basePath: "src",
+    logLevel: config.LOG_INFO,
+    rollupPlugins: defaultResolvePlugins()
+  }));
+};
+```
+
 ## 🖌 How to load stylesheets
 
 ### Add the following to your `typings.d.ts` file!
