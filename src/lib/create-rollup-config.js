@@ -1,9 +1,10 @@
 import cssnano from "cssnano";
 import {builtinModules} from "module";
-import babel from 'rollup-plugin-babel';
+import precss from 'precss';
 import cleaner from 'rollup-plugin-cleaner';
 import commonjs from 'rollup-plugin-commonjs';
 import filesize from "rollup-plugin-filesize";
+import json from 'rollup-plugin-json';
 import license from "rollup-plugin-license";
 import resolve from 'rollup-plugin-node-resolve';
 import progress from 'rollup-plugin-progress';
@@ -11,19 +12,26 @@ import serve from 'rollup-plugin-serve'
 import {terser} from "rollup-plugin-terser";
 import ts from 'rollup-plugin-typescript2';
 import visualizer from 'rollup-plugin-visualizer';
+import copy from './rollup-plugins/rollup-plugin-copy'
 import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
 import importStyles from "./rollup-plugins/rollup-plugin-import-styles";
-import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
 import livereload from './rollup-plugins/rollup-plugin-livereload'
-import copy from './rollup-plugins/rollup-plugin-copy'
-import precss from 'precss';
-import json from 'rollup-plugin-json';
+import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";
 export const isDev = process.env.NODE_ENV === "dev";
 export const isLibrary = process.env.NODE_ENV === "library";
 export const isServe = process.env.ROLLUP_WATCH || false;
+
+/**
+ * Returns the config or an empty default.
+ * @param config
+ * @returns {*|{}}
+ */
+const configOrDefault = (config) => {
+	return config || {}
+};
 
 /**
  * The default scss plugins.
@@ -39,30 +47,20 @@ export const scssPlugins = [
 /**
  * Default configuration for the output.
  */
-export const defaultOutputConfig = (config) => {
+export const defaultOutputConfig = (config = {}) => {
 	// format: (system, amd, cjs, esm, iife, umd)
 	return {
 		entryFileNames: "[name]-[hash].js",
 		chunkFileNames: "[name]-[hash].js",
 		sourcemap: true,
-		...config
+		...configOrDefault(config)
 	}
 };
 
 /**
- * Default configuration for the plugins that runs every time the bundle is created.
- */
-export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig}) => [
-
-	// Shows a progress indicator while building
-	progress({
-		...progressConfig
-	}),
-
-	// Cleans the dist folder to get rid of files from the previous build
-	cleaner({
-		...cleanerConfig
-	}),
+ * Default plugins for resolve.
+ **/
+export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveConfig, tsConfig, commonjsConfig} = {}) => [
 
 	// Teaches Rollup how to find external modules
 	resolve({
@@ -71,32 +69,56 @@ export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, j
 		jsnext: true,
 		main: false,
 		modulesOnly: false,
-		...resolveConfig
+		...configOrDefault(resolveConfig)
 	}),
 
 	// Teaches Rollup how to import styles when using the "import css from "./styles.scss" syntax.
 	importStyles({
 		plugins: scssPlugins,
-		...importStylesConfig
+		...configOrDefault(importStylesConfig)
 	}),
 
 	// Teaches Rollup how to transpile Typescript
 	ts({
 		clean: true,
-		...tsConfig
+		...configOrDefault(tsConfig)
 	}),
 
 	// At the moment, the majority of packages on NPM are exposed as CommonJS modules
 	commonjs({
 		include: "**/node_modules/**",
-		...commonjsConfig
+		...configOrDefault(commonjsConfig)
 	}),
 
 	// Teaches Rollup how to import json files
 	json({
 		preferConst: true,
 		compact: true,
-		...jsonConfig
+		...configOrDefault(jsonConfig)
+	})
+];
+
+/**
+ * Default configuration for the plugins that runs every time the bundle is created.
+ */
+export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig} = {}) => [
+
+	// Shows a progress indicator while building
+	progress({
+		...configOrDefault(progressConfig)
+	}),
+
+	// Cleans the dist folder to get rid of files from the previous build
+	cleaner({
+		...configOrDefault(cleanerConfig)
+	}),
+
+	...defaultResolvePlugins({
+		importStylesConfig,
+		jsonConfig,
+		resolveConfig,
+		tsConfig,
+		commonjsConfig
 	}),
 
 	// Teaches Rollup how to transpile code by looking at the .babelrc config
@@ -111,19 +133,19 @@ export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, j
 
 	// Copies resources
 	copy({
-		...copyConfig
+		...configOrDefault(copyConfig)
 	}),
 
 	// Creates a HTML template with the injected scripts from the entry points
 	htmlTemplate({
-		...htmlTemplateConfig
+		...configOrDefault(htmlTemplateConfig)
 	})
 ];
 
 /**
  * Default plugins that only run when the bundle is being served.
  */
-export const defaultServePlugins = ({serveConfig, livereloadConfig}) => [
+export const defaultServePlugins = ({serveConfig, livereloadConfig} = {}) => [
 
 	// Serves the application files
 	serve({
@@ -133,35 +155,35 @@ export const defaultServePlugins = ({serveConfig, livereloadConfig}) => [
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 		},
-		...serveConfig
+		...configOrDefault(serveConfig)
 	}),
 
 	// Reloads the page when run in watch mode
 	livereload({
-		...livereloadConfig
+		...configOrDefault(livereloadConfig)
 	})
 ];
 
 /**
  * Default plugins that only run when the bundle is being created in prod mode.
  */
-export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, filesizeConfig, visualizerConfig}) => [
+export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, filesizeConfig, visualizerConfig} = {}) => [
 
 	// Minifies the lit-html files
 	minifyLitHTML({
-		...minifyLitHtmlConfig
+		...configOrDefault(minifyLitHtmlConfig)
 	}),
 
 	// Collects all the license files
 	license({
 		sourceMap: true,
 		includePrivate: true,
-		...licenseConfig
+		...configOrDefault(licenseConfig)
 	}),
 
 	// Minifies the code
 	terser({
-		...terserConfig
+		...configOrDefault(terserConfig)
 	}),
 
 	// Gzips all of the files
@@ -177,21 +199,21 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 
 	// Prints the total file-size in the console
 	filesize({
-		...filesizeConfig
+		...configOrDefault(filesizeConfig)
 	}),
 
 	// Create a HTML file visualizing the size of each module
 	visualizer({
 		sourcemap: true,
-		...visualizerConfig
+		...configOrDefault(visualizerConfig)
 	})
 ];
 
 /**
  * Default external dependencies.
  */
-export const defaultExternals = (pkg) => [
-	...Object.keys(pkg.dependencies || {}),
-	...Object.keys(pkg.devDependencies || {}),
+export const defaultExternals = (pkg = {}) => [
+	...Object.keys(configOrDefault(pkg.dependencies)),
+	...Object.keys(configOrDefault(pkg.devDependencies)),
 	...builtinModules
 ];
