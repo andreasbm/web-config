@@ -9,6 +9,9 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A Rollup plugin to load style files using the ES6 import syntax.
 - A Rollup plugin to enables livereload.
 - A Rollup plugin that minifies the html from files using the `lit-html` library.
+- A Rollup plugin that helps with copying files
+- An extensible `create-karma-config.js` to help with your Karma testing setup
+- An extensible `create-babel-config.js` to help with your Babel setup
 - A `tsconfig.json` file to configure your Typescript
 - A `tslint.json` file to configure your linting
 - A `babel.config.js` file to configure how the Javascript is transpiled

@@ -5,3 +5,4 @@ export * from "./rollup-plugins/rollup-plugin-livereload.js";
 export * from "./rollup-plugins/rollup-plugin-copy.js";
 export * from "./create-rollup-config.js";
 export * from "./create-babel-config.js";
+export * from "./create-karma-config.js";
