@@ -13,6 +13,7 @@ export const defaultKarmaConfig = ({files, mime, preprocessors, browsers, karmaP
 		colors: true,
 		autoWatch: true,
 		singleRun: true,
+		captureTimeout: 60000,
 		plugins: [
 			"karma-mocha",
 			"karma-chai",

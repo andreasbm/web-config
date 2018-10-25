@@ -40,9 +40,12 @@ export default {
 				resources: [[folders.src_assets, folders.dist_assets]],
 			},
 			cleanerConfig: {
-				targets: [
-					folders.dist
-				]
+				/* Only clean the dist folder if we are not serving */
+				...(!isServe ? {
+					targets: [
+						folders.dist
+					]
+				} : {})
 			},
 			htmlTemplateConfig: {
 				template: files.src_index,

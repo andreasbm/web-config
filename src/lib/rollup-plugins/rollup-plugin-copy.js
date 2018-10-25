@@ -6,7 +6,8 @@ import colors from "colors";
  * @type {{resources: Array}}
  */
 const defaultConfig = {
-	resources: []
+	resources: [],
+	verbose: true
 };
 
 /**
@@ -15,7 +16,7 @@ const defaultConfig = {
  * @returns {{name: string, ongenerate(): Promise<void>}}
  */
 export default function copy (config) {
-	const {resources} = {...defaultConfig, ...config};
+	const {resources, verbose} = {...defaultConfig, ...config};
 
 	return {
 		name: "copy",
@@ -26,7 +27,9 @@ export default function copy (config) {
 						await fse.copy(from, to);
 					}
 				} catch (ex) {
-					console.log(colors.yellow(`[copy] - The file "${from}" could not be copied to "${to}"\n`, ex));
+					if (verbose) {
+						console.log(colors.yellow(`[copy] - The file "${from}" could not be copied to "${to}"\n`, ex));
+					}
 				}
 			}
 

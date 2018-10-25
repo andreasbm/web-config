@@ -1,9 +1,9 @@
-import * as escodegen from 'escodegen';
-import * as esprima from 'esprima';
-import * as estraverse from 'estraverse';
-import * as htmlMinifier from 'html-minifier';
+import * as escodegen from "escodegen";
+import * as esprima from "esprima";
+import * as estraverse from "estraverse";
+import * as htmlMinifier from "html-minifier";
 import path from "path";
-import {createFilter} from 'rollup-pluginutils';
+import {createFilter} from "rollup-pluginutils";
 import {emptySourcemap} from "./util.js";
 import colors from "colors";
 
@@ -14,10 +14,13 @@ import colors from "colors";
 const defaultConfig = {
 	include: [/\.js$/, /\.ts$/],
 	exclude: [],
+	verbose: true,
 	esprima: {
 		sourceType: "module",
 		loc: true,
-		range: true
+		range: true,
+		tolerant: true,
+		tokens: false
 	},
 	htmlMinifier: {
 		caseSensitive: true,
@@ -117,7 +120,9 @@ function processFile ({code, id, config}) {
 				map: gen.map.toString(),
 			})
 		} catch (err) {
-			console.log(colors.red(`[minifyLitHTML] - Could not parse line "${err.lineNumber}" in "${id}" due to "${err.description}"\n`));
+			if (config.verbose) {
+				console.log(colors.yellow(`[minifyLitHTML] - Could not parse line "${err.lineNumber}" in "${id}" due to "${err.description}"\n`));
+			}
 
 			// Sometimes we cannot parse the file. This should however not stop the build from finishing.
 			res({
@@ -134,7 +139,7 @@ function processFile ({code, id, config}) {
  * @returns {{name: string, resolveId: (function(*=, *=): *), transform: (function(*, *=): Promise<void>)}}
  */
 export default function minifyLitHTML (config = defaultConfig) {
-	const {include, exclude, esprima, htmlMinifier} = {...defaultConfig, ...config};
+	const {include, exclude, esprima, htmlMinifier, verbose} = {...defaultConfig, ...config};
 
 	// Generate a filter that determines whether the file should be handled by the plugin or not.
 	const filter = createFilter(include, exclude);
@@ -147,8 +152,7 @@ export default function minifyLitHTML (config = defaultConfig) {
 		},
 		transform: (code, id) => {
 			if (!filter(id)) return;
-
-			return processFile({code, id, config: {esprima, htmlMinifier}});
+			return processFile({code, id, config: {esprima, htmlMinifier, verbose}});
 		}
 	}
 };

@@ -16,6 +16,7 @@ const defaultConfig = {
 	// The target destination for the generated file
 	target: null,
 
+	verbose: true,
 	include: [],
 	exclude: [],
 	scriptType: "module"
@@ -27,12 +28,12 @@ const defaultConfig = {
  * @param bundle
  * @param template
  * @param target
- * @param include
- * @param exclude
+ * @param filter
  * @param scriptType
- * @returns {Promise<void>}
+ * @param verbose
+ * @returns {Promise<any>}
  */
-function generateFile ({bundle, template, target, filter, scriptType}) {
+function generateFile ({bundle, template, target, filter, scriptType, verbose}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -52,7 +53,7 @@ function generateFile ({bundle, template, target, filter, scriptType}) {
 			const fileNames = unfilteredFilenames.filter(name => filter(name));
 
 			// Error handling
-			if (fileNames.length === 0) {
+			if (verbose && fileNames.length === 0) {
 				console.log(colors.yellow(`[htmlTemplate] - No files were included in the "${target}" file. Make sure to specify the files that should be included using the include option. Currently the include option has been set to "${include}" and the exclude option to "${exclude}". The filenames passed to the plugin are "${unfilteredFilenames.join(", ")}"\n`));
 			}
 
@@ -83,9 +84,10 @@ function generateFile ({bundle, template, target, filter, scriptType}) {
  * @returns {{name: string, generateBundle: (function(*, *, *): Promise<any>)}}
  */
 export default function htmlTemplate (config = defaultConfig) {
-	const {template, target, include, exclude, scriptType} = {...defaultConfig, ...config};
+	const {template, target, include, exclude, scriptType, verbose} = {...defaultConfig, ...config};
 	const filter = createFilter(include, exclude);
 
+	// Throw error if neither the template nor the target has been defined
 	if (template == null || target == null) {
 		throw new Error(`The htmlTemplate plugin needs both a template and a target`);
 	}
@@ -94,7 +96,7 @@ export default function htmlTemplate (config = defaultConfig) {
 		name: 'htmlTemplate',
 		generateBundle: (outputOptions, bundle, isWrite) => {
 			if (isWrite) {
-				return generateFile({bundle, template, target, filter, scriptType});
+				return generateFile({bundle, template, target, filter, scriptType, verbose});
 			}
 		},
 	}
