@@ -4,12 +4,13 @@
 
 This is an opinionated simple configuration I sometimes use when getting started with new web applications (usually using the lit-html/lit-element library). I wanted to share it, maybe it can give you some inspiration. It contains the following:
 
-- An extensible `create-rollup-config.js` for using Rollup with SCSS, single-page webapp, chunking, treeshaking, typescript, production minifying etc.
-- A Rollup plugin to inject the entry files into an `index.html` file.
-- A Rollup plugin to load style files using the ES6 import syntax.
-- A Rollup plugin to enables livereload.
-- A Rollup plugin that minifies the html from files using the `lit-html` library.
+- An extensible `create-rollup-config.js` for using Rollup with SCSS, single-page webapp, chunking, treeshaking, typescript, production minifying etc
+- A Rollup plugin to inject the entry files into an `index.html` file
+- A Rollup plugin to load style files using the ES6 import syntax
+- A Rollup plugin to enables livereload
+- A Rollup plugin that minifies the html from files using the `lit-html` library
 - A Rollup plugin that helps with copying files
+- A Rollup plugin to uses Workbox to generate a Service Worker
 - An extensible `create-karma-config.js` to help with your Karma testing setup
 - An extensible `create-babel-config.js` to help with your Babel setup
 - A `tsconfig.json` file to configure your Typescript
