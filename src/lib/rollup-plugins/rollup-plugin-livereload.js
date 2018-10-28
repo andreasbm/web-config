@@ -40,7 +40,7 @@ export default function livereload (config) {
 
 	return {
 		name: 'livereload',
-		banner () {
+		banner: () => {
 			return `
 			/* Livereload */
 			if (typeof document !== 'undefined') {
@@ -54,7 +54,7 @@ export default function livereload (config) {
 			}`
 
 		},
-		ongenerate () {
+		generateBundle: () => {
 			if (verbose) {
 				console.log(colors.green(`[livereload] - Enabled`));
 			}

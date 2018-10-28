@@ -20,7 +20,7 @@ export default function copy (config) {
 
 	return {
 		name: "copy",
-		async ongenerate () {
+		generateBundle: async () => {
 			for (const [from, to] of resources) {
 				try {
 					if (!fse.existsSync(to)) {
@@ -28,7 +28,7 @@ export default function copy (config) {
 					}
 				} catch (ex) {
 					if (verbose) {
-						console.log(colors.yellow(`[copy] - The file "${from}" could not be copied to "${to}"\n`, ex));
+						console.log(colors.yellow(`[copy] - The file "${from}" could not be copied to "${to}"\n`, ex.message));
 					}
 				}
 			}
