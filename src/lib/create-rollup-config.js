@@ -9,7 +9,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import progress from 'rollup-plugin-progress';
 import serve from 'rollup-plugin-serve'
 import {terser} from "rollup-plugin-terser";
-import ts from 'rollup-plugin-typescript2';
+import ts from "@wessberg/rollup-plugin-ts";
 import visualizer from 'rollup-plugin-visualizer';
 import {copy} from './rollup-plugins/rollup-plugin-copy'
 import {htmlTemplate} from "./rollup-plugins/rollup-plugin-html-template";
@@ -78,8 +78,8 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 	}),
 
 	// Teaches Rollup how to transpile Typescript
+	// https://github.com/wessberg/rollup-plugin-ts
 	ts({
-		clean: true,
 		...configOrDefault(tsConfig)
 	}),
 
@@ -119,16 +119,6 @@ export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, j
 		tsConfig,
 		commonjsConfig
 	}),
-
-	// Teaches Rollup how to transpile code by looking at the .babelrc config
-	// Documentation: https://babeljs.io/docs/en/index.html
-	// TODO: Fix Uncaught TypeError: Class constructor LitElement cannot be invoked without 'new' on serve
-	// babel({
-	// 	exclude: "**/node_modules/**",
-	// 	runtimeHelpers: true,
-	// 	externalHelpers: true,
-	// 	extensions: [".ts", ".js"]
-	// }),
 
 	// Copies resources
 	copy({
