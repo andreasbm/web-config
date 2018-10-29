@@ -80,6 +80,12 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 	// Teaches Rollup how to transpile Typescript
 	// https://github.com/wessberg/rollup-plugin-ts
 	ts({
+		browserslist: [
+			"last 2 Chrome versions",
+			"last 2 Firefox versions",
+			"last 2 Edge versions",
+			"last 2 Safari versions"
+		],
 		...configOrDefault(tsConfig)
 	}),
 
