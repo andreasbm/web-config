@@ -66,7 +66,10 @@ async function build () {
 async function transpileJs () {
 
 	// create a bundle
-	const bundle = await rollup.rollup(inputOptions);
+	const bundle = await rollup.rollup({
+		...inputOptions,
+		treeshake: false
+	});
 
 	await bundle.write(outputOptionsEsm);
 	await bundle.write(outputOptionsCjs);

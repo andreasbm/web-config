@@ -83,7 +83,7 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose}) 
  * @param config
  * @returns {{name: string, generateBundle: (function(*, *, *): Promise<any>)}}
  */
-export default function htmlTemplate (config = defaultConfig) {
+export function htmlTemplate (config = defaultConfig) {
 	const {template, target, include, exclude, scriptType, verbose} = {...defaultConfig, ...config};
 	const filter = createFilter(include, exclude);
 

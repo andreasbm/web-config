@@ -24,7 +24,7 @@ const defaultConfig = {
  * @param config
  * @returns {*}
  */
-export default function livereload (config) {
+export function livereload (config) {
 	const {watch, port, verbose} = {...defaultConfig, ...config};
 
 	// Start watching the files

@@ -138,7 +138,7 @@ function processFile ({code, id, config}) {
  * @param config
  * @returns {{name: string, resolveId: (function(*=, *=): *), transform: (function(*, *=): Promise<void>)}}
  */
-export default function minifyLitHTML (config = defaultConfig) {
+export function minifyLitHTML (config = defaultConfig) {
 	const {include, exclude, esprima, htmlMinifier, verbose} = {...defaultConfig, ...config};
 
 	// Generate a filter that determines whether the file should be handled by the plugin or not.

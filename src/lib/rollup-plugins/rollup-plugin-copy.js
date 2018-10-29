@@ -16,7 +16,7 @@ const defaultConfig = {
  * @param config
  * @returns {{name: string, ongenerate(): Promise<void>}}
  */
-export default function copy (config) {
+export function copy (config) {
 	const {resources, verbose, overwriteFolder} = {...defaultConfig, ...config};
 
 	return {

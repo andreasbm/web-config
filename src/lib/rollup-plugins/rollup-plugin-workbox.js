@@ -31,7 +31,7 @@ function workboxFactory (mode) {
  * @param config
  * @returns {{name: string, generateBundle: generateBundle}}
  */
-export default function workbox (config, ) {
+export function workbox (config, ) {
 	const {workboxConfig, mode, verbose} = {...defaultConfig, ...config};
 
 	// Ensure a workbox config exists

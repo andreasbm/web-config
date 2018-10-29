@@ -1,5 +1,4 @@
 import cssnano from "cssnano";
-import {builtinModules} from "module";
 import precss from 'precss';
 import cleaner from 'rollup-plugin-cleaner';
 import commonjs from 'rollup-plugin-commonjs';
@@ -12,11 +11,11 @@ import serve from 'rollup-plugin-serve'
 import {terser} from "rollup-plugin-terser";
 import ts from 'rollup-plugin-typescript2';
 import visualizer from 'rollup-plugin-visualizer';
-import copy from './rollup-plugins/rollup-plugin-copy'
-import htmlTemplate from "./rollup-plugins/rollup-plugin-html-template";
-import importStyles from "./rollup-plugins/rollup-plugin-import-styles";
-import livereload from './rollup-plugins/rollup-plugin-livereload'
-import minifyLitHTML from "./rollup-plugins/rollup-plugin-minify-lit-html";
+import {copy} from './rollup-plugins/rollup-plugin-copy'
+import {htmlTemplate} from "./rollup-plugins/rollup-plugin-html-template";
+import {importStyles} from "./rollup-plugins/rollup-plugin-import-styles";
+import {livereload} from './rollup-plugins/rollup-plugin-livereload'
+import {minifyLitHTML} from "./rollup-plugins/rollup-plugin-minify-lit-html";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";
@@ -214,6 +213,5 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
  */
 export const defaultExternals = (pkg = {}) => [
 	...Object.keys(configOrDefault(pkg.dependencies)),
-	...Object.keys(configOrDefault(pkg.devDependencies)),
-	...builtinModules
+	...Object.keys(configOrDefault(pkg.devDependencies))
 ];
