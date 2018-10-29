@@ -16,7 +16,6 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A `tslint.json` file to configure your linting
 - A `typings.d.ts` file you can use as inspiration for your own `typings.d.ts` file
 - A `.gitignore` file you can use as inspiration for your own `.gitignore` file
-- A `.browserslistrc` you can use as inspiration for your own `.browserslistrc` file
 
 ## 🎉 Step 1 - Install the dependency
 
@@ -61,19 +60,22 @@ export default {
   },
   output: [
     defaultOutputConfig({
-      format: "esm",
-      dir: folders.dist
+      dir: folders.dist,
+      format: "esm"
     })
   ],
   plugins: [
     ...defaultPlugins({
-      cleanerConfig: {
-        targets: [
-          folders.dist
-        ]
-      },
       copyConfig: {
         resources: [[folders.src_assets, folders.dist_assets]],
+      },
+      cleanerConfig: {
+        /* Only clean the dist folder if we are not serving */
+        ...(!isServe ? {
+          targets: [
+            folders.dist
+          ]
+        } : {})
       },
       htmlTemplateConfig: {
         template: files.src_index,
@@ -112,7 +114,6 @@ export default {
         }
       })
     ] : [])
-
   ],
   external: [
     ...(isLibrary ? [
@@ -141,24 +142,7 @@ export default {
 }
 ```
 
-## 👊 Step 5 - Setup `babel.config.js`
-
-```javascript
-import {defaultBabelConfig} from "@appnest/web-config";
-export default defaultBabelConfig();
-```
-
-## ✌️ Step 6 - Setup `.browserslistrc`
-
-Add a `.browserslistrc` file to tell the Rollup plugins how the js/css should be transpiled.
-
-```
-last 1 version
-> 1%
-not dead
-```
-
-## Step 7 - Setup `karma.conf.js`
+## ✌️ Step 5 - Setup `karma.conf.js`
 
 It is now time to add the testing setup.
 
