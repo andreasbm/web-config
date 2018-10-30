@@ -36,8 +36,15 @@ export default {
 	],
 	plugins: [
 		...defaultPlugins({
+			replaceConfig: {
+				resources: [
+					(isProd ?
+						[path.resolve(__dirname, "src/demo/env.ts"), path.resolve(__dirname, "src/demo/env.prod.ts")]
+					: [])
+				]
+			},
 			copyConfig: {
-				resources: [[folders.src_assets, folders.dist_assets]],
+				resources: [[folders.src_assets, folders.dist_assets]]
 			},
 			cleanerConfig: {
 				/* Only clean the dist folder if we are not serving */
@@ -56,6 +63,7 @@ export default {
 				globals: ["main.scss"]
 			}
 		}),
+
 
 		// Serve
 		...(isServe ? [

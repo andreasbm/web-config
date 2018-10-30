@@ -18,6 +18,7 @@ import {importStyles} from "./rollup-plugins/rollup-plugin-import-styles";
 import {livereload} from './rollup-plugins/rollup-plugin-livereload'
 import {minifyLitHTML} from "./rollup-plugins/rollup-plugin-minify-lit-html";
 import {gzip} from "./rollup-plugins/rollup-plugin-gzip";
+import {replace} from "./rollup-plugins/rollup-plugin-replace";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";
@@ -37,7 +38,7 @@ const configOrDefault = (config) => {
 /**
  * The default scss plugins.
  */
-export const scssPlugins = [
+export const postcssPlugins = [
 	precss(),
 	autoprefixer(),
 
@@ -62,7 +63,12 @@ export const defaultOutputConfig = (config = {}) => {
 /**
  * Default plugins for resolve.
  **/
-export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveConfig, tsConfig, commonjsConfig} = {}) => [
+export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveConfig, tsConfig, commonjsConfig, replaceConfig} = {}) => [
+
+	// Replaces files
+	replace({
+		...configOrDefault(replaceConfig)
+	}),
 
 	// Teaches Rollup how to find external modules
 	resolve({
@@ -76,7 +82,7 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 
 	// Teaches Rollup how to import styles when using the "import css from "./styles.scss" syntax.
 	importStyles({
-		plugins: scssPlugins,
+		plugins: postcssPlugins,
 		...configOrDefault(importStylesConfig)
 	}),
 
@@ -103,7 +109,7 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 /**
  * Default configuration for the plugins that runs every time the bundle is created.
  */
-export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig} = {}) => [
+export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig, replaceConfig} = {}) => [
 
 	// Shows a progress indicator while building
 	progress({
@@ -120,7 +126,8 @@ export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, j
 		jsonConfig,
 		resolveConfig,
 		tsConfig,
-		commonjsConfig
+		commonjsConfig,
+		replaceConfig
 	}),
 
 	// Copies resources

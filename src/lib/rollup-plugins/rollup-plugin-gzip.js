@@ -1,10 +1,13 @@
 import colors from "colors";
 import readdir from "recursive-readdir-sync";
 import targz from "targz";
+import {createFilter} from 'rollup-pluginutils';
 
 const defaultConfig = {
 	verbose: true,
 	gzipOptions: {},
+	include: [],
+	exclude: [],
 
 	// We need a timeout to make sure all files have been bundled
 	timeout: 2000
@@ -16,7 +19,8 @@ const defaultConfig = {
  * @returns {{name: string, generateBundle: generateBundle}}
  */
 export function gzip (config) {
-	const {verbose, dir, timeout, gzipOptions} = {...defaultConfig, ...config};
+	const {verbose, dir, timeout, gzipOptions, include, exclude} = {...defaultConfig, ...config};
+	const filter = createFilter(include, exclude);
 
 	return {
 		name: "gzip",
@@ -29,7 +33,7 @@ export function gzip (config) {
 
 				// Grab the files from the build folder
 				const target = dir || outputOptions.dir;
-				const files = readdir(target).filter(path => !path.endsWith(".gz"));
+				const files = readdir(target).filter(path => !path.endsWith(".gz") && filter(path));
 
 				// Compress all files
 				for (const src of files) {
