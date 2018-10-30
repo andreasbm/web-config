@@ -155,4 +155,4 @@ export function minifyLitHTML (config = defaultConfig) {
 			return processFile({code, id, config: {esprima, htmlMinifier, verbose}});
 		}
 	}
-};
+}

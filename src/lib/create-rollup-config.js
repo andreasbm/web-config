@@ -16,6 +16,7 @@ import {htmlTemplate} from "./rollup-plugins/rollup-plugin-html-template";
 import {importStyles} from "./rollup-plugins/rollup-plugin-import-styles";
 import {livereload} from './rollup-plugins/rollup-plugin-livereload'
 import {minifyLitHTML} from "./rollup-plugins/rollup-plugin-minify-lit-html";
+import {gzip} from "./rollup-plugins/rollup-plugin-gzip";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";
@@ -157,7 +158,7 @@ export const defaultServePlugins = ({serveConfig, livereloadConfig} = {}) => [
 /**
  * Default plugins that only run when the bundle is being created in prod mode.
  */
-export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, filesizeConfig, visualizerConfig} = {}) => [
+export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, filesizeConfig, visualizerConfig, gzipConfig} = {}) => [
 
 	// Minifies the lit-html files
 	minifyLitHTML({
@@ -176,17 +177,6 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 		...configOrDefault(terserConfig)
 	}),
 
-	// Gzips all of the files
-	/*gzip({
-		// TODO: Figure out why it the copied files (eg. assets) are not gzipped.
-		// The additional files should contain all the assets...
-		filter: () => false,
-		gzipOptions: {
-			level: 9
-		},
-		additionalFiles: readdir(folders.dist).filter(path => !path.endsWith(".gz"))
-	}),*/
-
 	// Prints the total file-size in the console
 	filesize({
 		...configOrDefault(filesizeConfig)
@@ -196,6 +186,13 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 	visualizer({
 		sourcemap: true,
 		...configOrDefault(visualizerConfig)
+	}),
+
+	// Gzips all of the files
+	// TODO: Create own gzip plugin
+	// https://github.com/kryops/rollup-plugin-gzip/blob/master/src/index.ts
+	gzip({
+		...configOrDefault(gzipConfig)
 	})
 ];
 

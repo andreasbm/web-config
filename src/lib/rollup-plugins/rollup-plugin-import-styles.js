@@ -114,4 +114,4 @@ export function importStyles (config = defaultConfig) {
 			return processFile({code, id, processor, overwrite: isGlobal(id) ? exportGlobalOverwrite : exportDefaultOverwrite});
 		}
 	}
-};
+}

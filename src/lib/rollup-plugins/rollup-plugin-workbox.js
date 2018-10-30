@@ -41,7 +41,9 @@ export function workbox (config, ) {
 
 	return {
 		name: "workbox",
-		generateBundle: async () => {
+		generateBundle: async (outputOptions, bundle, isWrite) => {
+			if (!isWrite) return;
+
 			try {
 				await workboxFactory(mode)(workboxConfig);
 
@@ -51,6 +53,6 @@ export function workbox (config, ) {
 				}
 			}
 		}
-	};
+	}
 }
 

@@ -95,9 +95,8 @@ export function htmlTemplate (config = defaultConfig) {
 	return {
 		name: 'htmlTemplate',
 		generateBundle: (outputOptions, bundle, isWrite) => {
-			if (isWrite) {
-				return generateFile({bundle, template, target, filter, scriptType, verbose});
-			}
+			if (!isWrite) return;
+			return generateFile({bundle, template, target, filter, scriptType, verbose});
 		},
 	}
-};
+}

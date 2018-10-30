@@ -21,7 +21,8 @@ export function copy (config) {
 
 	return {
 		name: "copy",
-		generateBundle: async () => {
+		generateBundle: async (outputOptions, bundle, isWrite) => {
+			if (!isWrite) return;
 			for (const [from, to] of resources) {
 				try {
 					if (overwriteFolder || !fse.existsSync(to)) {
