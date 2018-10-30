@@ -18,13 +18,13 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A `typings.d.ts` file you can use as inspiration for your own `typings.d.ts` file
 - A `.gitignore` file you can use as inspiration for your own `.gitignore` file
 
-## 🎉 Step 1 - Install the dependency
+## Step 👆 - Install the dependency
 
 ```javascript
 npm i @appnest/web-config --save-dev
 ```
 
-## 💪 Step 2 - Setup `rollup.config.js`
+## Step ✌️ - Setup `rollup.config.js`
 
 Here's an example on what your Rollup configuration file could look like:
 
@@ -127,7 +127,7 @@ export default {
 }
 ```
 
-## 👌 Step 3 - Setup `tslint.json`
+## Step 🤟 - Setup `tslint.json`
 
 ```json
 {
@@ -135,7 +135,7 @@ export default {
 }
 ```
 
-## 🤘 Step 4 - Setup `tsconfig.json`
+## Step 🖖 - Setup `tsconfig.json`
 
 ```json
 {
@@ -143,7 +143,7 @@ export default {
 }
 ```
 
-## Step 5 - Setup `.browserslistrc`
+## Step 🖐 - Setup `.browserslistrc`
 
 The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
 
@@ -151,7 +151,7 @@ The tools transpiling your code are using `browserslist` to figure out what is s
 extends @appnest/web-config
 ```
 
-## ✌️ Step 6 - Setup `karma.conf.js`
+## Step 🖐👆 - Setup `karma.conf.js`
 
 It is now time to add the testing setup.
 
