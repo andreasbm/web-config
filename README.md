@@ -251,7 +251,7 @@ Injects script tags with the entry files from the bundle into a html file. In th
 
 ```javascript
 htmlTemplate({
-  template: "./src/index.html"",
+  template: "./src/index.html",
   target: "./dist/index.html",
   include: /main(-.*)?\.js$/
 })
