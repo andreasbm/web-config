@@ -16,6 +16,7 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A `tsconfig.json` file to configure your Typescript
 - A `tslint.json` file to configure your linting
 - A `typings.d.ts` file you can use as inspiration for your own `typings.d.ts` file
+- A `.browserslistrc` file to configure how your files are transpiled
 - A `.gitignore` file you can use as inspiration for your own `.gitignore` file
 
 ## Step 👆 - Install the dependency
@@ -148,7 +149,9 @@ export default {
 The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
 
 ```
-extends @appnest/web-config
+last 2 Chrome versions
+last 2 Safari versions
+last 2 Firefox versions
 ```
 
 ## Step 🖐👆 - Setup `karma.conf.js`
