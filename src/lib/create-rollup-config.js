@@ -189,8 +189,6 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 	}),
 
 	// Gzips all of the files
-	// TODO: Create own gzip plugin
-	// https://github.com/kryops/rollup-plugin-gzip/blob/master/src/index.ts
 	gzip({
 		...configOrDefault(gzipConfig)
 	})
