@@ -180,13 +180,18 @@ This is to make Typescript not complaining about SCSS and CSS imports
 
 ```
 declare module "*.scss" {
- const content: string;
- export default content;
+  const content: string;
+  export default content;
 }
 
 declare module "*.css" {
- const content: string;
- export default content;
+  const content: string;
+  export default content;
+}
+
+declare module "*.json" {
+  const json: any;
+  export default json;
 }
 ```
 
@@ -222,7 +227,6 @@ import css from "./my-component.scss";
 
 Future work involves making the configuration more customizable.
 
-* Allow `.json` imports.
 * Add support for replacing files (eg. the environment files)
 
 ## 🎉 License

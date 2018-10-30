@@ -1,8 +1,9 @@
 import "./my-component";
 import "./main.scss";
 import { env } from "./env";
+import pkg from "./../../package.json";
 
-console.log(env.TAG);
+console.log(pkg.name, env.TAG);
 
 // console.log([...[1,2,3], ...[4,5,6]]);
 //
