@@ -4,15 +4,17 @@ import targz from "targz";
 
 const defaultConfig = {
 	verbose: true,
-	timeout: 2000,
-	gzipOptions: {
-		gz: {
-			level: 6,
-			memLevel: 6,
-		}
-	}
+	gzipOptions: {},
+
+	// We need a timeout to make sure all files have been bundled
+	timeout: 2000
 };
 
+/**
+ * Gzips all files in the dist folder.
+ * @param config
+ * @returns {{name: string, generateBundle: generateBundle}}
+ */
 export function gzip (config) {
 	const {verbose, dir, timeout, gzipOptions} = {...defaultConfig, ...config};
 
