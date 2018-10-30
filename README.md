@@ -143,7 +143,15 @@ export default {
 }
 ```
 
-## ✌️ Step 5 - Setup `karma.conf.js`
+## Step 5 - Setup `.browserslistrc`
+
+The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
+
+```
+extends @appnest/web-config
+```
+
+## ✌️ Step 6 - Setup `karma.conf.js`
 
 It is now time to add the testing setup.
 
@@ -210,6 +218,9 @@ import css from "./my-component.scss";
 ## Future work
 
 Future work involves making the configuration more customizable.
+
+* Allow `.json` imports.
+* Add support for replacing files (eg. the environment files)
 
 ## 🎉 License
 

@@ -1,6 +1,7 @@
 import cssnano from "cssnano";
 import precss from 'precss';
 import cleaner from 'rollup-plugin-cleaner';
+import autoprefixer from "autoprefixer";
 import commonjs from 'rollup-plugin-commonjs';
 import filesize from "rollup-plugin-filesize";
 import json from 'rollup-plugin-json';
@@ -38,6 +39,7 @@ const configOrDefault = (config) => {
  */
 export const scssPlugins = [
 	precss(),
+	autoprefixer(),
 
 	...(isProd ? [
 		cssnano()
@@ -81,7 +83,6 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 	// Teaches Rollup how to transpile Typescript
 	// https://github.com/wessberg/rollup-plugin-ts
 	ts({
-		browserslist: false,
 		...configOrDefault(tsConfig)
 	}),
 

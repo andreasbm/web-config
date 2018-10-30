@@ -57,6 +57,7 @@ async function build () {
 	await copyFiles("", distPath, [
 		".gitignore",
 		".npmignore",
+		".browserslistrc",
 		"README.md",
 		"package.json"
 	]);

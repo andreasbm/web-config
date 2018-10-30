@@ -81,8 +81,6 @@ export default {
 					thirdParty: {
 						output: path.join(folders.dist, "licenses.txt")
 					}
-				},
-				gzipConfig: {
 				}
 			})
 		] : [])
