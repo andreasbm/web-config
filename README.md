@@ -205,7 +205,7 @@ Here an example on what scripts you could add to your `package.json` file.
 This is to make Typescript not complaining about SCSS, CSS and JSON imports.
 
 ```typescript
-/// <reference path="@appnest/web-config/typings.d.ts" />
+/// <reference path="node_modules/@appnest/web-config/typings.d.ts" />
 ```
 
 ### Load a global stylesheet (it will be added to the template file)

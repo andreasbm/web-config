@@ -9,7 +9,6 @@ export class MyComponent extends LitElement {
 				${css}
 			</style>
 			<p>It workz</p>
-			<span>I think..</span>
 		`;
 	}
 }
