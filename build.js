@@ -37,21 +37,10 @@ async function build () {
 
 	// Copy the lib files
 	await copyFiles("src/lib", distPath, [
-		/*"babel.config.js",
-		"create-babel-config.js",
-		"create-rollup-config.js",
-		"index.js",*/
 		"tsconfig.json",
-		"tslint.json"
+		"tslint.json",
+		"typings.d.ts"
 	]);
-
-	// Copy rollup plugins
-	/*await copyFiles("src/lib/rollup-plugins", `${distPath}/rollup-plugins`, [
-		"rollup-plugin-html-template.js",
-		"rollup-plugin-import-scss.js",
-		"rollup-plugin-minify-lit-html.js",
-		"util.js"
-	]);*/
 
 	// Copy the root files
 	await copyFiles("", distPath, [

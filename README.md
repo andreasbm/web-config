@@ -179,27 +179,33 @@ module.exports = (config) => {
 };
 ```
 
+## Step 🖐✌️ - Add start and build scripts to `package.json`
+
+Here an example on what scripts you could add to your `package.json` file.
+
+```
+{
+  ...
+  scripts: {
+    "b:dev": "rollup -c --environment NODE_ENV:dev",
+    "b:prod": "rollup -c --environment NODE_ENV:prod",
+    "s:dev": "rollup -c --watch --environment NODE_ENV:dev",
+    "s:prod": "rollup -c --watch --environment NODE_ENV:prod",
+    "s": "npm run s:dev"
+    ...
+  }
+  ...
+}
+```
+
 ## 🖌 How to load stylesheets
 
 ### Add the following to your `typings.d.ts` file!
 
-This is to make Typescript not complaining about SCSS and CSS imports
+This is to make Typescript not complaining about SCSS, CSS and JSON imports.
 
-```
-declare module "*.scss" {
-  const content: string;
-  export default content;
-}
-
-declare module "*.css" {
-  const content: string;
-  export default content;
-}
-
-declare module "*.json" {
-  const json: any;
-  export default json;
-}
+```typescript
+/// <reference path="@appnest/web-config/typings.d.ts" />
 ```
 
 ### Load a global stylesheet (it will be added to the template file)
