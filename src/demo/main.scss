@@ -2,7 +2,10 @@
 	--test: red;
 }
 
+
+
 /* This is a comment */
+// This is another comment
 body {
 	background: var(--test);
 
@@ -13,4 +16,12 @@ body {
 			color: red;
 		}
 	}
+
+	@mixin test () {
+		.it-works {
+			font-weight: bold;
+		}
+	}
+
+	@include test();
 }

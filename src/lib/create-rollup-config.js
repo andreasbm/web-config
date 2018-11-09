@@ -19,6 +19,7 @@ import {livereload} from './rollup-plugins/rollup-plugin-livereload'
 import {minifyLitHTML} from "./rollup-plugins/rollup-plugin-minify-lit-html";
 import {gzip} from "./rollup-plugins/rollup-plugin-gzip";
 import {replace} from "./rollup-plugins/rollup-plugin-replace";
+import scss from "@csstools/postcss-sass";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";
@@ -39,6 +40,7 @@ const configOrDefault = (config) => {
  * The default scss plugins.
  */
 export const postcssPlugins = [
+	scss(),
 	precss(),
 	autoprefixer(),
 

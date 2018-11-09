@@ -5,7 +5,7 @@ import {emptySourcemap} from "./util.js";
 
 /**
  * Default configuration for the import SCSS plugin.
- * @type {{plugins: Array, extensions: string[]}}
+ * @type {{plugins: Array, extensions: string[], globals: Array}}
  */
 const defaultConfig = {
 
