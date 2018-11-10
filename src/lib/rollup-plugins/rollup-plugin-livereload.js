@@ -51,13 +51,23 @@ export function livereload (config) {
 function livereloadHtml (port) {
 	return `/* Livereload */
 	if (typeof document !== 'undefined') {
-		(function(doc, type, v, e) {
-			v = doc.createElement(type);
-			v.async = true;
-			v.src = "//" + (location.host || "localhost").split(":")[0] + ":${port}/livereload.js?snipver=1";
-			e = doc.getElementsByTagName(type)[0];
-			e.parentNode.insertBefore(v, e)}
-		)(document, "script");
+		(function(doc, id) {
+		
+			if (doc.head.querySelector("#" + id) != null) {
+				return;
+			}
+	
+			/* Create script that takes care of reloading each time a watched file changes */
+			var $script = doc.createElement("script");
+			$script.async = true;
+			$script.id = id;
+			$script.src = "//" + (location.host || "localhost").split(":")[0] + ":${port}/livereload.js?snipver=1";
+			
+			/* Inject the script as the first one */
+			var $container = doc.head || doc.body;
+			$container.insertBefore($script, $container.firstChild);
+			
+		})(document, "rollup-plugin-livereload");
 	}`
 }
 
