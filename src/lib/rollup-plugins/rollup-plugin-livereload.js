@@ -66,18 +66,25 @@ function livereloadHtml (port) {
  * @param server
  */
 function attachTerminationListeners (server) {
-	server.on("error", () => tearDownServer(server));
+
+	// Hook up listeners that kills the server if the process is terminated for some reason
 	const terminationSignals = ["SIGINT", "SIGTERM", "SIGQUIT"];
 	for (const signal of terminationSignals) {
-		process.on(signal, () => tearDownServer(server));
+		process.on(signal, () => killServer(server));
 	}
+
+	// Rethrow the error
+	server.on("error", err => {
+		server.close();
+		throw err;
+	});
 }
 
 /**
  * Tears down the server.
  * @param server
  */
-function tearDownServer (server) {
+function killServer (server) {
 	server.close();
 	process.exit();
 }
