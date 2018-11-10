@@ -55,7 +55,7 @@ function livereloadHtml (port) {
 		
 			/* Ensure that a script does not exist in the doc yet  */
 			var $container = doc.head || doc.body;
-			if ($container.querySelector("#" + id) != null) {
+			if ($container == null || $container.querySelector("#" + id) != null) {
 				return;
 			}
 	
