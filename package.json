@@ -53,7 +53,6 @@
 		"test": "npm run b:lib && karma start karma.conf.js"
 	},
 	"dependencies": {
-		"@csstools/postcss-sass": "^3.0.0",
 		"@types/chai": "^4.1.7",
 		"@types/mocha": "^5.2.5",
 		"@types/node": "^10.12.1",
@@ -77,10 +76,9 @@
 		"livereload": "^0.7.0",
 		"magic-string": "^0.25.1",
 		"mocha": "^5.2.0",
-		"node-sass": "^4.9.4",
+		"node-sass": "^4.10.0",
 		"path": "^0.12.7",
 		"postcss": "^7.0.5",
-		"postcss-scss": "^2.0.0",
 		"precss": "^3.1.2",
 		"recursive-readdir-sync": "^1.0.6",
 		"rollup": "^0.66.6",

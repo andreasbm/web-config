@@ -2,7 +2,8 @@ import MagicString from "magic-string";
 import path from "path";
 import postcss from "postcss";
 import {emptySourcemap} from "./util.js";
-import scssParser from "postcss-scss";
+import sass from "node-sass";
+import {resolve} from "path";
 
 /**
  * Default configuration for the import SCSS plugin.
@@ -16,11 +17,12 @@ const defaultConfig = {
 	// File types handled by this plugin.
 	extensions: [".css", ".scss"],
 
-	// Parser for the files
-	parser: scssParser,
-
 	// Global files that are injected into the DOM.
-	globals: []
+	globals: [],
+
+	// Configuration objects for sass and postcss
+	postcssConfig: {},
+	sassConfig: {}
 };
 
 /**
@@ -49,45 +51,55 @@ function exportGlobalOverwrite (css) {
 
 /**
  * Processes a SCSS file by running it through a processor and generating the code and its corresponding sourcemap.
- * @param code
+ * @param data
  * @param id
  * @param processor
  * @param overwrite
- * @param parser
- * @returns {Promise<{code: string, map: string}>}
+ * @param postcssConfig
+ * @param sassConfig
+ * @returns {Promise<any>}
  */
-function processFile ({code, id, processor, overwrite, parser}) {
-	return new Promise((res, rej) => {
+function processFile ({data, id, processor, overwrite, postcssConfig, sassConfig}) {
+	return new Promise((res) => {
+
+		// Compile the data using the sass compiler
+		const css = sass.renderSync({
+			file: resolve(process.cwd(), id),
+			sourceMap: false, /* We generate sourcemaps later */
+			...(sassConfig || {})
+		}).css.toString();
 
 		// The magic strings cannot handle empty strings, therefore we test whether we should already abort now.
-		if (code.trim() === "") {
+		if (css.trim() === "") {
 			return res({
 				code: overwrite(""),
 				map: emptySourcemap
 			});
 		}
 
-		const container = new MagicString(code);
+		// Create a magic string container to generate source map
+		const stringContainer = new MagicString(css);
 
 		// Construct the options
 		const processOptions = {
 			from: id,
 			to: id,
-			parser,
 			map: {
 				inline: false,
 				annotation: false
-			}};
+			},
+			...(postcssConfig || {})
+		};
 
 		// Process the file content
-		processor.process(container.toString(), processOptions).then(result => {
+		processor.process(stringContainer.toString(), processOptions).then(result => {
 			const css = result.css;
-			container.overwrite(0, container.length(), overwrite(css));
+			stringContainer.overwrite(0, stringContainer.length(), overwrite(css));
 			res({
-				code: container.toString(),
-				map: container.generateMap()
+				code: stringContainer.toString(),
+				map: stringContainer.generateMap()
 			})
-		}).catch(rej);
+		});
 	});
 }
 
@@ -98,7 +110,7 @@ function processFile ({code, id, processor, overwrite, parser}) {
  * @returns {{name: string, resolveId: resolveId, transform: transform}}
  */
 export function importStyles (config = defaultConfig) {
-	const {plugins, extensions, globals, parser} = {...defaultConfig, ...config};
+	const {plugins, extensions, globals, postcssConfig, sassConfig} = {...defaultConfig, ...config};
 
 	// Determines whether the file should be handled by the plugin or not.
 	const filter = (id) => extensions.find(ext => id.endsWith(ext)) != null;
@@ -115,9 +127,9 @@ export function importStyles (config = defaultConfig) {
 			if (!importer || !filter(id)) return;
 			return path.resolve(path.dirname(importer), id);
 		},
-		transform: (code, id) => {
+		transform: (data, id) => {
 			if (!filter(id)) return;
-			return processFile({code, id, processor, parser, overwrite: isGlobal(id) ? exportGlobalOverwrite : exportDefaultOverwrite});
+			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: isGlobal(id) ? exportGlobalOverwrite : exportDefaultOverwrite});
 		}
 	}
 }

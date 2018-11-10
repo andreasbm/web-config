@@ -1,7 +1,8 @@
+import ts from "@wessberg/rollup-plugin-ts";
+import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import precss from 'precss';
 import cleaner from 'rollup-plugin-cleaner';
-import autoprefixer from "autoprefixer";
 import commonjs from 'rollup-plugin-commonjs';
 import filesize from "rollup-plugin-filesize";
 import json from 'rollup-plugin-json';
@@ -10,16 +11,14 @@ import resolve from 'rollup-plugin-node-resolve';
 import progress from 'rollup-plugin-progress';
 import serve from 'rollup-plugin-serve'
 import {terser} from "rollup-plugin-terser";
-import ts from "@wessberg/rollup-plugin-ts";
 import visualizer from 'rollup-plugin-visualizer';
 import {copy} from './rollup-plugins/rollup-plugin-copy'
+import {gzip} from "./rollup-plugins/rollup-plugin-gzip";
 import {htmlTemplate} from "./rollup-plugins/rollup-plugin-html-template";
 import {importStyles} from "./rollup-plugins/rollup-plugin-import-styles";
 import {livereload} from './rollup-plugins/rollup-plugin-livereload'
 import {minifyLitHTML} from "./rollup-plugins/rollup-plugin-minify-lit-html";
-import {gzip} from "./rollup-plugins/rollup-plugin-gzip";
 import {replace} from "./rollup-plugins/rollup-plugin-replace";
-import scss from "@csstools/postcss-sass";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod";
@@ -40,7 +39,6 @@ const configOrDefault = (config) => {
  * The default scss plugins.
  */
 export const postcssPlugins = [
-	scss(),
 	precss(),
 	autoprefixer(),
 
