@@ -2,6 +2,7 @@ import MagicString from "magic-string";
 import path from "path";
 import postcss from "postcss";
 import {emptySourcemap} from "./util.js";
+import scssParser from "postcss-scss";
 
 /**
  * Default configuration for the import SCSS plugin.
@@ -14,6 +15,9 @@ const defaultConfig = {
 
 	// File types handled by this plugin.
 	extensions: [".css", ".scss"],
+
+	// Parser for the files
+	parser: scssParser,
 
 	// Global files that are injected into the DOM.
 	globals: []
@@ -49,9 +53,10 @@ function exportGlobalOverwrite (css) {
  * @param id
  * @param processor
  * @param overwrite
+ * @param parser
  * @returns {Promise<{code: string, map: string}>}
  */
-function processFile ({code, id, processor, overwrite}) {
+function processFile ({code, id, processor, overwrite, parser}) {
 	return new Promise((res, rej) => {
 
 		// The magic strings cannot handle empty strings, therefore we test whether we should already abort now.
@@ -68,6 +73,7 @@ function processFile ({code, id, processor, overwrite}) {
 		const processOptions = {
 			from: id,
 			to: id,
+			parser,
 			map: {
 				inline: false,
 				annotation: false
@@ -92,7 +98,7 @@ function processFile ({code, id, processor, overwrite}) {
  * @returns {{name: string, resolveId: resolveId, transform: transform}}
  */
 export function importStyles (config = defaultConfig) {
-	const {plugins, extensions, globals} = {...defaultConfig, ...config};
+	const {plugins, extensions, globals, parser} = {...defaultConfig, ...config};
 
 	// Determines whether the file should be handled by the plugin or not.
 	const filter = (id) => extensions.find(ext => id.endsWith(ext)) != null;
@@ -111,7 +117,7 @@ export function importStyles (config = defaultConfig) {
 		},
 		transform: (code, id) => {
 			if (!filter(id)) return;
-			return processFile({code, id, processor, overwrite: isGlobal(id) ? exportGlobalOverwrite : exportDefaultOverwrite});
+			return processFile({code, id, processor, parser, overwrite: isGlobal(id) ? exportGlobalOverwrite : exportDefaultOverwrite});
 		}
 	}
 }

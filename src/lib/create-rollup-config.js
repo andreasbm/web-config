@@ -151,6 +151,7 @@ export const defaultServePlugins = ({serveConfig, livereloadConfig} = {}) => [
 	// Serves the application files
 	serve({
 		open: true,
+		port: 1337,
 		historyApiFallback: true,
 		host: "localhost",
 		headers: {

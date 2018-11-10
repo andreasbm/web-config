@@ -1,0 +1,5 @@
+@mixin weightify ($weight) {
+	cursor: pointer;
+	font-size: 100px;
+	font-weight: #{$weight};
+}
