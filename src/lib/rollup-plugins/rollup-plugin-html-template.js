@@ -31,9 +31,11 @@ const defaultConfig = {
  * @param filter
  * @param scriptType
  * @param verbose
+ * @param include
+ * @param exclude
  * @returns {Promise<any>}
  */
-function generateFile ({bundle, template, target, filter, scriptType, verbose}) {
+function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -96,7 +98,7 @@ export function htmlTemplate (config = defaultConfig) {
 		name: 'htmlTemplate',
 		generateBundle: (outputOptions, bundle, isWrite) => {
 			if (!isWrite) return;
-			return generateFile({bundle, template, target, filter, scriptType, verbose});
+			return generateFile({bundle, template, target, filter, scriptType, verbose, include, exclude});
 		},
 	}
 }
