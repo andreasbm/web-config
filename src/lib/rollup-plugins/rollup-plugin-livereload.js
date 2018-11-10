@@ -53,7 +53,9 @@ function livereloadHtml (port) {
 	if (typeof document !== 'undefined') {
 		(function(doc, id) {
 		
-			if (doc.head.querySelector("#" + id) != null) {
+			/* Ensure that a script does not exist in the doc yet  */
+			var $container = doc.head || doc.body;
+			if ($container.querySelector("#" + id) != null) {
 				return;
 			}
 	
@@ -64,7 +66,6 @@ function livereloadHtml (port) {
 			$script.src = "//" + (location.host || "localhost").split(":")[0] + ":${port}/livereload.js?snipver=1";
 			
 			/* Inject the script as the first one */
-			var $container = doc.head || doc.body;
 			$container.insertBefore($script, $container.firstChild);
 			
 		})(document, "rollup-plugin-livereload");
