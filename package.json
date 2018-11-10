@@ -1,6 +1,6 @@
 {
 	"name": "@appnest/web-config",
-	"version": "0.1.30",
+	"version": "0.1.31",
 	"description": "A simple configuration to quickly get started with new web applications.",
 	"author": "Appnest",
 	"main": "index.cjs.js",
