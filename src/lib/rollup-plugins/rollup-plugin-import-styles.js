@@ -52,7 +52,7 @@ function exportGlobalOverwrite (css) {
  * @returns {Promise<{code: string, map: string}>}
  */
 function processFile ({code, id, processor, overwrite}) {
-	return new Promise(res => {
+	return new Promise((res, rej) => {
 
 		// The magic strings cannot handle empty strings, therefore we test whether we should already abort now.
 		if (code.trim() === "") {
@@ -81,7 +81,7 @@ function processFile ({code, id, processor, overwrite}) {
 				code: container.toString(),
 				map: container.generateMap()
 			})
-		});
+		}).catch(rej);
 	});
 }
 
