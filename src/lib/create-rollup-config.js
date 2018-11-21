@@ -1,6 +1,7 @@
 import ts from "@wessberg/rollup-plugin-ts";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
+import path from "path";
 import precss from 'precss';
 import cleaner from 'rollup-plugin-cleaner';
 import commonjs from 'rollup-plugin-commonjs';
@@ -144,7 +145,7 @@ export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, j
 /**
  * Default plugins that only run when the bundle is being served.
  */
-export const defaultServePlugins = ({serveConfig, livereloadConfig} = {}) => [
+export const defaultServePlugins = ({dist, serveConfig, livereloadConfig} = {}) => [
 
 	// Serves the application files
 	serve({
@@ -155,11 +156,13 @@ export const defaultServePlugins = ({serveConfig, livereloadConfig} = {}) => [
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 		},
+		...(dist != null ? {contentBase: dist} : {}),
 		...configOrDefault(serveConfig)
 	}),
 
 	// Reloads the page when run in watch mode
 	livereload({
+		...(dist != null ? {watch: dist} : {}),
 		...configOrDefault(livereloadConfig)
 	})
 ];
@@ -178,6 +181,7 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 	license({
 		sourceMap: true,
 		includePrivate: true,
+		...(dist != null ? {thirdParty: {output: path.join(dist, "licenses.txt")}} : {}),
 		...configOrDefault(licenseConfig)
 	}),
 
@@ -194,6 +198,7 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 	// Create a HTML file visualizing the size of each module
 	visualizer({
 		sourcemap: true,
+		...(dist != null ? {filename: path.join(dist, "stats.html")} : {}),
 		...configOrDefault(visualizerConfig)
 	}),
 

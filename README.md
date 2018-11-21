@@ -79,12 +79,9 @@ export default {
         resources: [[folders.src_assets, folders.dist_assets]],
       },
       cleanerConfig: {
-        /* Only clean the dist folder if we are not serving */
-        ...(!isServe ? {
-          targets: [
-            folders.dist
-          ]
-        } : {})
+        targets: [
+          folders.dist
+        ]
       },
       htmlTemplateConfig: {
         template: files.src_index,
@@ -98,35 +95,16 @@ export default {
 
     // Serve
     ...(isServe ? [
-      ...defaultServePlugins({
-        serveConfig: {
-          port: 1338,
-          contentBase: folders.dist
-        },
-        livereloadConfig: {
-          watch: folders.dist
-        }
-      })
+        ...defaultServePlugins({
+            dist: folders.dist
+        })
     ] : []),
 
     // Production
     ...(isProd ? [
-      ...defaultProdPlugins({
-        dist: folders.dist,
-        visualizerConfig: {
-          filename: path.join(folders.dist, "stats.html")
-        },
-        licenseConfig: {
-          thirdParty: {
-            output: path.join(folders.dist, "licenses.txt")
-          }
-        }
-      })
-    ] : [])
-  ],
-  external: [
-    ...(isLibrary ? [
-      ...defaultExternals(pkg)
+        ...defaultProdPlugins({
+            dist: folders.dist
+        })
     ] : [])
   ],
   experimentalCodeSplitting: true,

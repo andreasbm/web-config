@@ -33,16 +33,6 @@ export default {
 	],
 	plugins: [
 		...defaultPlugins({
-			replaceConfig: {
-				resources: [
-					(isProd ?
-						[path.resolve(__dirname, "src/demo/env.ts"), path.resolve(__dirname, "src/demo/env.prod.ts")]
-					: [])
-				]
-			},
-			copyConfig: {
-				resources: [[folders.src_assets, folders.dist_assets]]
-			},
 			cleanerConfig: {
 				targets: [
 					folders.dist
@@ -71,6 +61,7 @@ export default {
 				dist: folders.dist
 			})
 		] : [])
+
 	],
 	experimentalCodeSplitting: true,
 	treeshake: isProd,

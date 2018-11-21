@@ -55,8 +55,8 @@
 	"dependencies": {
 		"@types/chai": "^4.1.7",
 		"@types/mocha": "^5.2.5",
-		"@types/node": "^10.12.1",
-		"@wessberg/rollup-plugin-ts": "^1.0.12",
+		"@types/node": "^10.12.9",
+		"@wessberg/rollup-plugin-ts": "^1.1.4",
 		"autoprefixer": "^9.3.1",
 		"babel-core": "^6.26.3",
 		"chai": "^4.2.0",
@@ -66,7 +66,7 @@
 		"esprima": "^4.0.1",
 		"estraverse": "^4.2.0",
 		"fs": "0.0.1-security",
-		"fs-extra": "^7.0.0",
+		"fs-extra": "^7.0.1",
 		"html-minifier": "^3.5.21",
 		"karma": "^3.1.1",
 		"karma-chai": "^0.1.0",
@@ -78,10 +78,10 @@
 		"mocha": "^5.2.0",
 		"node-sass": "^4.10.0",
 		"path": "^0.12.7",
-		"postcss": "^7.0.5",
+		"postcss": "^7.0.6",
 		"precss": "^3.1.2",
 		"recursive-readdir-sync": "^1.0.6",
-		"rollup": "^0.66.6",
+		"rollup": "^0.67.3",
 		"rollup-plugin-cleaner": "^0.2.0",
 		"rollup-plugin-commonjs": "^9.2.0",
 		"rollup-plugin-filesize": "^5.0.1",
@@ -94,11 +94,11 @@
 		"rollup-plugin-visualizer": "^0.9.2",
 		"rollup-pluginutils": "^2.3.3",
 		"targz": "^1.0.1",
-		"typescript": "^3.1.5",
+		"typescript": "^3.1.6",
 		"workbox-build": "^3.6.3"
 	},
 	"devDependencies": {
-		"@polymer/lit-element": "^0.6.2",
-		"lit-html": "^0.12.0"
+		"@polymer/lit-element": "^0.6.3",
+		"lit-html": "^0.13.0"
 	}
 }

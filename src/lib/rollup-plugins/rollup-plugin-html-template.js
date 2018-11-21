@@ -56,7 +56,7 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose, i
 
 			// Error handling
 			if (verbose && fileNames.length === 0) {
-				console.log(colors.yellow(`[htmlTemplate] - No files were included in the "${target}" file. Make sure to specify the files that should be included using the include option. Currently the include option has been set to "${include}" and the exclude option to "${exclude}". The filenames passed to the plugin are "${unfilteredFilenames.join(", ")}"\n`));
+				console.log(colors.yellow(`[htmlTemplate] - No scripts were injected into the "${target}" template file. Make sure to specify the files that should be injected using the include option. Currently the include option has been set to "${include}" and the exclude option to "${exclude}". The filenames passed to the plugin are "${unfilteredFilenames.join(", ")}"\n`));
 			}
 
 			// TODO: Make it so the script type is based on the module type (eg. type="module", type="text/javascript" nomodule etc).
