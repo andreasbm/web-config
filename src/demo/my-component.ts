@@ -1,7 +1,7 @@
-import { customElement, html, LitElement } from "@polymer/lit-element";
+import { customElement, html, LitElement } from "lit-element";
 import css from "./my-component.scss";
 
-@customElement("my-component" as any)
+@customElement("my-component")
 export class MyComponent extends LitElement {
 	render () {
 		return html`

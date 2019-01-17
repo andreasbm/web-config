@@ -98,7 +98,7 @@
 		"workbox-build": "^3.6.3"
 	},
 	"devDependencies": {
-		"@polymer/lit-element": "^0.6.3",
+		"lit-element": "^2.0.0-rc.2",
 		"lit-html": "^0.13.0"
 	}
 }
