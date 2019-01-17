@@ -14,7 +14,8 @@ const defaultConfig = {
 /**
  * Plugin that copies resources.
  * @param config
- * @returns {{name: string, ongenerate(): Promise<void>}}
+ * @param config
+ * @returns {{name: string, generateBundle: generateBundle}}
  */
 export function copy (config) {
 	const {resources, verbose, overwriteFolder} = {...defaultConfig, ...config};

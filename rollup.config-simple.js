@@ -63,7 +63,6 @@ export default {
 		] : [])
 
 	],
-	experimentalCodeSplitting: true,
 	treeshake: isProd,
 	context: "window"
 }

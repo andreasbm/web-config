@@ -29,11 +29,14 @@ export const defaultKarmaConfig = ({files, mime, preprocessors, browsers, karmaP
 			 * Make sure to disable Karma’s file watcher
 			 * because the preprocessor will use its own.
 			 */
-			{pattern: "**/*.test.{ts,js}", watched: false},
-			...(files || [])
+			{pattern: "**/*.test.{ts,js}", watched: false}
 		],
 		preprocessors: {
-			"**/*.test.{ts,js}": ["rollup"],
+			/**
+			 * Changes the below line from "**\/*.test.+(ts,js)" to "**\/*.test.+(ts,js)"
+			 * https://stackoverflow.com/questions/24220888/error-you-need-to-include-some-adapter-that-implements-karma-start-method
+			 * */
+			"**/*.test.+(ts,js)": ["rollup"],
 			...(preprocessors || {})
 		},
 		rollupPreprocessor: {
