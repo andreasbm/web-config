@@ -22,7 +22,10 @@ const defaultConfig = {
 
 	// Configuration objects for sass and postcss
 	postcssConfig: {},
-	sassConfig: {}
+	sassConfig: {},
+
+	transformDefault: transformDefault,
+	transformGlobal: transformGlobal
 };
 
 /**
@@ -30,7 +33,7 @@ const defaultConfig = {
  * @param css
  * @returns {string}
  */
-function exportDefaultOverwrite (css) {
+function transformDefault (css) {
 	return `export default \`${css}\``;
 }
 
@@ -39,7 +42,7 @@ function exportDefaultOverwrite (css) {
  * @param css
  * @returns {string}
  */
-function exportGlobalOverwrite (css) {
+function transformGlobal (css) {
 	return `
 		const css = \`${css}\`;
 		const $styles = document.createElement("style");
@@ -110,7 +113,7 @@ function processFile ({data, id, processor, overwrite, postcssConfig, sassConfig
  * @returns {{name: string, resolveId: resolveId, transform: transform}}
  */
 export function importStyles (config = defaultConfig) {
-	const {plugins, extensions, globals, postcssConfig, sassConfig} = {...defaultConfig, ...config};
+	const {plugins, extensions, globals, postcssConfig, sassConfig, transformDefault, transformGlobal} = {...defaultConfig, ...config};
 
 	// Determines whether the file should be handled by the plugin or not.
 	const filter = (id) => extensions.find(ext => id.endsWith(ext)) != null;
@@ -129,7 +132,7 @@ export function importStyles (config = defaultConfig) {
 		},
 		transform: (data, id) => {
 			if (!filter(id)) return;
-			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: isGlobal(id) ? exportGlobalOverwrite : exportDefaultOverwrite});
+			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: isGlobal(id) ? transformGlobal : transformDefault});
 		}
 	}
 }
