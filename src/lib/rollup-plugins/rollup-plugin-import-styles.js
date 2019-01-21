@@ -24,9 +24,19 @@ const defaultConfig = {
 	postcssConfig: {},
 	sassConfig: {},
 
-	transformDefault: transformDefault,
-	transformGlobal: transformGlobal
+	// Transform function for the styles
+	transform: defaultTransform
 };
+
+/**
+ * Default transform.
+ * @param id
+ * @param isGlobal
+ * @returns {function(*): string}
+ */
+function defaultTransform (id, isGlobal) {
+	return isGlobal ? transformGlobal : transformDefault;
+}
 
 /**
  * Overwrites the css file with "export default".
@@ -113,7 +123,7 @@ function processFile ({data, id, processor, overwrite, postcssConfig, sassConfig
  * @returns {{name: string, resolveId: resolveId, transform: transform}}
  */
 export function importStyles (config = defaultConfig) {
-	const {plugins, extensions, globals, postcssConfig, sassConfig, transformDefault, transformGlobal} = {...defaultConfig, ...config};
+	const {plugins, extensions, globals, postcssConfig, sassConfig, transform} = {...defaultConfig, ...config};
 
 	// Determines whether the file should be handled by the plugin or not.
 	const filter = (id) => extensions.find(ext => id.endsWith(ext)) != null;
@@ -132,7 +142,7 @@ export function importStyles (config = defaultConfig) {
 		},
 		transform: (data, id) => {
 			if (!filter(id)) return;
-			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: isGlobal(id) ? transformGlobal : transformDefault});
+			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: transform(id, isGlobal(id))});
 		}
 	}
 }
