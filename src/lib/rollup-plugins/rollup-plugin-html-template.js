@@ -16,11 +16,31 @@ const defaultConfig = {
 	// The target destination for the generated file
 	target: null,
 
+	// Transforms the template
+	transform: defaultTransform,
+
 	verbose: true,
 	include: [],
 	exclude: [],
 	scriptType: "module"
 };
+
+/**
+ * Transform the template and inserts a script tag for each file.
+ * Injects the script tags before the body close tag.
+ * @param template
+ * @param bodyCloseTagIndex
+ * @param fileNames
+ * @param scriptType
+ * @returns {string}
+ */
+function defaultTransform (template, bodyCloseTagIndex, fileNames, scriptType) {
+	return [
+		template.slice(0, bodyCloseTagIndex),
+		...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
+		template.slice(bodyCloseTagIndex, template.length)
+	].join('');
+}
 
 /**
  * Injects the sources for the bundle entrypoints and generates a HTML file.
@@ -33,9 +53,10 @@ const defaultConfig = {
  * @param verbose
  * @param include
  * @param exclude
+ * @param transform
  * @returns {Promise<any>}
  */
-function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude}) {
+function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude, transform}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -59,14 +80,8 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose, i
 				console.log(colors.yellow(`[htmlTemplate] - No scripts were injected into the "${target}" template file. Make sure to specify the files that should be injected using the include option. Currently the include option has been set to "${include}" and the exclude option to "${exclude}". The filenames passed to the plugin are "${unfilteredFilenames.join(", ")}"\n`));
 			}
 
-			// TODO: Make it so the script type is based on the module type (eg. type="module", type="text/javascript" nomodule etc).
-
-			// Inject the script tag before the body close tag.
-			const html = [
-				template.slice(0, bodyCloseTagIndex),
-				...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
-				template.slice(bodyCloseTagIndex, template.length)
-			].join('');
+			// Transform the template
+			const html = transform(template, bodyCloseTagIndex, fileNames, scriptType);
 
 			// Write the injected template to a file.
 			try {
@@ -86,7 +101,7 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose, i
  * @returns {{name: string, generateBundle: (function(*, *, *): Promise<any>)}}
  */
 export function htmlTemplate (config = defaultConfig) {
-	const {template, target, include, exclude, scriptType, verbose} = {...defaultConfig, ...config};
+	const {template, target, include, exclude, scriptType, verbose, transform} = {...defaultConfig, ...config};
 	const filter = createFilter(include, exclude);
 
 	// Throw error if neither the template nor the target has been defined
@@ -98,7 +113,7 @@ export function htmlTemplate (config = defaultConfig) {
 		name: 'htmlTemplate',
 		generateBundle: (outputOptions, bundle, isWrite) => {
 			if (!isWrite) return;
-			return generateFile({bundle, template, target, filter, scriptType, verbose, include, exclude});
+			return generateFile({bundle, template, target, filter, scriptType, verbose, include, exclude, transform});
 		},
 	}
 }
