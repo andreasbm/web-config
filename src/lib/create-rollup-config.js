@@ -14,7 +14,7 @@ import serve from 'rollup-plugin-serve'
 import {terser} from "rollup-plugin-terser";
 import visualizer from 'rollup-plugin-visualizer';
 import {copy} from './rollup-plugins/rollup-plugin-copy'
-import {gzip} from "./rollup-plugins/rollup-plugin-gzip";
+import {compress} from "./rollup-plugins/rollup-plugin-compress";
 import {htmlTemplate} from "./rollup-plugins/rollup-plugin-html-template";
 import {importStyles} from "./rollup-plugins/rollup-plugin-import-styles";
 import {livereload} from './rollup-plugins/rollup-plugin-livereload'
@@ -22,9 +22,9 @@ import {minifyLitHTML} from "./rollup-plugins/rollup-plugin-minify-lit-html";
 import {replace} from "./rollup-plugins/rollup-plugin-replace";
 
 // Information about the environment.
-export const isProd = process.env.NODE_ENV === "prod";
-export const isDev = process.env.NODE_ENV === "dev";
-export const isLibrary = process.env.NODE_ENV === "library";
+export const isProd = process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production";
+export const isDev = process.env.NODE_ENV === "dev" || process.env.NODE_ENV === "development";
+export const isLibrary = process.env.NODE_ENV === "lib" || process.env.NODE_ENV === "library";
 export const isServe = process.env.ROLLUP_WATCH || false;
 
 /**
@@ -170,7 +170,7 @@ export const defaultServePlugins = ({dist, serveConfig, livereloadConfig} = {}) 
 /**
  * Default plugins that only run when the bundle is being created in prod mode.
  */
-export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, filesizeConfig, visualizerConfig, gzipConfig} = {}) => [
+export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, filesizeConfig, visualizerConfig, gzipConfig: compressConfig} = {}) => [
 
 	// Minifies the lit-html files
 	minifyLitHTML({
@@ -179,8 +179,7 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 
 	// Collects all the license files
 	license({
-		sourceMap: true,
-		includePrivate: true,
+		sourcemap: true,
 		...(dist != null ? {thirdParty: {output: path.join(dist, "licenses.txt")}} : {}),
 		...configOrDefault(licenseConfig)
 	}),
@@ -202,9 +201,9 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 		...configOrDefault(visualizerConfig)
 	}),
 
-	// Gzips all of the files
-	gzip({
-		...configOrDefault(gzipConfig)
+	// Compresses all of the files
+	compress({
+		...configOrDefault(compressConfig)
 	})
 ];
 
