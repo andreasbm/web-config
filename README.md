@@ -17,7 +17,7 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A Rollup plugin that minifies the html from files using the `lit-html` library
 - A Rollup plugin that helps with copying files
 - A Rollup plugin that helps with replacing imports
-- A Rollup plugin that helps with compressing files
+- A Rollup plugin that helps with compressing files (gzip and brotli)
 - A Rollup plugin to uses Workbox to generate a Service Worker
 - An extensible `create-karma-config.js` to help with your Karma testing setup
 - A `tsconfig.json` file to configure your Typescript
@@ -226,12 +226,12 @@ copy({
 
 ```
 
-### `rollup-plugin-gzip`
+### `rollup-plugin-compress`
 
 Compresses all of the files in the build directory.
 
 ```javascript
-gzip()
+compress()
 ```
 
 ### `rollup-plugin-html-template`

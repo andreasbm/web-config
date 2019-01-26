@@ -66,7 +66,7 @@ export const defaultOutputConfig = (config = {}) => {
  **/
 export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveConfig, tsConfig, commonjsConfig, replaceConfig} = {}) => [
 
-	// Replaces files
+	// Teaches Rollup what files should be replaced
 	replace({
 		...configOrDefault(replaceConfig)
 	}),
