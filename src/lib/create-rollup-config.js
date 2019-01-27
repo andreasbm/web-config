@@ -87,9 +87,17 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 		...configOrDefault(importStylesConfig)
 	}),
 
+	// Teaches Rollup how to import json files
+	json({
+		preferConst: true,
+		compact: true,
+		...configOrDefault(jsonConfig)
+	}),
+
 	// Teaches Rollup how to transpile Typescript
 	// https://github.com/wessberg/rollup-plugin-ts
 	ts({
+		transpiler: "babel",
 		...configOrDefault(tsConfig)
 	}),
 
@@ -97,13 +105,6 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 	commonjs({
 		include: "**/node_modules/**",
 		...configOrDefault(commonjsConfig)
-	}),
-
-	// Teaches Rollup how to import json files
-	json({
-		preferConst: true,
-		compact: true,
-		...configOrDefault(jsonConfig)
 	})
 ];
 
