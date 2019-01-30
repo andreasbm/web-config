@@ -17,7 +17,7 @@ const defaultConfig = {
 	target: null,
 
 	// Transforms the template
-	transform: defaultTransform,
+	transform: transformTemplate,
 
 	verbose: true,
 	include: [],
@@ -34,7 +34,7 @@ const defaultConfig = {
  * @param scriptType
  * @returns {string}
  */
-function defaultTransform (template, bodyCloseTagIndex, fileNames, scriptType) {
+function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType}) {
 	return [
 		template.slice(0, bodyCloseTagIndex),
 		...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
@@ -81,7 +81,7 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose, i
 			}
 
 			// Transform the template
-			const html = transform(template, bodyCloseTagIndex, fileNames, scriptType);
+			const html = transform({template, bodyCloseTagIndex, fileNames, scriptType});
 
 			// Write the injected template to a file.
 			try {
@@ -110,7 +110,7 @@ export function htmlTemplate (config = defaultConfig) {
 	}
 
 	return {
-		name: 'htmlTemplate',
+		name: "htmlTemplate",
 		generateBundle: (outputOptions, bundle, isWrite) => {
 			if (!isWrite) return;
 			return generateFile({bundle, template, target, filter, scriptType, verbose, include, exclude, transform});

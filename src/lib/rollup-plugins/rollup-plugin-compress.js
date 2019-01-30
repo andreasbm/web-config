@@ -5,19 +5,14 @@ import readdir from "recursive-readdir-sync";
 import {createFilter} from 'rollup-pluginutils';
 import targz from "targz";
 
-// Types of compression algorithms
-const Algorithm = {
-	GZIP: "gzip",
-	BROTLI: "brotli"
-};
-
 const defaultConfig = {
 	verbose: true,
-	gzipOptions: {},
-	brotliOptions: {},
 	include: [],
 	exclude: [],
-	algorithms: [Algorithm.GZIP, Algorithm.BROTLI],
+	compressors: [
+		compressGzip,
+		compressBrotli
+	],
 
 	// We need a timeout to make sure all files have been bundled
 	timeout: 2000
@@ -29,11 +24,10 @@ const defaultConfig = {
  * @param gzipOptions
  * @param verbose
  */
-function compressGzip ({src, gzipOptions, verbose}) {
+export function compressGzip ({src, verbose, options}) {
 	const dest = `${src}.gz`;
 	targz.compress({
-		src, dest,
-		...gzipOptions
+		src, dest, ...(options || {})
 	}, ex => {
 		if (verbose && ex != null) {
 			console.log(colors.yellow(`[gzip] - Could not compress "${src}" to "${dest}"\n`, ex));
@@ -44,11 +38,11 @@ function compressGzip ({src, gzipOptions, verbose}) {
 /**
  * Compresses a file using brotli.
  * @param src
- * @param brotliOptions
  * @param verbose
+ * @param options
  */
-function compressBrotli ({src, brotliOptions, verbose}) {
-	const buffer = brotli.compress(fse.readFileSync(src), brotliOptions);
+export function compressBrotli ({src, verbose, options}) {
+	const buffer = brotli.compress(fse.readFileSync(src), options);
 	const dest = `${src}.br`;
 
 	fse.appendFile(dest, buffer, (ex) => {
@@ -64,7 +58,7 @@ function compressBrotli ({src, brotliOptions, verbose}) {
  * @returns {{name: string, generateBundle: generateBundle}}
  */
 export function compress (config) {
-	const {verbose, dir, timeout, algorithms, gzipOptions, brotliOptions, include, exclude} = {...defaultConfig, ...config};
+	const {verbose, dir, timeout, compressors, include, exclude} = {...defaultConfig, ...config};
 	const filter = createFilter(include, exclude);
 
 	return {
@@ -82,8 +76,9 @@ export function compress (config) {
 
 				// Compress all files
 				for (const src of files) {
-					if (algorithms.indexOf(Algorithm.GZIP) >= 0) compressGzip({src, gzipOptions, verbose});
-					if (algorithms.indexOf(Algorithm.BROTLI) >= 0) compressBrotli({src, verbose, brotliOptions});
+					for (const compress of compressors) {
+						compress({src, verbose});
+					}
 				}
 
 				// Tell the user that everything went fine

@@ -25,16 +25,16 @@ const defaultConfig = {
 	sassConfig: {},
 
 	// Transform function for the styles
-	transform: defaultTransform
+	transform: transformImport
 };
 
 /**
  * Default transform.
  * @param id
  * @param isGlobal
- * @returns {function(*): string}
+ * @returns {function(css: string): string}
  */
-function defaultTransform (id, isGlobal) {
+function transformImport ({id, isGlobal}) {
 	return isGlobal ? transformGlobal : transformDefault;
 }
 
@@ -135,14 +135,14 @@ export function importStyles (config = defaultConfig) {
 	const processor = postcss(plugins);
 
 	return {
-		name: 'importStyles',
+		name: "importStyles",
 		resolveId: (id, importer) => {
 			if (!importer || !filter(id)) return;
 			return path.resolve(path.dirname(importer), id);
 		},
 		transform: (data, id) => {
 			if (!filter(id)) return;
-			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: transform(id, isGlobal(id))});
+			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: transform({id, isGlobal: isGlobal(id)})});
 		}
 	}
 }

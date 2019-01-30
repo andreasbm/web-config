@@ -35,7 +35,7 @@ export function livereload (config) {
 	attachTerminationListeners(server);
 
 	return {
-		name: 'livereload',
+		name: "livereload",
 		banner: () => livereloadHtml(port),
 		generateBundle: () => {
 			if (verbose) {
@@ -49,7 +49,7 @@ export function livereload (config) {
  * Returns the livereload html.
  */
 function livereloadHtml (port) {
-	return `/* Livereload */
+	return `/* Inserted by the Livereload plugin */
 	if (typeof document !== 'undefined') {
 		(function(doc, id) {
 		
