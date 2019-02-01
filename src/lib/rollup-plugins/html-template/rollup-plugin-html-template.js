@@ -96,7 +96,7 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose, i
 }
 
 /**
- * A rollup plugin that injects the bundle entry points into a HTML file.
+ * A Rollup plugin that injects the bundle entry points into a HTML file.
  * @param config
  * @returns {{name: string, generateBundle: (function(*, *, *): Promise<any>)}}
  */

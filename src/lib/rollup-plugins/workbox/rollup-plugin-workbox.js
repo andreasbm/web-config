@@ -27,7 +27,7 @@ function workboxFactory (mode) {
 }
 
 /**
- * A rollup plugin that uses workbox to generate a service worker.
+ * A Rollup plugin that uses workbox to generate a service worker.
  * @param config
  * @returns {{name: string, generateBundle: generateBundle}}
  */

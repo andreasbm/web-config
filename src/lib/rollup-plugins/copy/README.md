@@ -1,6 +1,6 @@
 # rollup-plugin-copy
 
-A rollup plugin that copies resources from one location to another.
+A Rollup plugin that copies resources from one location to another.
 
 ## Usage
 

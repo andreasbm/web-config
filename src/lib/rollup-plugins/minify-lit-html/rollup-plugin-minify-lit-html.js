@@ -141,7 +141,7 @@ function processFile ({code, id, config}) {
 }
 
 /**
- * A rollup plugin that minifies lit-html templates.
+ * A Rollup plugin that minifies lit-html templates.
  * @param config
  * @returns {{name: string, resolveId: (function(*=, *=): *), transform: (function(*, *=): Promise<void>)}}
  */

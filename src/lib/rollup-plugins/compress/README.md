@@ -1,6 +1,6 @@
 # rollup-plugin-compress
 
-A rollup plugin that compresses the files in the bundle after building.
+A Rollup plugin that compresses the files in the bundle after building.
 
 ## Usage
 

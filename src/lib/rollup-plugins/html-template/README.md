@@ -1,6 +1,6 @@
 # rollup-plugin-html-template
 
-A rollup plugin that injects the bundle entry points into a HTML file.
+A Rollup plugin that injects the bundle entry points into a HTML file.
 
 ## Usage
 

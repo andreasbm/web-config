@@ -75,7 +75,7 @@ function killServer (server) {
 }
 
 /**
- * A rollup plugin that live reload files as they changes.
+ * A Rollup plugin that live reload files as they changes.
  * @param config
  * @returns {*}
  */

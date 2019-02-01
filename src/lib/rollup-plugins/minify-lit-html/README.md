@@ -1,6 +1,6 @@
 # rollup-plugin-minify-lit-html
 
-A rollup plugin that minifies lit-html templates.
+A Rollup plugin that minifies lit-html templates.
 
 ## Usage
 

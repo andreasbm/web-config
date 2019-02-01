@@ -1,6 +1,6 @@
 # rollup-plugin-replace
 
-A rollup plugin that replaces an import with another import.
+A Rollup plugin that replaces an import with another import.
 
 ## Usage
 

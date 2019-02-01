@@ -1,6 +1,6 @@
 # rollup-plugin-import-styles
 
-A rollup plugin that makes it possible to import style files using postcss. Works with "import css from 'styles.scss'" and "import 'styles.scss'" syntax as default.
+A Rollup plugin that makes it possible to import style files using postcss. Works with "import css from 'styles.scss'" and "import 'styles.scss'" syntax as default.
 
 ## Usage
 

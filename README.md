@@ -8,25 +8,23 @@
 
 ## What is this?
 
-This is an opinionated simple configuration I sometimes use when getting started with new web applications (usually using the lit-html/lit-element library). I wanted to share it, maybe it can give you some inspiration. It contains the following:
+This is an opinionated simple configuration I use when getting started with new web applications (i typically use `lit-html` and `lit-element`). I wanted to share it so you can use it too or build on top of it. This repository contains the following:
 
-- An extensible `create-rollup-config.js` for using Rollup with SCSS, single-page webapp, chunking, treeshaking, typescript, production minifying etc
-- A Rollup plugin to inject the entry files into an `index.html` file
-- A Rollup plugin to load style files using the ES6 import syntax
-- A Rollup plugin to enables livereload
-- A Rollup plugin that minifies the html from files using the `lit-html` library
-- A Rollup plugin that helps with copying files
-- A Rollup plugin that helps with replacing imports
-- A Rollup plugin that helps with compressing files (gzip and brotli)
-- A Rollup plugin to uses Workbox to generate a Service Worker
+- An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, service workers generation with workbox, live reloading, coping resources, chunking, treeshaking, typescript, minifying, compression with brotli and gzip
 - An extensible `create-karma-config.js` to help with your Karma testing setup
 - A `tsconfig.json` file to configure your Typescript
 - A `tslint.json` file to configure your linting
-- A `typings.d.ts` file you can use as inspiration for your own `typings.d.ts` file
+- A `typings.d.ts` file to configure your typings
 - A `.browserslistrc` file to configure how your files are transpiled
-- A `.gitignore` file you can use as inspiration for your own `.gitignore` file
-
-- [`rollup-plugin-compress` A rollup plugin that compresses the files in the bundle after building](src/lib/rollup-plugins)
+- A `.gitignore` file you can use as inspiration for your own `.gitignore` file 
+- [`rollup-plugin-compress` - A Rollup plugin that compresses the files in the bundle after building](src/lib/rollup-plugins/compress)
+- [`rollup-plugin-copy` - A Rollup plugin that copies resources from one location to another](src/lib/rollup-plugins/copy)
+- [`rollup-plugin-html-template` - A Rollup plugin that injects the bundle entry points into a HTML file](src/lib/rollup-plugins/html-template)
+- [`rollup-plugin-import-styles` - A Rollup plugin that makes it possible to import style files using postcss](src/lib/rollup-plugins/import-styles)
+- [`rollup-plugin-live-reload` - A Rollup plugin that live reload files as they changes](src/lib/rollup-plugins/live-reload)
+- [`rollup-plugin-minify-lit-html` - A Rollup plugin that minifies lit-html templates](src/lib/rollup-plugins/minify-lit-html)
+- [`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)
+- [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 
 ## Step 1 - Install the dependency
 
@@ -201,9 +199,11 @@ import "./main.scss";
 export default {
   ...
     defaultPlugins({
-     ...
-     scssGlobals: ["main.scss"]
-     ...
+       ...
+       importStylesConfig: {
+         globals: ["main.scss"]
+       },
+       ...
     }),
   ...
 }
@@ -214,105 +214,6 @@ export default {
 ```javascript
 import css from "./my-component.scss";
 ```
-
-## Rollup plugins
-
-### `rollup-plugin-copy`
-
-Copies files from one path to another.
-
-```javascript
-copy({
-  resources: [["./src/assets", "./dist/assets"]]
-}),
-
-```
-
-### `rollup-plugin-compress`
-
-Compresses all of the files in the build directory.
-
-```javascript
-compress()
-```
-
-### `rollup-plugin-html-template`
-
-Injects script tags with the entry files from the bundle into a html file. In the below example the file that matches the include regex will be included in the resulting html file.
-
-```javascript
-htmlTemplate({
-  template: "./src/index.html",
-  target: "./dist/index.html",
-  include: /main(-.*)?\.js$/
-})
-```
-
-### `rollup-plugin-import-styles`
-
-Makes it possible to import style files using es6 imports. The stylesheets are processed with postcss. In the example below, the `main.scss` file is appended to the document as a stylesheet, where other imports are imported as strings.
-
-```javascript
-importStyles({
-  plugins: [
-    precss(),
-    autoprefixer(),
-    cssnano()
-  ],
-  globals: ["main.scss"]
-}),
-```
-
-### `rollup-plugin-livereload`
-
-Enables livereload when files changes.
-
-```javascript
-livereload({
-  watch: "./dist"
-})
-```
-
-### `rollup-plugin-minify-lit-html`
-
-Minifies the html used within the lit-html `html` tagged templates.
-
-```javascript
-minifyLitHTML()
-```
-
-### `rollup-plugin-replace`
-
-Replaces files.
-
-```javascript
-replace({
-  resources: [["./src/env.ts", "./src/env.prod.ts"]]
-})
-```
-
-### `rollup-plugin-workbox`
-
-Creates a service worker.
-
-```javascript
-workbox({
-  mode: "injectManifest",
-  workboxConfig: {
-    swSrc: "./src/sw-config.js",
-    swDest: './dist/sw.js',
-    globDirectory: './dist',
-    globPatterns: ["./dist/**/*.{js,css,html,png}"]
-  }
-})
-```
-
-## Future work
-
-Future work involves making the configuration more customizable.
-
-* Document and add tests for the rollup plugins
-* Move the rollup plugins to its own packages
 
 ## 🎉 License
 

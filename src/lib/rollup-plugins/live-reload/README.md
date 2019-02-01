@@ -1,6 +1,6 @@
-# rollup-plugin-love-reload
+# rollup-plugin-live-reload
 
-A rollup plugin that live reload files as they changes.
+A Rollup plugin that live reload files as they changes.
 
 ## Usage
 

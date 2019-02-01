@@ -1,6 +1,6 @@
 # rollup-plugin-workbox
 
-A rollup plugin that uses workbox to generate a service worker.
+A Rollup plugin that uses workbox to generate a service worker.
 
 ## Usage
 
