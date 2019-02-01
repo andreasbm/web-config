@@ -26,6 +26,8 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A `.browserslistrc` file to configure how your files are transpiled
 - A `.gitignore` file you can use as inspiration for your own `.gitignore` file
 
+- [`rollup-plugin-compress` A rollup plugin that compresses the files in the bundle after building](src/lib/rollup-plugins)
+
 ## Step 1 - Install the dependency
 
 ```javascript
