@@ -14,7 +14,7 @@ Option   |   Type        |    Description     |    Default
 
 ### Example
 
-```js
+```JavaScript
 import {copy} from ""@appnest/web-config";
 
 export default {
