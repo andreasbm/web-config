@@ -6,7 +6,7 @@
 <a href="https://github.com/andreasbm/web-config/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/andreasbm/web-config.svg" height="20"></img></a>
 <a href="https://opensource.org/licenses/MIT"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-yellow.svg" height="20"></img></a>
 
-## 🤔 What is this?
+## What is this?
 
 This is an opinionated simple configuration I sometimes use when getting started with new web applications (usually using the lit-html/lit-element library). I wanted to share it, maybe it can give you some inspiration. It contains the following:
 
@@ -26,13 +26,13 @@ This is an opinionated simple configuration I sometimes use when getting started
 - A `.browserslistrc` file to configure how your files are transpiled
 - A `.gitignore` file you can use as inspiration for your own `.gitignore` file
 
-## Step 👆 - Install the dependency
+## Step 1 - Install the dependency
 
 ```javascript
 npm i @appnest/web-config --save-dev
 ```
 
-## Step ✌️ - Setup `rollup.config.js`
+## Step 2 - Setup `rollup.config.js`
 
 Here's an example on what your Rollup configuration file could look like:
 
@@ -112,7 +112,7 @@ export default {
 }
 ```
 
-## Step 🤟 - Setup `tslint.json`
+## Step 3 - Setup `tslint.json`
 
 ```json
 {
@@ -120,7 +120,7 @@ export default {
 }
 ```
 
-## Step 🖖 - Setup `tsconfig.json`
+## Step 4 - Setup `tsconfig.json`
 
 ```json
 {
@@ -128,7 +128,7 @@ export default {
 }
 ```
 
-## Step 🖐 - Setup `.browserslistrc`
+## Step 5 - Setup `.browserslistrc`
 
 The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
 
@@ -138,7 +138,7 @@ last 2 Safari versions
 last 2 Firefox versions
 ```
 
-## Step 🖐👆 - Setup `karma.conf.js`
+## Step 6 - Setup `karma.conf.js`
 
 It is now time to add the testing setup.
 
@@ -156,7 +156,7 @@ module.exports = (config) => {
 };
 ```
 
-## Step 🖐✌️ - Add start and build scripts to `package.json`
+## Step 7 - Add start and build scripts to `package.json`
 
 Here an example on what scripts you could add to your `package.json` file.
 
@@ -175,7 +175,7 @@ Here an example on what scripts you could add to your `package.json` file.
 }
 ```
 
-## 🖌 How to load stylesheets
+## How to load stylesheets
 
 ### Add the following to your `typings.d.ts` file!
 
@@ -213,7 +213,7 @@ export default {
 import css from "./my-component.scss";
 ```
 
-## 💥 Rollup plugins
+## Rollup plugins
 
 ### `rollup-plugin-copy`
 

@@ -4,7 +4,7 @@ import * as estraverse from "estraverse";
 import * as htmlMinifier from "html-minifier";
 import path from "path";
 import {createFilter} from "rollup-pluginutils";
-import {emptySourcemap} from "./util.js";
+import {emptySourcemap} from "../util.js";
 import colors from "colors";
 
 /**

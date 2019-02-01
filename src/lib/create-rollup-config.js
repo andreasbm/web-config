@@ -13,13 +13,13 @@ import progress from 'rollup-plugin-progress';
 import serve from 'rollup-plugin-serve'
 import {terser} from "rollup-plugin-terser";
 import visualizer from 'rollup-plugin-visualizer';
-import {copy} from './rollup-plugins/rollup-plugin-copy'
-import {compress} from "./rollup-plugins/rollup-plugin-compress";
-import {htmlTemplate} from "./rollup-plugins/rollup-plugin-html-template";
-import {importStyles} from "./rollup-plugins/rollup-plugin-import-styles";
-import {livereload} from './rollup-plugins/rollup-plugin-livereload'
-import {minifyLitHTML} from "./rollup-plugins/rollup-plugin-minify-lit-html";
-import {replace} from "./rollup-plugins/rollup-plugin-replace";
+import {copy} from './rollup-plugins/copy/rollup-plugin-copy'
+import {compress} from "./rollup-plugins/compress/rollup-plugin-compress";
+import {htmlTemplate} from "./rollup-plugins/html-template/rollup-plugin-html-template";
+import {importStyles} from "./rollup-plugins/import-styles/rollup-plugin-import-styles";
+import {livereload} from './rollup-plugins/live-reload/rollup-plugin-livereload'
+import {minifyLitHTML} from "./rollup-plugins/minify-lit-html/rollup-plugin-minify-lit-html";
+import {replace} from "./rollup-plugins/replace/rollup-plugin-replace";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production";

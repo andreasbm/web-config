@@ -8,7 +8,7 @@ import colors from "colors";
 const defaultConfig = {
 	resources: [],
 	verbose: true,
-	overwriteFolder: true
+	overwrite: true
 };
 
 /**
@@ -18,7 +18,7 @@ const defaultConfig = {
  * @returns {{name: string, generateBundle: generateBundle}}
  */
 export function copy (config) {
-	const {resources, verbose, overwriteFolder} = {...defaultConfig, ...config};
+	const {resources, verbose, overwrite} = {...defaultConfig, ...config};
 
 	return {
 		name: "copy",
@@ -26,7 +26,7 @@ export function copy (config) {
 			if (!isWrite) return;
 			for (const [from, to] of resources) {
 				try {
-					if (overwriteFolder || !fse.existsSync(to)) {
+					if (overwrite || !fse.existsSync(to)) {
 						await fse.copy(from, to);
 					}
 				} catch (ex) {

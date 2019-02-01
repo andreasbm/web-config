@@ -1,7 +1,7 @@
 import MagicString from "magic-string";
 import path from "path";
 import postcss from "postcss";
-import {emptySourcemap} from "./util.js";
+import {emptySourcemap} from "../util.js";
 import sass from "node-sass";
 import {resolve} from "path";
 
@@ -34,7 +34,7 @@ const defaultConfig = {
  * @param isGlobal
  * @returns {function(css: string): string}
  */
-function transformImport ({id, isGlobal}) {
+function transformImport (id, isGlobal) {
 	return isGlobal ? transformGlobal : transformDefault;
 }
 
@@ -142,7 +142,7 @@ export function importStyles (config = defaultConfig) {
 		},
 		transform: (data, id) => {
 			if (!filter(id)) return;
-			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: transform({id, isGlobal: isGlobal(id)})});
+			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: transform(id, isGlobal(id))});
 		}
 	}
 }
