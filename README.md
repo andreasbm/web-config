@@ -8,9 +8,9 @@
 
 ## What is this?
 
-This is an opinionated simple configuration I use when getting started with new web applications (i typically use `lit-html` and `lit-element`). I wanted to share it so you can use it too or build on top of it. This repository contains the following:
+This is an opinionated Rollup configuration I use when getting started with new web applications (i typically use `lit-html` and `lit-element`). I wanted to share it so you can use it too or build on top of it. This repository contains the following:
 
-- An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, service workers generation with workbox, live reloading, coping resources, chunking, treeshaking, typescript, minifying, compression with brotli and gzip
+- An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.
 - An extensible `create-karma-config.js` to help with your Karma testing setup
 - A `tsconfig.json` file to configure your Typescript
 - A `tslint.json` file to configure your linting
@@ -29,7 +29,7 @@ This is an opinionated simple configuration I use when getting started with new 
 ## Step 1 - Install the dependency
 
 ```javascript
-npm i @appnest/web-config --save-dev
+npm i @appnest/web-config --D
 ```
 
 ## Step 2 - Setup `rollup.config.js`

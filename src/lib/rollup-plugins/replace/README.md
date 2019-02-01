@@ -8,24 +8,25 @@ A Rollup plugin that replaces an import with another import.
 
 Option   |   Type        |    Description     |    Default
 ---------| --------------| ------------------ | ---------------------------------
-`` | `` |  | ``
-`` | `` |  | ``
-`` | `` |  | ``
-`include` | `Pattern` | Minimatch pattern, or an array of minimatch patterns of files to include. | `[]`
-`exclude` | `Pattern` | Minimatch pattern, or an array of minimatch patterns of files to exclude. | `[]`
+`resources` | `String[][]` | A double array of resources of what imports should be changed. The array `[["env/environment.ts", "env/environment.dev.ts"]]` would make sure that the file `env/environment.dev.ts` is imported instead of `env/environment.ts`. | `[]`
 `verbose` | `Boolean` | Disables or enables logging output to the console. | `true`
 
 ### Example
 
 ```js
-import {} from "@appnest/web-config";
+import {replace} from "@appnest/web-config";
 
 export default {
-  entry: 'src/index.js'
+  entry: "src/index.js"
   output: {
-    dest: 'dist/bundle.js'
+    dest: "dist/bundle.js"
   },
   plugins: [
+    replace({
+      resources: [
+        [path.resolve(__dirname, "src/env.ts"), path.resolve(__dirname, "src/env.prod.ts")]
+      ]
+    }),
   ]
 };
 ```

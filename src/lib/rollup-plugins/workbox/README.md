@@ -8,24 +8,21 @@ A Rollup plugin that uses workbox to generate a service worker.
 
 Option   |   Type        |    Description     |    Default
 ---------| --------------| ------------------ | ---------------------------------
-`` | `` |  | ``
-`` | `` |  | ``
-`` | `` |  | ``
-`include` | `Pattern` | Minimatch pattern, or an array of minimatch patterns of files to include. | `[]`
-`exclude` | `Pattern` | Minimatch pattern, or an array of minimatch patterns of files to exclude. | `[]`
+`mode` | `"injectManifest" | "generateSW"` | The generateSW mode creates a service worker file for you, and writes it out to disk. The injectManifest mode will generate a list of URLs to precache, and add that precache manifest to an existing service worker file. It will otherwise leave the file as-is. Read more [here](https://developers.google.com/web/tools/workbox/modules/workbox-build)  | `"generateSW"`
 `verbose` | `Boolean` | Disables or enables logging output to the console. | `true`
 
 ### Example
 
 ```js
-import {} from "@appnest/web-config";
+import {workbox} from "@appnest/web-config";
 
 export default {
-  entry: 'src/index.js'
+  entry: "src/index.js"
   output: {
-    dest: 'dist/bundle.js'
+    dest: "dist/bundle.js"
   },
   plugins: [
+    workbox()
   ]
 };
 ```

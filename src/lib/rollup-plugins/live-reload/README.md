@@ -8,24 +8,22 @@ A Rollup plugin that live reload files as they changes.
 
 Option   |   Type        |    Description     |    Default
 ---------| --------------| ------------------ | ---------------------------------
-`` | `` |  | ``
-`` | `` |  | ``
-`` | `` |  | ``
-`include` | `Pattern` | Minimatch pattern, or an array of minimatch patterns of files to include. | `[]`
-`exclude` | `Pattern` | Minimatch pattern, or an array of minimatch patterns of files to exclude. | `[]`
+`watch` | `String` | The folder the plugin watches | `"dist"`
+`port` | `Number` | The port the server attaches to | `35729`
 `verbose` | `Boolean` | Disables or enables logging output to the console. | `true`
 
 ### Example
 
 ```js
-import {} from "@appnest/web-config";
+import {livereload} from "@appnest/web-config";
 
 export default {
-  entry: 'src/index.js'
+  entry: "src/index.js"
   output: {
-    dest: 'dist/bundle.js'
+    dest: "dist/bundle.js"
   },
   plugins: [
+    livereload()
   ]
 };
 ```
