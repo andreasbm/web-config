@@ -1,11 +1,11 @@
+import colors from "colors";
 import {createServer} from "livereload";
 import {resolve} from "path";
-import colors from "colors";
 
 /**
  * #########################################
- *  This code is primarily from https://github.com/thgh/rollup-plugin-livereload
- *  I changed the code so it Rollup can also bundle Web Workers by checking whether the document is defined.
+ * Parts of this code is heavily inspired by https://github.com/thgh/rollup-plugin-livereload.
+ * The license has therefore been included.
  * #########################################
  */
 
@@ -18,32 +18,6 @@ const defaultConfig = {
 	port: 35729,
 	verbose: true
 };
-
-
-/**
- * Plugin for livereloading files.
- * @param config
- * @returns {*}
- */
-export function livereload (config) {
-	const {watch, port, verbose} = {...defaultConfig, ...config};
-
-	// Start watching the files
-	const server = createServer({watch, port, verbose});
-	const paths = Array.isArray(watch) ? watch : [watch];
-	server.watch(paths.map(p => resolve(process.cwd(), p)));
-	attachTerminationListeners(server);
-
-	return {
-		name: "livereload",
-		banner: () => livereloadHtml(port),
-		generateBundle: () => {
-			if (verbose) {
-				console.log(colors.green(`[livereload] - Enabled`));
-			}
-		}
-	}
-}
 
 /**
  * Returns the livereload html.
@@ -99,3 +73,29 @@ function killServer (server) {
 	server.close();
 	process.exit();
 }
+
+/**
+ * A rollup plugin that live reload files as they changes.
+ * @param config
+ * @returns {*}
+ */
+export function livereload (config) {
+	const {watch, port, verbose} = {...defaultConfig, ...config};
+
+	// Start watching the files
+	const server = createServer({watch, port, verbose});
+	const paths = Array.isArray(watch) ? watch : [watch];
+	server.watch(paths.map(p => resolve(process.cwd(), p)));
+	attachTerminationListeners(server);
+
+	return {
+		name: "livereload",
+		banner: () => livereloadHtml(port),
+		generateBundle: () => {
+			if (verbose) {
+				console.log(colors.green(`[livereload] - Enabled`));
+			}
+		}
+	}
+}
+

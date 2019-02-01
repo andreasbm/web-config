@@ -7,7 +7,7 @@ const defaultConfig = {
 };
 
 /**
- * Replaces an import with another path.
+ * A rollup plugin that replaces an import with another import.
  * @param config
  * @returns {{name: string, resolveId: resolveId}}
  */

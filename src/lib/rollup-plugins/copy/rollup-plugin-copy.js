@@ -12,7 +12,7 @@ const defaultConfig = {
 };
 
 /**
- * Plugin that copies resources.
+ * A rollup plugin that copies resources from one location to another.
  * @param config
  * @param config
  * @returns {{name: string, generateBundle: generateBundle}}

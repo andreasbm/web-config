@@ -27,12 +27,12 @@ function workboxFactory (mode) {
 }
 
 /**
- * A plugin that uses Workbox to generate a Service Worker.
+ * A rollup plugin that uses workbox to generate a service worker.
  * @param config
  * @returns {{name: string, generateBundle: generateBundle}}
  */
-export function workbox (config, ) {
-	const {workboxConfig, mode, verbose} = {...defaultConfig, ...config};
+export function workbox (config,) {
+	const {workboxConfig, mode, verbose} = {...defaultConfig, ...config};
 
 	// Ensure a workbox config exists
 	if (workboxConfig == null) {

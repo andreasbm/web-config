@@ -53,7 +53,7 @@ export function compressBrotli ({src, verbose, options}) {
 }
 
 /**
- * Compresses all files in the dist folder.
+ * A rollup plugin that compresses the files in the bundle after building.
  * @param config
  * @returns {{name: string, generateBundle: generateBundle}}
  */

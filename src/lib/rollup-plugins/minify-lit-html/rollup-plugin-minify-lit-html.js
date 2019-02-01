@@ -8,6 +8,13 @@ import {emptySourcemap} from "../util.js";
 import colors from "colors";
 
 /**
+ * #########################################
+ * Parts of this code is heavily inspired by https://github.com/edge0701/minify-lit-html-loader.
+ * The license has therefore been included.
+ * #########################################
+ */
+
+/**
  * The default configuration for the minify-lit-html plugin.
  * @type {{include: RegExp[], exclude: Array, esprima: {sourceType: string, loc: boolean, range: boolean}, htmlMinifier: {caseSensitive: boolean, collapseWhitespace: boolean, minifyCSS: boolean, preventAttributesEscaping: boolean, removeComments: boolean, ignoreCustomFragments: RegExp[]}}}
  */
@@ -134,7 +141,7 @@ function processFile ({code, id, config}) {
 }
 
 /**
- * Minifies the html of files using lit-html.
+ * A rollup plugin that minifies lit-html templates.
  * @param config
  * @returns {{name: string, resolveId: (function(*=, *=): *), transform: (function(*, *=): Promise<void>)}}
  */

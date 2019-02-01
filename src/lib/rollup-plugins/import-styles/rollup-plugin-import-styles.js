@@ -117,8 +117,8 @@ function processFile ({data, id, processor, overwrite, postcssConfig, sassConfig
 }
 
 /**
- * A Rollup plugin that makes it possible to import style files using postcss.
- * Looks for the "import css from 'styles.scss'" and "import 'styles.scss'" syntax.
+ * A rollup plugin that makes it possible to import style files using postcss.
+ * Looks for the "import css from 'styles.scss'" and "import 'styles.scss'" syntax as default.
  * @param config
  * @returns {{name: string, resolveId: resolveId, transform: transform}}
  */
