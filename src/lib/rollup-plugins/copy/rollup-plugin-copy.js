@@ -1,5 +1,5 @@
-import fse from "fs-extra";
 import colors from "colors";
+import fse from "fs-extra";
 
 /**
  * Default configuration for the copy plugin.
@@ -18,7 +18,7 @@ const defaultConfig = {
  * @returns {{name: string, generateBundle: generateBundle}}
  */
 export function copy (config) {
-	const {resources, verbose, overwrite} = {...defaultConfig, ...config};
+	const {resources, verbose, overwrite} = {...defaultConfig, ...config};
 
 	return {
 		name: "copy",
@@ -39,4 +39,5 @@ export function copy (config) {
 		}
 	};
 }
+
 

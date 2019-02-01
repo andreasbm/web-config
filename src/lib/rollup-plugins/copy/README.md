@@ -14,22 +14,22 @@ Option   |   Type        |    Description     |    Default
 
 ### Example
 
-```JavaScript
-import {copy} from ""@appnest/web-config";
+```js
+import {copy} from "@appnest/web-config";
 
 export default {
-  entry: 'src/index.js',
-  output: {
-    dest: 'dist/bundle.js',
-  },
-  plugins: [
-    copy({
-      resources: [
-        ["src/assets", "dist/assets"],
-        ["src/index.html", "dist/index.html"]
-      ]
-    })
-  ]
+	entry: 'src/index.js',
+	output: {
+      dest: 'dist/bundle.js',
+	},
+	plugins: [
+      copy({
+  	    resources: [
+          ["src/assets", "dist/assets"],
+          ["src/index.html", "dist/index.html"]
+  	    ]
+      })
+	]
 };
 ```
 
