@@ -23,7 +23,7 @@ const defaultConfig = {
 	exclude: [],
 	verbose: true,
 	esprima: {
-		sourceType: "module",
+		attachComment: false,
 		loc: true,
 		range: true,
 		tolerant: true,
@@ -41,7 +41,9 @@ const defaultConfig = {
 			/<\s/,
 			/<=/,
 			/\$\{/,
-			/\}/
+			/\}/,
+			/* The HTML minifier won't parse parts with double quote inside (eg. @click="${() => alert("Hello World")}") */
+			/"\${[^}]+"[^}]+}"/
 		]
 	}
 };
@@ -59,8 +61,10 @@ function createTransformer ({code, config}) {
 		return estraverse.replace(ast, {
 			enter: (node) => {
 
-				// If the node type is a TaggedTemplateExpression we know we are looking at a html`...` part.
+				// If the node type is a TaggedTemplateExpression we know we are looking at a TemplateResult.
 				if (node.type === "TaggedTemplateExpression") {
+
+					// If the tag name or property name is html we know we are looking at a html`...` part.
 					if ((node.tag.type === "Identifier" && node.tag.name === "html")
 						|| (node.tag.type === "MemberExpression"
 							&& node.tag.property.type === "Identifier"
@@ -94,6 +98,22 @@ function createTransformer ({code, config}) {
 	}
 }
 
+/**
+ * Figures out whether the code is a script type or module type.
+ * @param code
+ * @returns {string}
+ */
+function deduceSourceType(code) {
+	let type = 'module';
+
+	try {
+		esprima.parse(code, { sourceType: 'script' });
+		type = 'script';
+	} catch (e) {
+	}
+
+	return type;
+}
 
 /**
  * Processes the code by minifying the html using in the tagged template literals.
@@ -103,11 +123,11 @@ function createTransformer ({code, config}) {
  * @returns {Promise<void>}
  */
 function processFile ({code, id, config}) {
-	return new Promise((res, rej) => {
+	return new Promise(res => {
 
 		try {
 			// Create transformer that traverses the ast and minifies the html`...` parts.
-			const transform = createTransformer({code, config});
+			const transform = createTransformer({code, config, sourceType: deduceSourceType(code)});
 
 			// Build an ast from the current config
 			const ast = esprima.parse(code, config.esprima);
@@ -128,7 +148,7 @@ function processFile ({code, id, config}) {
 			})
 		} catch (err) {
 			if (config.verbose) {
-				console.log(colors.yellow(`[minifyLitHTML] - Could not parse line "${err.lineNumber}" in "${id}" due to "${err.description}"\n`));
+				console.log(colors.yellow(`[minifyLitHTML] - Could not parse "${err.toString()}" in "${id}"\n`));
 			}
 
 			// Sometimes we cannot parse the file. This should however not stop the build from finishing.

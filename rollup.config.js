@@ -68,7 +68,10 @@ export default {
 		// Production
 		...(isProd ? [
 			...defaultProdPlugins({
-				dist: folders.dist
+				dist: folders.dist,
+				minifyLitHtmlConfig: {
+					include: [/my-component.ts$/]
+				}
 			})
 		] : [])
 	],
