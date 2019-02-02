@@ -8,7 +8,7 @@
 
 ## What is this?
 
-This is an opinionated Rollup configuration I use when getting started with new web applications (i typically use `lit-html` and `lit-element`). I wanted to share it so you can use it too or build on top of it. This repository contains the following:
+This is a Rollup configuration I typically use when getting started with new web applications (i typically use it with `lit-html` and `lit-element`). I wanted to share it so you can use it too or build on top of it. This repository contains the following:
 
 - An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.
 - An extensible `create-karma-config.js` to help with your Karma testing setup
