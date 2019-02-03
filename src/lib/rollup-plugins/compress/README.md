@@ -11,7 +11,7 @@ Option   |   Type        |    Description     |    Default
 `compressors` | `(({src, verbose, options}) => void)[]` | An array of functions that compresses the included files. | `[compressGzip, compressBrotli]`
 `include` | `Pattern` | Minimatch pattern, or an array of minimatch patterns of files to include. | `[]`
 `exclude` | `Pattern` | Minimatch pattern, or an array of minimatch patterns of files to exclude. | `[]`
-`timeout` | `Number` | Timeout in ms that specifies the amount of time we wait until all of the files has been bundle after building. | `2000`
+`timeout` | `Number` | Timeout in ms that specifies the amount of time we wait until all of the files has been bundled after building. | `2000`
 `verbose` | `Boolean` | Disables or enables logging output to the console. | `true`
 
 ### Example
