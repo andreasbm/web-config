@@ -75,7 +75,7 @@ export default {
 				budgetConfig: {
 					sizes: {
 						".js": 1024 * 170, // Max file size in bytes (170kb)
-						"cat.jpg": 1024 * 400
+						".jpg": 1024 * 400
 					}
 				}
 			})
