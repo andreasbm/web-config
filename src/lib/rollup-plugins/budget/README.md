@@ -14,7 +14,7 @@ Option   |   Type        |    Description     |    Default
 `render` | `(({gzippedSize, max, name}) => String)` | A function that takes the information about the budget status for a file and returns a string which is printed to the console. | `defaultRender`
 `fileName` | `String` | The name of the output file where the budget for the files is printed to. | `budget.txt`
 `silent` | `Boolean` | Whether or not the budget for the files should be printed to the console. | `true`
-`reportThreshold` | `Number` | The threshold of what files should be ignored. Every percentage below the threshold is ignored. | `0`
+`threshold` | `Number` | The threshold of what files should be ignored. Every percentage below the threshold is ignored. | `0`
 `timeout` | `Number` | Timeout in ms that specifies the amount of time we wait until all of the files has been bundled after building. | `2000`
 
 ### Example
@@ -25,7 +25,7 @@ import {budget} from "@appnest/web-config";
 export default {
   entry: "src/index.js"
   output: {
-    dest: "dist/bundle.js"
+    dest: "dist/index.js"
   },
   plugins: [
     budget({

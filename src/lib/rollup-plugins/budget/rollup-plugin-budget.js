@@ -16,7 +16,7 @@ const defaultConfig = {
 	silent: true,
 
 	// The threshold of what files should be ignored. Every percentage below the threshold is ignored
-	reportThreshold: 0,
+	threshold: 0,
 
 	// We need a timeout to make sure all files have been bundled
 	timeout: 2000
@@ -129,7 +129,7 @@ function budgetForPath (path, sizes) {
  * @returns {{name: string, generateBundle(*, *, *): (undefined|void)}}
  */
 export function budget (config = defaultConfig) {
-	const {sizes, timeout, render, silent, fileName, reportThreshold} = {...defaultConfig, ...config};
+	const {sizes, timeout, render, silent, fileName, threshold} = {...defaultConfig, ...config};
 
 	return {
 		name: "budget",
@@ -163,7 +163,7 @@ export function budget (config = defaultConfig) {
 				for (const result of results) {
 
 					// Skip the reporting if the size perc is below the threshold
-					if (result.sizePerc < reportThreshold) {
+					if (result.sizePerc < threshold) {
 						return;
 					}
 

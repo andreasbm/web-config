@@ -24,7 +24,7 @@ import {htmlTemplate} from "@appnest/web-config";
 export default {
   entry: "src/index.js"
   output: {
-    dest: "dist/bundle.js"
+    dest: "dist/index.js"
   },
   plugins: [
     htmlTemplate({
