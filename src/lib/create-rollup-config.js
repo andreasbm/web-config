@@ -5,7 +5,6 @@ import path from "path";
 import precss from 'precss';
 import cleaner from 'rollup-plugin-cleaner';
 import commonjs from 'rollup-plugin-commonjs';
-import filesize from "rollup-plugin-filesize";
 import json from 'rollup-plugin-json';
 import license from "rollup-plugin-license";
 import resolve from 'rollup-plugin-node-resolve';
@@ -20,6 +19,7 @@ import {importStyles} from "./rollup-plugins/import-styles/rollup-plugin-import-
 import {livereload} from './rollup-plugins/live-reload/rollup-plugin-livereload'
 import {minifyLitHTML} from "./rollup-plugins/minify-lit-html/rollup-plugin-minify-lit-html";
 import {replace} from "./rollup-plugins/replace/rollup-plugin-replace";
+import {budget} from "./rollup-plugins/budget/rollup-plugin-budget";
 
 // Information about the environment.
 export const isProd = process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production";
@@ -171,7 +171,7 @@ export const defaultServePlugins = ({dist, serveConfig, livereloadConfig} = {}) 
 /**
  * Default plugins that only run when the bundle is being created in prod mode.
  */
-export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, filesizeConfig, visualizerConfig, gzipConfig: compressConfig} = {}) => [
+export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, budgetConfig, visualizerConfig, gzipConfig: compressConfig} = {}) => [
 
 	// Minifies the lit-html files
 	minifyLitHTML({
@@ -190,9 +190,9 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 		...configOrDefault(terserConfig)
 	}),
 
-	// Prints the total file-size in the console
-	filesize({
-		...configOrDefault(filesizeConfig)
+	// Prints the budget and sizes of the files to the console
+	budget({
+		...configOrDefault(budgetConfig)
 	}),
 
 	// Create a HTML file visualizing the size of each module

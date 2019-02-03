@@ -6,6 +6,7 @@ export * from "./rollup-plugins/copy/rollup-plugin-copy.js";
 export * from "./rollup-plugins/workbox/rollup-plugin-workbox.js";
 export * from "./rollup-plugins/compress/rollup-plugin-compress.js";
 export * from "./rollup-plugins/replace/rollup-plugin-replace.js";
+export * from "./rollup-plugins/budget/rollup-plugin-budget.js";
 export * from "./create-rollup-config.js";
 export * from "./create-karma-config.js";
 
