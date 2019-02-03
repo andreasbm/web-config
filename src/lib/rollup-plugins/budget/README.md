@@ -35,13 +35,15 @@ export default {
 };
 ```
 
+## How to set up your budget
+
+Your budget depends on your goals so it varies from app to app what the budget should be. Check out [this neat tool](http://www.performancebudget.io/) to get an idea of what your budget could be.
+
 ## How to stay under budget
 
-The sooner you think about your performance budget, the better. This plugin is only meant to focus on the *quantity-based metrics* but keep in mind that there also exists other types of budgets such as *rule-based metrics* (eg. lighthouse) and *milestone timings* (eg. FCP & TTI). Below are some ideas on how you can stay inside your budget.
+The sooner you think about your performance budget, the better. This plugin is only meant to focus on the **quantity-based metrics** but keep in mind that there also exists other types of budgets such as **rule-based metrics** (eg. lighthouse) and **milestone timings** (eg. FCP & TTI). Below are some ideas on how you can stay inside your budget.
 
-
-
-<img src="https://raw.githubusercontent.com/andreasbm/web-config/master/src/lib/rollup-plugins/budget/guide.png" width="300">
+<img src="https://raw.githubusercontent.com/andreasbm/web-config/master/src/lib/rollup-plugins/budget/guide.png" width="500">
 
 If you are interested in learning more you can check out [this brilliant article](https://web.dev/fast/performance-budgets-101).
 
