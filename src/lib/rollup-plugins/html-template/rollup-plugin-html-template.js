@@ -72,7 +72,7 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose, i
 			const bodyCloseTagIndex = template.lastIndexOf('</body>');
 
 			// Grab fileNames of the entry points
-			const unfilteredFilenames = Object.entries(bundle).map(([key, value]) => value.fileName);
+			const unfilteredFilenames = Object.entries(bundle).map(([key, value]) => value.outputName);
 			const fileNames = unfilteredFilenames.filter(name => filter(name));
 
 			// Error handling

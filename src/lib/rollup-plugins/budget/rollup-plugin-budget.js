@@ -7,8 +7,16 @@ import readdir from "recursive-readdir-sync";
 
 const defaultConfig = {
 	sizes: {},
-
 	render: defaultRender,
+
+	// The name of the output file where the budget for the files is printed to.
+	outputName: "budget.txt",
+
+	// Whether or not the budget for the files should be printed to the console.
+	silent: false,
+
+	// The threshold of what files should be ignored. Every percentage below the threshold is ignored
+	reportThreshold: 0,
 
 	// We need a timeout to make sure all files have been bundled
 	timeout: 2000
@@ -76,15 +84,14 @@ function fileNameForPath (path) {
  * @param gzippedSize
  * @param max
  * @param name
+ * @param format
  * @returns {*}
  */
-function defaultRender ({gzippedSize, max, name}) {
-	const sizePerc = gzippedSize / max;
-	const aboveMax = sizePerc > 1;
+function defaultRender ({gzippedSize, max, sizePerc, aboveMax, name, format}) {
 
-	const titleColor = colors["green"].bold;
-	const valueColor = colors["yellow"];
-	const statusColor = colors[aboveMax ? "red" : "yellow"];
+	const titleColor = format ? colors["green"].bold : text => text;
+	const valueColor = format ? colors["yellow"] : text => text;
+	const statusColor = format ? colors[aboveMax ? "red" : "yellow"] : text => text;
 	const barMaxLength = 20;
 
 	const values = [
@@ -122,31 +129,55 @@ function budgetForPath (path, sizes) {
  * @returns {{name: string, generateBundle(*, *, *): (undefined|void)}}
  */
 export function budget (config = defaultConfig) {
-	const {sizes, timeout, render} = {...defaultConfig, ...config};
+	const {sizes, timeout, render, silent, outputName, reportThreshold} = {...defaultConfig, ...config};
 
 	return {
 		name: "budget",
 		generateBundle (outputOptions, bundle, isWrite) {
 
 			// If no sizes has been specifies we can already abort now.
-			if (Object.keys(sizes) === 0) {
+			if (Object.keys(sizes).length === 0) {
 				return;
 			}
 
 			setTimeout(() => {
 				const target = outputOptions.dir;
-				readdir(target)
+				const stream = fse.createWriteStream(`${outputOptions.dir}/${outputName}`);
+
+				const results = readdir(target)
 					.map(path => {
 						return {max: budgetForPath(path, sizes), path}
 					})
 					.filter(({max}) => max != null && max > 0)
-					.forEach(({path, max}) => {
+					.map(({path, max}) => {
 						const content = fse.readFileSync(path);
 						const name = fileNameForPath(path);
 						const gzippedSize = getGzippedSizeBytes(content);
-						// const actualSize = getSizeBytes(content);
-						console.log(render({max, gzippedSize, name}))
-					});
+						const sizePerc = gzippedSize / max;
+						const aboveMax = sizePerc > 1;
+						return {name, gzippedSize, sizePerc, aboveMax, max};
+					})
+					// Ensure the ones closest to the budget are in top
+					.sort((a, b) => b.sizePerc - a.sizePerc);
+
+				for (const result of results) {
+
+					// Skip the reporting if the size perc is below the threshold
+					if (result.sizePerc < reportThreshold) {
+						return;
+					}
+
+					// Print to the console if not silent
+					if (!silent) {
+						console.log(render({...result, format: true}));
+					}
+
+					// Write to the file
+					stream.write(render(result) + "\n\n");
+				}
+
+				stream.end();
+
 			}, timeout);
 		}
 	};
