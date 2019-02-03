@@ -1,14 +1,16 @@
-import { customElement, html, LitElement } from "lit-element";
+import { customElement, html, LitElement, property } from "lit-element";
 import css from "./my-component.scss";
 
 @customElement("my-component")
 export class MyComponent extends LitElement {
+	@property({type: String}) text!: string;
+
 	render () {
 		return html`
 			<style>
 				${css}
 			</style>
-			<p @click="${() => alert("Hello World")}">It workz</p>
+			<p @click="${() => alert("Hello World")}">${this.text}</p>
 		`;
 	}
 }

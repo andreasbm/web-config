@@ -1,13 +1,15 @@
 @import "mixins.scss";
 
 :root {
-	--test: red;
+	--test: black;
+	--padding: 24px;
 }
 
 /* This is a comment */
 // This is another comment
 body {
 	background: var(--test);
+	padding: var(--padding);
 
 	p {
 		color: yellow;
