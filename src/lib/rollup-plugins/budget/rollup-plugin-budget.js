@@ -10,7 +10,7 @@ const defaultConfig = {
 	render: defaultRender,
 
 	// The name of the output file where the budget for the files is printed to.
-	outputName: "budget.txt",
+	fileName: "budget.txt",
 
 	// Whether or not the budget for the files should be printed to the console.
 	silent: true,
@@ -129,7 +129,7 @@ function budgetForPath (path, sizes) {
  * @returns {{name: string, generateBundle(*, *, *): (undefined|void)}}
  */
 export function budget (config = defaultConfig) {
-	const {sizes, timeout, render, silent, outputName, reportThreshold} = {...defaultConfig, ...config};
+	const {sizes, timeout, render, silent, fileName, reportThreshold} = {...defaultConfig, ...config};
 
 	return {
 		name: "budget",
@@ -142,7 +142,7 @@ export function budget (config = defaultConfig) {
 
 			setTimeout(() => {
 				const target = outputOptions.dir;
-				const stream = fse.createWriteStream(`${outputOptions.dir}/${outputName}`);
+				const stream = fse.createWriteStream(`${outputOptions.dir}/${fileName}`);
 
 				const results = readdir(target)
 					.map(path => {
