@@ -13,7 +13,7 @@ const defaultConfig = {
 	outputName: "budget.txt",
 
 	// Whether or not the budget for the files should be printed to the console.
-	silent: false,
+	silent: true,
 
 	// The threshold of what files should be ignored. Every percentage below the threshold is ignored
 	reportThreshold: 0,
