@@ -71,6 +71,12 @@ export default {
 				dist: folders.dist,
 				minifyLitHtmlConfig: {
 					include: [/my-component.ts$/]
+				},
+				budgetConfig: {
+					sizes: {
+						".js": 1024 * 170, // Max file size in bytes (170kb)
+						"cat.jpg": 1024 * 400
+					}
 				}
 			})
 		] : [])
