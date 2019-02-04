@@ -2,7 +2,14 @@
 
 A Rollup plugin that compares the sizes of the files to a specified budget.
 
-<img src="https://raw.githubusercontent.com/andreasbm/web-config/master/src/lib/rollup-plugins/budget/example.png" width="300">
+## Console output
+<img src="https://raw.githubusercontent.com/andreasbm/web-config/master/src/lib/rollup-plugins/budget/example-console.png" width="200">
+
+## `.txt` output
+<img src="https://raw.githubusercontent.com/andreasbm/web-config/master/src/lib/rollup-plugins/budget/example-txt.png" width="200">
+
+## `.json` output
+<img src="https://raw.githubusercontent.com/andreasbm/web-config/master/src/lib/rollup-plugins/budget/example-json.png" width="200">
 
 ## Usage
 
@@ -12,7 +19,7 @@ Option   |   Type        |    Description     |    Default
 ---------| --------------| ------------------ | ---------------------------------
 `sizes` | `{[key: String / RegExp]: Number}` | A map mapping each extension or regex to a size in bytes (eg. sizes: { ".js": 1024 * 170, "cat.jpg": 1024 * 400}) | `{}`
 `render` | `(({gzippedSize, max, name}) => String)` | A function that takes the information about the budget status for a file and returns a string which is printed to the console. | `defaultRender`
-`fileName` | `String` | The name of the output file where the budget for the files is printed to. | `budget.txt`
+`fileName` | `String` | The name of the output file where the budget for the files is printed to. If the filename ends with `.json` the output will be in json. | `budget.txt`
 `silent` | `Boolean` | Whether or not the budget for the files should be printed to the console. | `true`
 `threshold` | `Number` | The threshold of what files should be ignored. Every percentage below the threshold is ignored. | `0`
 `timeout` | `Number` | Timeout in ms that specifies the amount of time we wait until all of the files has been bundled after building. | `2000`

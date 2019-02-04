@@ -130,6 +130,7 @@ function budgetForPath (path, sizes) {
  */
 export function budget (config = defaultConfig) {
 	const {sizes, timeout, render, silent, fileName, threshold} = {...defaultConfig, ...config};
+	const isOutputJson = fileName.endsWith(".json");
 
 	return {
 		name: "budget",
@@ -155,7 +156,7 @@ export function budget (config = defaultConfig) {
 						const gzippedSize = getGzippedSizeBytes(content);
 						const sizePerc = gzippedSize / max;
 						const aboveMax = sizePerc > 1;
-						return {name, gzippedSize, sizePerc, aboveMax, max};
+						return {name, gzippedSize, sizePerc, aboveMax, max, path};
 					})
 					// Ensure the ones closest to the budget are in top
 					.sort((a, b) => b.sizePerc - a.sizePerc);
@@ -173,7 +174,14 @@ export function budget (config = defaultConfig) {
 					}
 
 					// Write to the file
-					stream.write(render(result) + "\n\n");
+					if (!isOutputJson) {
+						stream.write(render(result) + "\n\n");
+					}
+				}
+
+				// Write the output as json instead
+				if (isOutputJson) {
+					stream.write(JSON.stringify(results, null, 2));
 				}
 
 				stream.end();
