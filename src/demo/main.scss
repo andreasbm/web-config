@@ -1,14 +1,15 @@
 @import "mixins.scss";
 
 :root {
-	--test: black;
+	--background-color: black;
+	--theme-color: lightgrey;
 	--padding: 24px;
 }
 
 /* This is a comment */
 // This is another comment
 body {
-	background: var(--test);
+	background: var(--background-color);
 	padding: var(--padding);
 
 	p {
@@ -20,4 +21,8 @@ body {
 	}
 
 	@include weightify(bold);
+}
+
+::part(text) {
+	color: var(--theme-color);
 }

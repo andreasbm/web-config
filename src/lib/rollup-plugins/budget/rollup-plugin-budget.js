@@ -83,6 +83,8 @@ function fileNameForPath (path) {
  * Returns a formatted string containing the status of the file budget.
  * @param gzippedSize
  * @param max
+ * @param sizePerc
+ * @param aboveMax
  * @param name
  * @param format
  * @returns {*}
