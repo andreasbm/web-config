@@ -27,6 +27,11 @@
 			"es2017.object",
 			"es2015.proxy",
 			"esnext"
+		],
+		"plugins": [
+			{
+				"name": "ts-lit-plugin"
+			}
 		]
 	}
 }
