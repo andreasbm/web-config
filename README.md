@@ -9,7 +9,7 @@
 
 <p align="center">
   <b>A Rollup configuration to build modern web applications</b></br>
-  <sub>This is a Rollup configuration to get you started with building new web applications. Works extremely well with the libraries `lit-html` and `lit-element`. I wanted to share it so you can use it too or build on top of it.<sub>
+  <sub>This is an customizable Rollup configuration to get you started building new web applications. The configuration works extremely well with the libraries `lit-html` and `lit-element`. I wanted to share it so you can use it too or build on top of it.<sub>
 </p>
 
 <br />
