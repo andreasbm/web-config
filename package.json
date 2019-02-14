@@ -1,7 +1,7 @@
 {
 	"name": "@appnest/web-config",
 	"version": "0.3.11",
-	"description": "A simple configuration to quickly get started with new web applications.",
+	"description": "A Rollup configuration to help you build modern web applications.",
 	"author": "Appnest",
 	"main": "index.cjs.js",
 	"module": "index.esm.js",
@@ -50,7 +50,8 @@
 		"publish:patch": "npm run bump:patch && git push && npm run b:lib && npm run publish:dist",
 		"publish:minor": "npm run bump:minor && git push && npm run b:lib && npm run publish:dist",
 		"publish:major": "npm run bump:major && git push && npm run b:lib && npm run publish:dist",
-		"test": "npm run b:lib && karma start karma.conf.js"
+		"test": "npm run b:lib && karma start karma.conf.js",
+		"readme": "node src/lib/readme/readme.js"
 	},
 	"dependencies": {
 		"@types/chai": "^4.1.7",
@@ -104,5 +105,65 @@
 	"devDependencies": {
 		"lit-element": "^2.0.1",
 		"lit-html": "^1.0.0"
+	},
+	"readme": {
+		"text": "The configuration works extremely well with the libraries `lit-html` and `lit-element`. I wanted to share it so you can use it too or build on top of it.",
+		"demo": "https://appnest-demo.firebaseapp.com/masonry-layout",
+		"ids": {
+			"npm": "@appnest/web-config",
+			"github": "andreasbm/web-config"
+		},
+		"bullets": [
+			"An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.",
+			"An extensible `create-karma-config.js` to help with your Karma testing setup",
+			"A `tsconfig.json` file to configure your Typescript",
+			"A `tslint.json` file to configure your linting",
+			"A `typings.d.ts` file to configure your typings",
+			"A `.browserslistrc` file to configure how your files are transpiled",
+			"A `.gitignore` file you can use as inspiration for your own `.gitignore` file",
+			"[`rollup-plugin-compress` - A Rollup plugin that compresses the files in the bundle after building](src/lib/rollup-plugins/compress)",
+			"[`rollup-plugin-copy` - A Rollup plugin that copies resources from one location to another](src/lib/rollup-plugins/copy)",
+			"`rollup-plugin-html-template` - A Rollup plugin that injects the bundle entry points into a HTML file](src/lib/rollup-plugins/html-template)",
+			"[`rollup-plugin-import-styles` - A Rollup plugin that makes it possible to import style files using postcss](src/lib/rollup-plugins/import-styles)",
+			"[`rollup-plugin-live-reload` - A Rollup plugin that live reload files as they changes](src/lib/rollup-plugins/live-reload)",
+			"[`rollup-plugin-minify-lit-html` - A Rollup plugin that minifies lit-html templates](src/lib/rollup-plugins/minify-lit-html)",
+			"[`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)",
+			"[`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)",
+			"[`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)"
+		],
+		"sections": [
+			{
+				"title": "Step 1 - Install the dependency",
+				"content": "readme/1-dependency.md"
+			},
+			{
+				"title": "Step 2 - Setup `rollup.config.js`",
+				"content": "readme/2-setup-rollup.md"
+			},
+			{
+				"title": "Step 3 - Setup `tslint.json`",
+				"content": "readme/3-setup-lint.md"
+			},
+			{
+				"title": "Step 4 - Setup `tsconfig.json`",
+				"content": "readme/4-setup-tsconfig.md"
+			},
+			{
+				"title": "Step 5 - Setup `.browserslistrc`",
+				"content": "readme/5-setup-browserslist.md"
+			},
+			{
+				"title": "Step 6 - Setup `karma.conf.js`",
+				"content": "readme/6-setup-karma.md"
+			},
+			{
+				"title": "Step 7 - Add start and build scripts to `package.json`",
+				"content": "readme/7-setup-scripts.md"
+			},
+			{
+				"title": "How to load stylesheets",
+				"content": "readme/stylesheets.md"
+			}
+		]
 	}
 }

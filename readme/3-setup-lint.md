@@ -1,0 +1,5 @@
+```json
+{
+  "extends": "./node_modules/@appnest/web-config/tslint.json"
+}
+```
