@@ -80,6 +80,7 @@
 		"karma-rollup-preprocessor": "^7.0.0",
 		"livereload": "^0.7.0",
 		"magic-string": "^0.25.2",
+		"minimist": "^1.2.0",
 		"mocha": "^5.2.0",
 		"node-sass": "^4.11.0",
 		"path": "^0.12.7",

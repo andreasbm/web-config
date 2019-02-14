@@ -1,7 +1,9 @@
 const fse = require("fs-extra");
 const path = require("path");
+const colors = require("colors");
 const {validateObject} = require("./helpers.js");
 const {LINE_BREAK} = require("./config.js");
+const argv = require("minimist")(process.argv.slice(2));
 const {
 	readmeTitleTemplate,
 	licenseTemplate,
@@ -26,7 +28,9 @@ const DEFAULTS = {
 		"readme.ids.npm",
 		"readme.ids.github"
 	],
-	TARGET: path.resolve("README.md"),
+	TARGET: "README.md",
+	DRY: false,
+	SILENT: false,
 	BADGES: [
 		{
 			"text": "Downloads per month",
@@ -118,12 +122,23 @@ function writeFile (path, content) {
 	stream.end();
 }
 
-// Grab the user arguments
-const userArgs = process.argv.slice(2);
-const pkgName = userArgs[0] || DEFAULTS.PKG_NAME;
+// Extract the user arguments
+const pkgName = path.resolve(argv["package"] || DEFAULTS.PKG_NAME);
+const target = path.resolve(argv["target"] || DEFAULTS.TARGET);
+const silent = argv["silent"] || DEFAULTS.SILENT;
+const dry = argv["dry"] || DEFAULTS.DRY;
 
+// Generate readme
 const readme = generateReadme(pkgName, GENERATORS);
-console.log(readme);
 
+// Write the file
+if (!dry) {
+	writeFile(target, readme);
 
-writeFile(DEFAULTS.TARGET, readme);
+	// Print the success messsage if not silent
+	if (!silent) {
+		console.log(colors.green(`[readme] - Readme was successfully generated at "${target}".`));
+	}
+} else {
+	console.log(colors.green(`[readme] - Created the following readme but did not write it to any files".`), colors.green(readme));
+}
