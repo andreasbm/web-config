@@ -108,7 +108,6 @@
 	},
 	"readme": {
 		"text": "The configuration works extremely well with the libraries `lit-html` and `lit-element`. I wanted to share it so you can use it too or build on top of it.",
-		"demo": "https://appnest-demo.firebaseapp.com/masonry-layout",
 		"ids": {
 			"npm": "@appnest/web-config",
 			"github": "andreasbm/web-config"
@@ -133,7 +132,7 @@
 		],
 		"sections": [
 			{
-				"title": "Step 1 - Install the dependency",
+				"title": "Step 1 - Installation",
 				"content": "readme/1-dependency.md"
 			},
 			{

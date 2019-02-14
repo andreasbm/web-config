@@ -1,43 +1,42 @@
 <h1 align="center">@appnest/web-config</h1>
-<p align="center">
-	<a href="https://npmcharts.com/compare/@appnest/web-config?minimal=true"><img alt="Downloads per month" src="https://img.shields.io/npm/dm/@appnest/web-config.svg" height="20"></img></a>
-	<a href="https://david-dm.org/andreasbm/web-config"><img alt="Dependencies" src="https://img.shields.io/david/andreasbm/web-config.svg" height="20"></img></a>
-	<a href="https://www.npmjs.com/package/@appnest/web-config"><img alt="NPM Version" src="https://img.shields.io/npm/v/@appnest/web-config.svg" height="20"></img></a>
-	<a href="https://github.com/andreasbm/web-config/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/andreasbm/web-config.svg" height="20"></img></a>
-	<a href="https://opensource.org/licenses/MIT"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-yellow.svg" height="20"></img></a>
-</p>
 
 <p align="center">
-  <b>A Rollup configuration to build modern web applications</b></br>
+		<a href="https://npmcharts.com/compare/@appnest/web-config?minimal=true"><img alt="undefined" src="https://img.shields.io/npm/dm/@appnest/web-config.svg" height="20"></img></a>,<a href="https://david-dm.org/andreasbm/web-config"><img alt="undefined" src="https://img.shields.io/david/andreasbm/web-config.svg" height="20"></img></a>,<a href="https://www.npmjs.com/package/@appnest/web-config"><img alt="undefined" src="https://img.shields.io/npm/v/@appnest/web-config.svg" height="20"></img></a>,<a href="https://github.com/andreasbm/web-config/graphs/contributors"><img alt="undefined" src="https://img.shields.io/github/contributors/andreasbm/web-config.svg" height="20"></img></a>
+	</p>
+	
+
+<p align="center">
+  <b>A Rollup configuration to help you build modern web applications.</b></br>
   <sub>The configuration works extremely well with the libraries `lit-html` and `lit-element`. I wanted to share it so you can use it too or build on top of it.<sub>
 </p>
 
 <br />
 
-- An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.
-- An extensible `create-karma-config.js` to help with your Karma testing setup
-- A `tsconfig.json` file to configure your Typescript
-- A `tslint.json` file to configure your linting
-- A `typings.d.ts` file to configure your typings
-- A `.browserslistrc` file to configure how your files are transpiled
-- A `.gitignore` file you can use as inspiration for your own `.gitignore` file 
-- [`rollup-plugin-compress` - A Rollup plugin that compresses the files in the bundle after building](src/lib/rollup-plugins/compress)
-- [`rollup-plugin-copy` - A Rollup plugin that copies resources from one location to another](src/lib/rollup-plugins/copy)
-- [`rollup-plugin-html-template` - A Rollup plugin that injects the bundle entry points into a HTML file](src/lib/rollup-plugins/html-template)
-- [`rollup-plugin-import-styles` - A Rollup plugin that makes it possible to import style files using postcss](src/lib/rollup-plugins/import-styles)
-- [`rollup-plugin-live-reload` - A Rollup plugin that live reload files as they changes](src/lib/rollup-plugins/live-reload)
-- [`rollup-plugin-minify-lit-html` - A Rollup plugin that minifies lit-html templates](src/lib/rollup-plugins/minify-lit-html)
-- [`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)
-- [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
-- [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
+* An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.
+* An extensible `create-karma-config.js` to help with your Karma testing setup
+* A `tsconfig.json` file to configure your Typescript
+* A `tslint.json` file to configure your linting
+* A `typings.d.ts` file to configure your typings
+* A `.browserslistrc` file to configure how your files are transpiled
+* A `.gitignore` file you can use as inspiration for your own `.gitignore` file
+* [`rollup-plugin-compress` - A Rollup plugin that compresses the files in the bundle after building](src/lib/rollup-plugins/compress)
+* [`rollup-plugin-copy` - A Rollup plugin that copies resources from one location to another](src/lib/rollup-plugins/copy)
+* `rollup-plugin-html-template` - A Rollup plugin that injects the bundle entry points into a HTML file](src/lib/rollup-plugins/html-template)
+* [`rollup-plugin-import-styles` - A Rollup plugin that makes it possible to import style files using postcss](src/lib/rollup-plugins/import-styles)
+* [`rollup-plugin-live-reload` - A Rollup plugin that live reload files as they changes](src/lib/rollup-plugins/live-reload)
+* [`rollup-plugin-minify-lit-html` - A Rollup plugin that minifies lit-html templates](src/lib/rollup-plugins/minify-lit-html)
+* [`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)
+* [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
+* [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
 
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 
-## ❯ Step 1 - Install the dependency
+## ❯ Step 1 - Installation
 
 ```javascript
 npm i @appnest/web-config --D
 ```
+
 
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 
@@ -121,6 +120,7 @@ export default {
 }
 ```
 
+
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 
 ## ❯ Step 3 - Setup `tslint.json`
@@ -131,6 +131,7 @@ export default {
 }
 ```
 
+
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 
 ## ❯ Step 4 - Setup `tsconfig.json`
@@ -140,6 +141,7 @@ export default {
   "extends": "./node_modules/@appnest/web-config/tsconfig.json"
 }
 ```
+
 
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 
@@ -156,8 +158,6 @@ last 2 Firefox versions
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 
 ## ❯ Step 6 - Setup `karma.conf.js`
-
-It is now time to add the testing setup.
 
 ```javascript
 const {defaultResolvePlugins, defaultKarmaConfig} = require("@appnest/web-config");
@@ -193,6 +193,7 @@ Here an example on what scripts you could add to your `package.json` file.
   ...
 }
 ```
+
 
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 
@@ -236,8 +237,9 @@ export default {
 import css from "./my-component.scss";
 ```
 
+
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 
 ## ❯ License
-
+	
 Licensed under [MIT](https://opensource.org/licenses/MIT).

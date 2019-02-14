@@ -1,14 +1,11 @@
-const {readFile} = require("fs");
 const fse = require("fs-extra");
 const path = require("path");
-const {hasKey, getKey, validateObject, replace} = require("./helpers.js");
+const {validateObject} = require("./helpers.js");
 const {LINE_BREAK} = require("./config.js");
 const {
 	readmeTitleTemplate,
-	titleTemplate,
 	licenseTemplate,
 	badgesTemplate,
-	lineTemplate,
 	descriptionTemplate,
 	bulletsTemplate,
 	sectionTemplate
@@ -29,7 +26,7 @@ const DEFAULTS = {
 		"readme.ids.npm",
 		"readme.ids.github"
 	],
-	TARGET: path.resolve("README_TEST.md"),
+	TARGET: path.resolve("README.md"),
 	BADGES: [
 		{
 			"text": "Downloads per month",
