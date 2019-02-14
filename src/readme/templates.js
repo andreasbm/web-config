@@ -37,7 +37,7 @@ export function titleTemplate (title, level) {
  */
 export function badgesTemplate (badges, pkg) {
 	return `<p align="center">
-		${badges.map(badge => replace(`<a href="${badge.url}"><img alt="${badge.name}" src="${badge.img}" height="20"></img></a>`, pkg))}
+		${badges.map(badge => replace(`<a href="${badge.url}"><img alt="${badge.text}" src="${badge.img}" height="20"/></a>${LINE_BREAK}`, pkg))}
 	</p>
 	`;
 }
