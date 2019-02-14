@@ -117,7 +117,8 @@ function generateReadme (pkgName, generators) {
  */
 function writeFile (path, content) {
 	const stream = fse.createWriteStream(path);
-
+	stream.write(content);
+	stream.end();
 }
 
 // Grab the user arguments
