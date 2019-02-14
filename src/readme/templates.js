@@ -1,12 +1,12 @@
-const {replace} = require("./helpers.js");
-const {LINE_BREAK} = require("./config.js");
+import {replace} from "./helpers.js";
+import {LINE_BREAK} from "./config";
 
 /**
  * Generates the template for the title.
  * @param title
  * @returns {string}
  */
-function readmeTitleTemplate (title) {
+export function readmeTitleTemplate (title) {
 	return `<h1 align="center">${title}</h1>`
 }
 
@@ -14,7 +14,7 @@ function readmeTitleTemplate (title) {
  * Generates a line template.
  * @returns {string}
  */
-function lineTemplate () {
+export function lineTemplate () {
 	return `![split](https://github.com/andreasbm/web-config/raw/master/split.png)`;
 }
 
@@ -24,7 +24,7 @@ function lineTemplate () {
  * @param level
  * @returns {string}
  */
-function titleTemplate (title, level) {
+export function titleTemplate (title, level) {
 	const beforeTitle = level <= 2 ? `${lineTemplate()}${LINE_BREAK}${LINE_BREAK}` : "";
 	const beforeContent = level <= 2 ? ` ❯ ` : " ";
 	return `${beforeTitle}${Array(level).fill("#").join("")}${beforeContent}${title}`
@@ -35,7 +35,7 @@ function titleTemplate (title, level) {
  * @param badges
  * @returns {string}
  */
-function badgesTemplate (badges, pkg) {
+export function badgesTemplate (badges, pkg) {
 	return `<p align="center">
 		${badges.map(badge => replace(`<a href="${badge.url}"><img alt="${badge.name}" src="${badge.img}" height="20"></img></a>`, pkg))}
 	</p>
@@ -48,7 +48,7 @@ function badgesTemplate (badges, pkg) {
  * @param licensUrlsMap
  * @returns {string}
  */
-function licenseTemplate (license, licensUrlsMap) {
+export function licenseTemplate (license, licensUrlsMap) {
 	return `${titleTemplate("License", 2)}
 	
 Licensed under [${license}](${licensUrlsMap[license]}).`;
@@ -59,7 +59,7 @@ Licensed under [${license}](${licensUrlsMap[license]}).`;
  * @param url
  * @returns {string}
  */
-function demoTemplate (url) {
+export function demoTemplate (url) {
 	return `Go here to see a demo <a href="${url}">${url}</a>.`;
 }
 
@@ -70,7 +70,7 @@ function demoTemplate (url) {
  * @param demo
  * @returns {string}
  */
-function descriptionTemplate (description, text, demo) {
+export function descriptionTemplate (description, text, demo) {
 	return `<p align="center">
   <b>${description}</b></br>
   <sub>${text != null ? text : ""}${demo != null ? ` ${demoTemplate(demo)}` : ""}<sub>
@@ -83,7 +83,7 @@ function descriptionTemplate (description, text, demo) {
  * Generates a bullets template.
  * @param bullets
  */
-function bulletsTemplate (bullets) {
+export function bulletsTemplate (bullets) {
 	return bullets.map(bullet => `* ${bullet}`).join(LINE_BREAK);
 }
 
@@ -91,20 +91,8 @@ function bulletsTemplate (bullets) {
  * Generates a section template.
  * @param section
  */
-function sectionTemplate ({title, content}) {
+export function sectionTemplate ({title, content}) {
 	return `${titleTemplate(title, 2)}
 
 ${content}`;
 }
-
-module.exports = {
-	readmeTitleTemplate,
-	titleTemplate,
-	licenseTemplate,
-	badgesTemplate,
-	lineTemplate,
-	demoTemplate,
-	descriptionTemplate,
-	bulletsTemplate,
-	sectionTemplate
-};

@@ -53,6 +53,9 @@
 		"test": "npm run b:lib && karma start karma.conf.js",
 		"readme": "node src/lib/readme/readme.js"
 	},
+	"bin": {
+		"readme": "readme.cjs.js"
+	},
 	"dependencies": {
 		"@types/chai": "^4.1.7",
 		"@types/mocha": "^5.2.6",

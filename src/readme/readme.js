@@ -1,18 +1,17 @@
-const fse = require("fs-extra");
-const path = require("path");
-const colors = require("colors");
-const {validateObject} = require("./helpers.js");
-const {LINE_BREAK} = require("./config.js");
-const argv = require("minimist")(process.argv.slice(2));
-const {
-	readmeTitleTemplate,
-	licenseTemplate,
+import colors from "colors";
+import fse from "fs-extra";
+import argv from "minimist";
+import path from "path";
+import {LINE_BREAK} from "./config.js";
+import {validateObject} from "./helpers.js";
+import {
 	badgesTemplate,
-	descriptionTemplate,
 	bulletsTemplate,
+	descriptionTemplate,
+	licenseTemplate,
+	readmeTitleTemplate,
 	sectionTemplate
-
-} = require("./templates.js");
+} from "./templates.js";
 
 /**
  * Defaults.
@@ -123,10 +122,11 @@ function writeFile (path, content) {
 }
 
 // Extract the user arguments
-const pkgName = path.resolve(argv["package"] || DEFAULTS.PKG_NAME);
-const target = path.resolve(argv["target"] || DEFAULTS.TARGET);
-const silent = argv["silent"] || DEFAULTS.SILENT;
-const dry = argv["dry"] || DEFAULTS.DRY;
+const userArgs = argv(process.argv.slice(2));
+const pkgName = path.resolve(userArgs["package"] || DEFAULTS.PKG_NAME);
+const target = path.resolve(userArgs["target"] || DEFAULTS.TARGET);
+const silent = userArgs["silent"] || DEFAULTS.SILENT;
+const dry = userArgs["dry"] || DEFAULTS.DRY;
 
 // Generate readme
 const readme = generateReadme(pkgName, GENERATORS);

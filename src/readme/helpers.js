@@ -5,7 +5,7 @@
  * @param key
  * @returns {boolean}
  */
-function hasKey (obj, key) {
+export function hasKey (obj, key) {
 	return getKey(obj, key) != null;
 }
 
@@ -15,7 +15,7 @@ function hasKey (obj, key) {
  * @param key
  * @returns {*}
  */
-function getKey (obj, key) {
+export function getKey (obj, key) {
 	let keys = key.split(".");
 	while (keys.length > 0 && obj != null) {
 		key = keys.shift();
@@ -32,7 +32,7 @@ function getKey (obj, key) {
  * @param fileName
  * @returns {boolean}
  */
-function validateObject (pkg, requiredFields, fileName) {
+export function validateObject (pkg, requiredFields, fileName) {
 	for (const key of requiredFields) {
 		if (!hasKey(pkg, key)) {
 			throw new Error(`"${fileName}" requires the field "${key}".`);
@@ -48,15 +48,8 @@ function validateObject (pkg, requiredFields, fileName) {
  * @param pkg
  * @returns {*}
  */
-function replace (text, pkg) {
+export function replace (text, pkg) {
 	return text.replace(/{{[ ]*(.+?)[ ]*}}/g, (string, match) => {
 		return getKey(pkg, match.trim());
 	})
 }
-
-module.exports = {
-	hasKey,
-	getKey,
-	validateObject,
-	replace
-};

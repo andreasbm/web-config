@@ -6,22 +6,28 @@ const pkg = require("./package.json");
 
 const distPath = "dist";
 
-const inputOptions = {
-	input: "./src/lib/index.js",
-	external: [
-		...Object.keys(pkg.dependencies || {}),
-		...Object.keys(pkg.devDependencies || {}),
-	]
+const inputOptions = (input) => {
+	return {
+		input,
+		external: [
+			...Object.keys(pkg.dependencies || {}),
+			...Object.keys(pkg.devDependencies || {}),
+		]
+	}
 };
 
-const outputOptionsEsm = {
-	format: "esm",
-	file: "dist/index.esm.js"
+const outputOptionsEsm = (file) => {
+	return {
+		format: "esm",
+		file
+	}
 };
 
-const outputOptionsCjs = {
-	format: "cjs",
-	file: "dist/index.cjs.js"
+const outputOptionsCjs = (file) => {
+	return {
+		format: "cjs",
+		file
+	}
 };
 
 /**
@@ -54,14 +60,23 @@ async function build () {
 
 async function transpileJs () {
 
-	// create a bundle
-	const bundle = await rollup.rollup({
-		...inputOptions,
+	// Create the lib bundle
+	const libBundle = await rollup.rollup({
+		...inputOptions("./src/lib/index.js"),
 		treeshake: false
 	});
 
-	await bundle.write(outputOptionsEsm);
-	await bundle.write(outputOptionsCjs);
+	// Create the readme bundle
+	const readmeBundle = await rollup.rollup({
+		...inputOptions("./src/readme/index.js"),
+		treeshake: false
+	});
+
+	await libBundle.write(outputOptionsEsm("dist/index.esm.js"));
+	await libBundle.write(outputOptionsCjs("dist/index.cjs.js"));
+
+	await readmeBundle.write(outputOptionsEsm("dist/readme.esm.js"));
+	await readmeBundle.write(outputOptionsCjs("dist/readme.cjs.js"));
 }
 
 /**
