@@ -1,14 +1,18 @@
-# @appnest/web-config
+<h1 align="center">@appnest/web-config</h1>
+<p align="center">
+	<a href="https://npmcharts.com/compare/@appnest/web-config?minimal=true"><img alt="Downloads per month" src="https://img.shields.io/npm/dm/@appnest/web-config.svg" height="20"></img></a>
+	<a href="https://david-dm.org/andreasbm/web-config"><img alt="Dependencies" src="https://img.shields.io/david/andreasbm/web-config.svg" height="20"></img></a>
+	<a href="https://www.npmjs.com/package/@appnest/web-config"><img alt="NPM Version" src="https://img.shields.io/npm/v/@appnest/web-config.svg" height="20"></img></a>
+	<a href="https://github.com/andreasbm/web-config/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/andreasbm/web-config.svg" height="20"></img></a>
+	<a href="https://opensource.org/licenses/MIT"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-yellow.svg" height="20"></img></a>
+</p>
 
-<a href="https://npmcharts.com/compare/@appnest/web-config?minimal=true"><img alt="Downloads per month" src="https://img.shields.io/npm/dm/@appnest/web-config.svg" height="20"></img></a>
-<a href="https://david-dm.org/andreasbm/web-config"><img alt="Dependencies" src="https://img.shields.io/david/andreasbm/web-config.svg" height="20"></img></a>
-<a href="https://www.npmjs.com/package/@appnest/web-config"><img alt="NPM Version" src="https://img.shields.io/npm/v/@appnest/web-config.svg" height="20"></img></a>
-<a href="https://github.com/andreasbm/web-config/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/andreasbm/web-config.svg" height="20"></img></a>
-<a href="https://opensource.org/licenses/MIT"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-yellow.svg" height="20"></img></a>
+<p align="center">
+  <b>A Rollup configuration to build modern web applications/b></br>
+  <sub>This is a Rollup configuration to get you started with building new web applications. Works extremely well with the libraries `lit-html` and `lit-element`. I wanted to share it so you can use it too or build on top of it.<sub>
+</p>
 
-## What is this?
-
-This is a Rollup configuration I typically use when getting started with new web applications (i typically use it with `lit-html` and `lit-element`). I wanted to share it so you can use it too or build on top of it. This repository contains the following:
+<br />
 
 - An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.
 - An extensible `create-karma-config.js` to help with your Karma testing setup
@@ -27,13 +31,17 @@ This is a Rollup configuration I typically use when getting started with new web
 - [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 - [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
 
-## Step 1 - Install the dependency
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ Step 1 - Install the dependency
 
 ```javascript
 npm i @appnest/web-config --D
 ```
 
-## Step 2 - Setup `rollup.config.js`
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ Step 2 - Setup `rollup.config.js`
 
 Here's an example on what your Rollup configuration file could look like:
 
@@ -113,7 +121,9 @@ export default {
 }
 ```
 
-## Step 3 - Setup `tslint.json`
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ Step 3 - Setup `tslint.json`
 
 ```json
 {
@@ -121,7 +131,9 @@ export default {
 }
 ```
 
-## Step 4 - Setup `tsconfig.json`
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ Step 4 - Setup `tsconfig.json`
 
 ```json
 {
@@ -129,7 +141,9 @@ export default {
 }
 ```
 
-## Step 5 - Setup `.browserslistrc`
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ Step 5 - Setup `.browserslistrc`
 
 The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
 
@@ -139,7 +153,9 @@ last 2 Safari versions
 last 2 Firefox versions
 ```
 
-## Step 6 - Setup `karma.conf.js`
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ Step 6 - Setup `karma.conf.js`
 
 It is now time to add the testing setup.
 
@@ -157,7 +173,9 @@ module.exports = (config) => {
 };
 ```
 
-## Step 7 - Add start and build scripts to `package.json`
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ Step 7 - Add start and build scripts to `package.json`
 
 Here an example on what scripts you could add to your `package.json` file.
 
@@ -176,7 +194,9 @@ Here an example on what scripts you could add to your `package.json` file.
 }
 ```
 
-## How to load stylesheets
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ How to load stylesheets
 
 ### Add the following to your `typings.d.ts` file!
 
@@ -216,6 +236,8 @@ export default {
 import css from "./my-component.scss";
 ```
 
-## 🎉 License
+![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+
+## ❯ License
 
 Licensed under [MIT](https://opensource.org/licenses/MIT).
