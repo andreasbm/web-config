@@ -51,7 +51,7 @@
 		"publish:minor": "npm run bump:minor && git push && npm run b:lib && npm run publish:dist",
 		"publish:major": "npm run bump:major && git push && npm run b:lib && npm run publish:dist",
 		"test": "npm run b:lib && karma start karma.conf.js",
-		"readme": "node src/lib/readme/readme.js"
+		"readme": "npm run b:lib && node dist/readme.cjs.js"
 	},
 	"bin": {
 		"readme": "readme.cjs.js"

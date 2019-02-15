@@ -1,9 +1,9 @@
 import colors from "colors";
-import fse from "fs-extra";
 import argv from "minimist";
+import fse from "fs-extra";
 import path from "path";
-import {LINE_BREAK} from "./config.js";
-import {validateObject} from "./helpers.js";
+import {DEFAULTS, LINE_BREAK} from "./config.js";
+import {generateReadme, getBadges, writeFile, replace} from "./helpers.js";
 import {
 	badgesTemplate,
 	bulletsTemplate,
@@ -14,58 +14,16 @@ import {
 } from "./templates.js";
 
 /**
- * Defaults.
- * @type {{PKG_NAME: string, BADGES: *[]}}
+ * Generators for the readme.
+ * @type {*[]}
  */
-const DEFAULTS = {
-	PKG_NAME: "package.json",
-	REQUIRED_PKG_FIELDS: [
-		"name",
-		"license",
-		"description",
-		"readme",
-		"readme.ids.npm",
-		"readme.ids.github"
-	],
-	TARGET: "README.md",
-	DRY: false,
-	SILENT: false,
-	BADGES: [
-		{
-			"text": "Downloads per month",
-			"url": "https://npmcharts.com/compare/{{ readme.ids.npm }}?minimal=true",
-			"img": "https://img.shields.io/npm/dm/{{ readme.ids.npm }}.svg"
-		},
-		{
-			"text": "Dependencies",
-			"url": "https://david-dm.org/{{ readme.ids.github }}",
-			"img": "https://img.shields.io/david/{{ readme.ids.github }}.svg"
-		},
-		{
-			"text": "NPM Version",
-			"url": "https://www.npmjs.com/package/{{ readme.ids.npm }}",
-			"img": "https://img.shields.io/npm/v/{{ readme.ids.npm }}.svg"
-		},
-		{
-			"text": "Contributors",
-			"url": "https://github.com/{{ readme.ids.github }}/graphs/contributors",
-			"img": "https://img.shields.io/github/contributors/{{ readme.ids.github }}.svg"
-		}
-	],
-	LICENSE_URL_MAP: {
-		MIT: "https://opensource.org/licenses/MIT"
-	},
-	BULLETS: [],
-	SECTIONS: []
-};
-
 const GENERATORS = [
 	(pkg => {
 		const name = pkg.name;
 		return readmeTitleTemplate(name);
 	}),
 	(pkg => {
-		const badges = pkg.readme.badges || DEFAULTS.BADGES;
+		const badges = getBadges(pkg);
 		return badgesTemplate(badges, pkg);
 	}),
 	(pkg => {
@@ -81,7 +39,7 @@ const GENERATORS = [
 	(pkg => {
 		const sections = (pkg.readme.sections || DEFAULTS.SECTIONS).map(({content, title}) => {
 			content = fse.readFileSync(path.resolve(content)).toString("utf8");
-			return {content, title};
+			return {content: replace(content, pkg), title: replace(title, pkg)};
 		});
 
 		return sections.map(sectionTemplate).join(`${LINE_BREAK}${LINE_BREAK}`);
@@ -92,34 +50,6 @@ const GENERATORS = [
 	})
 ];
 
-/**
- * Generates a readme.
- * @param pkgName
- * @param generators
- */
-function generateReadme (pkgName, generators) {
-
-	// Read the content from the package.json file
-	const pkgContent = fse.readFileSync(path.resolve(pkgName)).toString("utf8");
-
-	// Parse the package and validate it
-	const pkg = JSON.parse(pkgContent);
-	validateObject(pkg, DEFAULTS.REQUIRED_PKG_FIELDS, pkgName);
-
-	// Generate the readme string
-	return generators.map(generator => generator(pkg)).join(`${LINE_BREAK}${LINE_BREAK}`);
-}
-
-/**
- * Writes a file to a path.
- * @param path
- * @param content
- */
-function writeFile (path, content) {
-	const stream = fse.createWriteStream(path);
-	stream.write(content);
-	stream.end();
-}
 
 // Extract the user arguments
 const userArgs = argv(process.argv.slice(2));

@@ -1,5 +1,5 @@
 import {replace} from "./helpers.js";
-import {LINE_BREAK} from "./config";
+import {LINE_BREAK, DEFAULTS} from "./config";
 
 /**
  * Generates the template for the title.
@@ -37,7 +37,7 @@ export function titleTemplate (title, level) {
  */
 export function badgesTemplate (badges, pkg) {
 	return `<p align="center">
-		${badges.map(badge => replace(`<a href="${badge.url}"><img alt="${badge.text}" src="${badge.img}" height="20"/></a>${LINE_BREAK}`, pkg))}
+		${badges.map(badge => replace(`<a href="${badge.url}"><img alt="${badge.text}" src="${badge.img}" height="20"/></a>`, pkg)).join(LINE_BREAK)}
 	</p>
 	`;
 }
@@ -96,3 +96,4 @@ export function sectionTemplate ({title, content}) {
 
 ${content}`;
 }
+

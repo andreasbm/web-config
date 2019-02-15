@@ -1,3 +1,6 @@
+import {LINE_BREAK, DEFAULTS} from "./config";
+import fse from "fs-extra";
+import path from "path";
 
 /**
  * Determines whether an object has the specified key.
@@ -43,7 +46,7 @@ export function validateObject (pkg, requiredFields, fileName) {
 }
 
 /**
- * Replaces the placeholders.
+ * Replaces the placeholders with content from the package.
  * @param text
  * @param pkg
  * @returns {*}
@@ -52,4 +55,60 @@ export function replace (text, pkg) {
 	return text.replace(/{{[ ]*(.+?)[ ]*}}/g, (string, match) => {
 		return getKey(pkg, match.trim());
 	})
+}
+
+/**
+ * Returns available badges.
+ * @param pkg
+ * @returns {Array}
+ */
+export function getBadges (pkg) {
+	const badges = pkg.readme.badges || [];
+
+	// Add NPM badges
+	if (hasKey(pkg, "readme.ids.npm")) {
+		badges.push(...DEFAULTS.NPM_BADGES);
+	}
+
+	// Add Github badges
+	if (hasKey(pkg, "readme.ids.github")) {
+		badges.push(...DEFAULTS.GITHUB_BADGES);
+	}
+
+	// Add webcomponents badges
+	if (hasKey(pkg, "readme.ids.webcomponents")) {
+		badges.push(...DEFAULTS.WEBCOMPONENTS_BADGES);
+	}
+
+	return badges
+}
+
+/**
+ * Generates a readme.
+ * @param pkgName
+ * @param generators
+ */
+export function generateReadme (pkgName, generators) {
+
+	// Read the content from the package.json file
+	const pkgContent = fse.readFileSync(path.resolve(pkgName)).toString("utf8");
+
+	// Parse the package and validate it
+	const pkg = JSON.parse(pkgContent);
+	validateObject(pkg, DEFAULTS.REQUIRED_PKG_FIELDS, pkgName);
+
+	// Generate the readme string
+	return generators.map(generator => generator(pkg)).join(`${LINE_BREAK}${LINE_BREAK}`);
+}
+
+
+/**
+ * Writes a file to a path.
+ * @param path
+ * @param content
+ */
+export function writeFile (path, content) {
+	const stream = fse.createWriteStream(path);
+	stream.write(content);
+	stream.end();
 }
