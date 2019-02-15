@@ -98,6 +98,6 @@ export function bulletsTemplate (bullets) {
  * @param section
  */
 export function sectionTemplate ({title, content}) {
-	return `${title != null && title.length > 0 ? `${titleTemplate(title, 2)}${CONFIG.LINE_BREAK}${CONFIG.LINE_BREAK}}` : ""}${content}`;
+	return `${title != null && title.length > 0 ? `${titleTemplate(title, 2)}${CONFIG.LINE_BREAK}${CONFIG.LINE_BREAK}` : ""}${content}`;
 }
 
