@@ -54,7 +54,7 @@ const GENERATORS = [
 	(pkg => {
 		const sections = (pkg.readme.sections || CONFIG.SECTIONS).map(({content, title}) => {
 			content = fse.readFileSync(path.resolve(content)).toString("utf8");
-			return {content: replace(content, pkg), title: replace(title, pkg)};
+			return {content: replace(content, pkg), title: replace(title || "", pkg)};
 		});
 
 		return sections.map(sectionTemplate).join(`${CONFIG.LINE_BREAK}${CONFIG.LINE_BREAK}`);
