@@ -37,7 +37,7 @@
 
 ## ❯ Step 1 - Installation
 
-```javascript
+}```javascript
 npm i @appnest/web-config --D
 ```
 
@@ -46,7 +46,7 @@ npm i @appnest/web-config --D
 
 ## ❯ Step 2 - Setup `rollup.config.js`
 
-Here's an example on what your Rollup configuration file could look like:
+}Here's an example on what your Rollup configuration file could look like:
 
 ```javascript
 import path from "path";
@@ -129,7 +129,7 @@ export default {
 
 ## ❯ Step 3 - Setup `tslint.json`
 
-```json
+}```json
 {
   "extends": "./node_modules/@appnest/web-config/tslint.json"
 }
@@ -140,7 +140,7 @@ export default {
 
 ## ❯ Step 4 - Setup `tsconfig.json`
 
-```json
+}```json
 {
   "extends": "./node_modules/@appnest/web-config/tsconfig.json"
 }
@@ -151,7 +151,7 @@ export default {
 
 ## ❯ Step 5 - Setup `.browserslistrc`
 
-The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
+}The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
 
 ```
 last 2 Chrome versions
@@ -163,7 +163,7 @@ last 2 Firefox versions
 
 ## ❯ Step 6 - Setup `karma.conf.js`
 
-```javascript
+}```javascript
 const {defaultResolvePlugins, defaultKarmaConfig} = require("@appnest/web-config");
 
 module.exports = (config) => {
@@ -181,7 +181,7 @@ module.exports = (config) => {
 
 ## ❯ Step 7 - Add start and build scripts to `package.json`
 
-Here an example on what scripts you could add to your `package.json` file.
+}Here an example on what scripts you could add to your `package.json` file.
 
 ```
 {
@@ -203,7 +203,7 @@ Here an example on what scripts you could add to your `package.json` file.
 
 ## ❯ How to load stylesheets
 
-### Add the following to your `typings.d.ts` file!
+}### Add the following to your `typings.d.ts` file!
 
 This is to make Typescript not complaining about SCSS, CSS and JSON imports.
 
