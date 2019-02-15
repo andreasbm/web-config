@@ -10,7 +10,8 @@ import {
 	descriptionTemplate,
 	licenseTemplate,
 	readmeTitleTemplate,
-	sectionTemplate
+	sectionTemplate,
+	logoTemplate
 } from "./templates.js";
 
 /**
@@ -18,6 +19,14 @@ import {
  * @type {*[]}
  */
 const GENERATORS = [
+	(pkg => {
+		const logo = pkg.readme.logo;
+		if (logo == null) {
+			return null;
+		}
+
+		return logoTemplate(logo);
+	}),
 	(pkg => {
 		const name = pkg.name;
 		return readmeTitleTemplate(name);

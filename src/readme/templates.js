@@ -1,6 +1,12 @@
 import {replace} from "./helpers.js";
 import {CONFIG} from "./config";
 
+export function logoTemplate ({url, width = "auto", height = "auto", alt = "Logo"}) {
+	return `<p align="center">
+  <img src="${url}" alt="${alt}" width="${width}" height="${height}" />
+</p>`;
+}
+
 /**
  * Generates the template for the title.
  * @param title
