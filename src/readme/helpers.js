@@ -1,4 +1,4 @@
-import {LINE_BREAK, DEFAULTS} from "./config";
+import {CONFIG} from "./config";
 import fse from "fs-extra";
 import path from "path";
 
@@ -67,17 +67,17 @@ export function getBadges (pkg) {
 
 	// Add NPM badges
 	if (hasKey(pkg, "readme.ids.npm")) {
-		badges.push(...DEFAULTS.NPM_BADGES);
+		badges.push(...CONFIG.NPM_BADGES);
 	}
 
 	// Add Github badges
 	if (hasKey(pkg, "readme.ids.github")) {
-		badges.push(...DEFAULTS.GITHUB_BADGES);
+		badges.push(...CONFIG.GITHUB_BADGES);
 	}
 
 	// Add webcomponents badges
 	if (hasKey(pkg, "readme.ids.webcomponents")) {
-		badges.push(...DEFAULTS.WEBCOMPONENTS_BADGES);
+		badges.push(...CONFIG.WEBCOMPONENTS_BADGES);
 	}
 
 	return badges
@@ -95,10 +95,12 @@ export function generateReadme (pkgName, generators) {
 
 	// Parse the package and validate it
 	const pkg = JSON.parse(pkgContent);
-	validateObject(pkg, DEFAULTS.REQUIRED_PKG_FIELDS, pkgName);
+	validateObject(pkg, CONFIG.REQUIRED_PKG_FIELDS, pkgName);
 
 	// Generate the readme string
-	return generators.map(generator => generator(pkg)).join(`${LINE_BREAK}${LINE_BREAK}`);
+	return generators.map(generator => generator(pkg))
+		.filter(res => res != null)
+		.join(`${CONFIG.LINE_BREAK}${CONFIG.LINE_BREAK}`);
 }
 
 

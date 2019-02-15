@@ -1,13 +1,10 @@
-export const LINE_BREAK = "\r\n";
-export const DEFAULTS = {
+export const CONFIG = {
+	LINE_BREAK: "\r\n",
 	PKG_NAME: "package.json",
 	REQUIRED_PKG_FIELDS: [
 		"name",
-		"license",
 		"description",
-		"readme",
-		"readme.ids.npm",
-		"readme.ids.github"
+		"readme"
 	],
 	TARGET: "README.md",
 	DRY: false,

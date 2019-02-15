@@ -1,5 +1,5 @@
 import {replace} from "./helpers.js";
-import {LINE_BREAK, DEFAULTS} from "./config";
+import {CONFIG} from "./config";
 
 /**
  * Generates the template for the title.
@@ -25,7 +25,7 @@ export function lineTemplate () {
  * @returns {string}
  */
 export function titleTemplate (title, level) {
-	const beforeTitle = level <= 2 ? `${lineTemplate()}${LINE_BREAK}${LINE_BREAK}` : "";
+	const beforeTitle = level <= 2 ? `${lineTemplate()}${CONFIG.LINE_BREAK}${CONFIG.LINE_BREAK}` : "";
 	const beforeContent = level <= 2 ? ` ❯ ` : " ";
 	return `${beforeTitle}${Array(level).fill("#").join("")}${beforeContent}${title}`
 }
@@ -37,7 +37,7 @@ export function titleTemplate (title, level) {
  */
 export function badgesTemplate (badges, pkg) {
 	return `<p align="center">
-		${badges.map(badge => replace(`<a href="${badge.url}"><img alt="${badge.text}" src="${badge.img}" height="20"/></a>`, pkg)).join(LINE_BREAK)}
+		${badges.map(badge => replace(`<a href="${badge.url}"><img alt="${badge.text}" src="${badge.img}" height="20"/></a>`, pkg)).join(CONFIG.LINE_BREAK)}
 	</p>
 	`;
 }
@@ -45,13 +45,13 @@ export function badgesTemplate (badges, pkg) {
 /**
  * Generates a template for the license.
  * @param license
- * @param licensUrlsMap
+ * @param url
  * @returns {string}
  */
-export function licenseTemplate (license, licensUrlsMap) {
+export function licenseTemplate (license, url) {
 	return `${titleTemplate("License", 2)}
 	
-Licensed under [${license}](${licensUrlsMap[license]}).`;
+Licensed under [${license}](${url}).`;
 }
 
 /**
@@ -84,7 +84,7 @@ export function descriptionTemplate (description, text, demo) {
  * @param bullets
  */
 export function bulletsTemplate (bullets) {
-	return bullets.map(bullet => `* ${bullet}`).join(LINE_BREAK);
+	return bullets.map(bullet => `* ${bullet}`).join(CONFIG.LINE_BREAK);
 }
 
 /**

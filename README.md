@@ -31,6 +31,7 @@
 * [`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)
 * [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 * [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
+* [`readme` - A node app that generates a pretty readme for your project based on your package.json content](src/readme)
 
 ![split](https://github.com/andreasbm/web-config/raw/master/split.png)
 

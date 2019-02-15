@@ -51,7 +51,8 @@
 		"publish:minor": "npm run bump:minor && git push && npm run b:lib && npm run publish:dist",
 		"publish:major": "npm run bump:major && git push && npm run b:lib && npm run publish:dist",
 		"test": "npm run b:lib && karma start karma.conf.js",
-		"readme": "npm run b:lib && node dist/readme.cjs.js"
+		"readme": "npm run b:lib && node dist/readme.cjs.js",
+		"readme:readme": "npm run b:lib && node dist/readme.cjs.js --package=src/readme/readme.json --target=src/readme/README.md"
 	},
 	"bin": {
 		"readme": "readme.cjs.js"
@@ -132,12 +133,13 @@
 			"[`rollup-plugin-minify-lit-html` - A Rollup plugin that minifies lit-html templates](src/lib/rollup-plugins/minify-lit-html)",
 			"[`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)",
 			"[`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)",
-			"[`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)"
+			"[`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)",
+			"[`readme` - A node app that generates a pretty readme for your project based on your package.json content](src/readme)"
 		],
 		"sections": [
 			{
 				"title": "Step 1 - Installation",
-				"content": "readme/1-dependency.md"
+				"content": "readme/1-installation.md"
 			},
 			{
 				"title": "Step 2 - Setup `rollup.config.js`",
