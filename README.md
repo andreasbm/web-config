@@ -1,13 +1,10 @@
 <h1 align="center">@appnest/web-config</h1>
-
 <p align="center">
 		<a href="https://npmcharts.com/compare/@appnest/web-config?minimal=true"><img alt="Downloads per month" src="https://img.shields.io/npm/dm/@appnest/web-config.svg" height="20"/></a>
 <a href="https://www.npmjs.com/package/@appnest/web-config"><img alt="NPM Version" src="https://img.shields.io/npm/v/@appnest/web-config.svg" height="20"/></a>
 <a href="https://david-dm.org/andreasbm/web-config"><img alt="Dependencies" src="https://img.shields.io/david/andreasbm/web-config.svg" height="20"/></a>
 <a href="https://github.com/andreasbm/web-config/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/andreasbm/web-config.svg" height="20"/></a>
 	</p>
-	
-
 <p align="center">
   <b>A Rollup configuration to help you build modern web applications.</b></br>
   <sub>The configuration works extremely well with the libraries lit-html and lit-element. I wanted to share it so you can use it too or build on top of it.<sub>
@@ -31,20 +28,10 @@
 * [`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)
 * [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 * [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
-* [`readme` - A node app that generates a pretty readme for your project based on your package.json content](src/readme)
-
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
-
-## ❯ Step 1 - Installation
 
 ```javascript
 npm i @appnest/web-config --D
 ```
-
-
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
-
-## ❯ Step 2 - Setup `rollup.config.js`
 
 Here's an example on what your Rollup configuration file could look like:
 
@@ -124,32 +111,17 @@ export default {
 }
 ```
 
-
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
-
-## ❯ Step 3 - Setup `tslint.json`
-
 ```json
 {
   "extends": "./node_modules/@appnest/web-config/tslint.json"
 }
 ```
 
-
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
-
-## ❯ Step 4 - Setup `tsconfig.json`
-
 ```json
 {
   "extends": "./node_modules/@appnest/web-config/tsconfig.json"
 }
 ```
-
-
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
-
-## ❯ Step 5 - Setup `.browserslistrc`
 
 The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
 
@@ -158,11 +130,6 @@ last 2 Chrome versions
 last 2 Safari versions
 last 2 Firefox versions
 ```
-
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
-
-## ❯ Step 6 - Setup `karma.conf.js`
-
 ```javascript
 const {defaultResolvePlugins, defaultKarmaConfig} = require("@appnest/web-config");
 
@@ -176,11 +143,6 @@ module.exports = (config) => {
   });
 };
 ```
-
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
-
-## ❯ Step 7 - Add start and build scripts to `package.json`
-
 Here an example on what scripts you could add to your `package.json` file.
 
 ```
@@ -197,11 +159,6 @@ Here an example on what scripts you could add to your `package.json` file.
   ...
 }
 ```
-
-
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
-
-## ❯ How to load stylesheets
 
 ### Add the following to your `typings.d.ts` file!
 
@@ -242,7 +199,7 @@ import css from "./my-component.scss";
 ```
 
 
-![split](https://github.com/andreasbm/web-config/raw/master/split.png)
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
 
 ## ❯ License
 	

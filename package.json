@@ -51,11 +51,7 @@
 		"publish:minor": "npm run bump:minor && git push && npm run b:lib && npm run publish:dist",
 		"publish:major": "npm run bump:major && git push && npm run b:lib && npm run publish:dist",
 		"test": "npm run b:lib && karma start karma.conf.js",
-		"readme": "npm run b:lib && node dist/readme.cjs.js",
-		"readme:readme": "npm run b:lib && node dist/readme.cjs.js --package=src/readme/readme.json --target=src/readme/README.md"
-	},
-	"bin": {
-		"readme": "readme.cjs.js"
+		"readme": "node node_modules/.bin/readme"
 	},
 	"dependencies": {
 		"@types/chai": "^4.1.7",
@@ -108,10 +104,12 @@
 		"workbox-build": "^3.6.3"
 	},
 	"devDependencies": {
+		"@appnest/readme": "^1.0.1",
 		"lit-element": "^2.0.1",
 		"lit-html": "^1.0.0"
 	},
 	"readme": {
+		"toc": true,
 		"text": "The configuration works extremely well with the libraries lit-html and lit-element. I wanted to share it so you can use it too or build on top of it.",
 		"ids": {
 			"npm": "@appnest/web-config",
@@ -133,42 +131,7 @@
 			"[`rollup-plugin-minify-lit-html` - A Rollup plugin that minifies lit-html templates](src/lib/rollup-plugins/minify-lit-html)",
 			"[`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)",
 			"[`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)",
-			"[`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)",
-			"[`readme` - A node app that generates a pretty readme for your project based on your package.json content](src/readme)"
-		],
-		"sections": [
-			{
-				"title": "Step 1 - Installation",
-				"content": "readme/1-installation.md"
-			},
-			{
-				"title": "Step 2 - Setup `rollup.config.js`",
-				"content": "readme/2-setup-rollup.md"
-			},
-			{
-				"title": "Step 3 - Setup `tslint.json`",
-				"content": "readme/3-setup-lint.md"
-			},
-			{
-				"title": "Step 4 - Setup `tsconfig.json`",
-				"content": "readme/4-setup-tsconfig.md"
-			},
-			{
-				"title": "Step 5 - Setup `.browserslistrc`",
-				"content": "readme/5-setup-browserslist.md"
-			},
-			{
-				"title": "Step 6 - Setup `karma.conf.js`",
-				"content": "readme/6-setup-karma.md"
-			},
-			{
-				"title": "Step 7 - Add start and build scripts to `package.json`",
-				"content": "readme/7-setup-scripts.md"
-			},
-			{
-				"title": "How to load stylesheets",
-				"content": "readme/stylesheets.md"
-			}
+			"[`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)"
 		]
 	}
 }

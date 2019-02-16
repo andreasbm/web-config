@@ -66,17 +66,8 @@ async function transpileJs () {
 		treeshake: false
 	});
 
-	// Create the readme bundle
-	const readmeBundle = await rollup.rollup({
-		...inputOptions("./src/readme/index.js"),
-		treeshake: false
-	});
-
 	await libBundle.write(outputOptionsEsm("dist/index.esm.js"));
 	await libBundle.write(outputOptionsCjs("dist/index.cjs.js"));
-
-	await readmeBundle.write(outputOptionsEsm("dist/readme.esm.js"));
-	await readmeBundle.write(outputOptionsCjs("dist/readme.cjs.js"));
 }
 
 /**
