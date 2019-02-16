@@ -44,7 +44,7 @@
 	* [Load a stylesheet as a string](#load-a-stylesheet-as-a-string)
 * [❯ License](#-license)
 
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ Step 1 - Installation
 
@@ -52,7 +52,7 @@
 npm i @appnest/web-config --D
 ```
 
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ Step 2 - Setup `rollup.config.js`
 
@@ -134,7 +134,7 @@ export default {
 }
 ```
 
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ Step 3 - Setup `tslint.json`
 
@@ -144,7 +144,7 @@ export default {
 }
 ```
 
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ Step 4 - Setup `tsconfig.json`
 
@@ -154,7 +154,7 @@ export default {
 }
 ```
 
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ Step 5 - Setup `.browserslistrc`
 
@@ -165,7 +165,7 @@ last 2 Chrome versions
 last 2 Safari versions
 last 2 Firefox versions
 ```
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ Step 6 - Setup `karma.conf.js`
 
@@ -182,7 +182,7 @@ module.exports = (config) => {
   });
 };
 ```
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ Step 7 - Add start and build scripts to `package.json`
 
@@ -203,7 +203,7 @@ Here an example on what scripts you could add to your `package.json` file.
 }
 ```
 
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ How to load stylesheets
 
@@ -246,7 +246,7 @@ import css from "./my-component.scss";
 ```
 
 
-![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
 
 ## ❯ License
 	
