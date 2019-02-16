@@ -1,3 +1,5 @@
+## Step 7 - Add start and build scripts to `package.json`
+
 Here an example on what scripts you could add to your `package.json` file.
 
 ```

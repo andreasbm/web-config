@@ -1,3 +1,5 @@
+## Step 2 - Setup `rollup.config.js`
+
 Here's an example on what your Rollup configuration file could look like:
 
 ```javascript

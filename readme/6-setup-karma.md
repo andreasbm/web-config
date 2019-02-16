@@ -1,3 +1,5 @@
+## Step 6 - Setup `karma.conf.js`
+
 ```javascript
 const {defaultResolvePlugins, defaultKarmaConfig} = require("@appnest/web-config");
 

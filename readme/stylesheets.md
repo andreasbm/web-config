@@ -1,3 +1,5 @@
+## How to load stylesheets
+
 ### Add the following to your `typings.d.ts` file!
 
 This is to make Typescript not complaining about SCSS, CSS and JSON imports.

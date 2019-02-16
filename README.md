@@ -29,9 +29,32 @@
 * [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 * [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
 
+## Table of Contents
+
+* [❯ Step 1 - Installation](#-step-1---installation)
+* [❯ Step 2 - Setup `rollup.config.js`](#-step-2---setup-rollupconfigjs)
+* [❯ Step 3 - Setup `tslint.json`](#-step-3---setup-tslintjson)
+* [❯ Step 4 - Setup `tsconfig.json`](#-step-4---setup-tsconfigjson)
+* [❯ Step 5 - Setup `.browserslistrc`](#-step-5---setup-browserslistrc)
+* [❯ Step 6 - Setup `karma.conf.js`](#-step-6---setup-karmaconfjs)
+* [❯ Step 7 - Add start and build scripts to `package.json`](#-step-7---add-start-and-build-scripts-to-packagejson)
+* [❯ How to load stylesheets](#-how-to-load-stylesheets)
+	* [Add the following to your `typings.d.ts` file!](#add-the-following-to-your-typingsdts-file)
+	* [Load a global stylesheet (it will be added to the template file)](#load-a-global-stylesheet-it-will-be-added-to-the-template-file)
+	* [Load a stylesheet as a string](#load-a-stylesheet-as-a-string)
+* [❯ License](#-license)
+
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+
+## ❯ Step 1 - Installation
+
 ```javascript
 npm i @appnest/web-config --D
 ```
+
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+
+## ❯ Step 2 - Setup `rollup.config.js`
 
 Here's an example on what your Rollup configuration file could look like:
 
@@ -111,17 +134,29 @@ export default {
 }
 ```
 
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+
+## ❯ Step 3 - Setup `tslint.json`
+
 ```json
 {
   "extends": "./node_modules/@appnest/web-config/tslint.json"
 }
 ```
 
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+
+## ❯ Step 4 - Setup `tsconfig.json`
+
 ```json
 {
   "extends": "./node_modules/@appnest/web-config/tsconfig.json"
 }
 ```
+
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+
+## ❯ Step 5 - Setup `.browserslistrc`
 
 The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
 
@@ -130,6 +165,10 @@ last 2 Chrome versions
 last 2 Safari versions
 last 2 Firefox versions
 ```
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+
+## ❯ Step 6 - Setup `karma.conf.js`
+
 ```javascript
 const {defaultResolvePlugins, defaultKarmaConfig} = require("@appnest/web-config");
 
@@ -143,6 +182,10 @@ module.exports = (config) => {
   });
 };
 ```
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+
+## ❯ Step 7 - Add start and build scripts to `package.json`
+
 Here an example on what scripts you could add to your `package.json` file.
 
 ```
@@ -159,6 +202,10 @@ Here an example on what scripts you could add to your `package.json` file.
   ...
 }
 ```
+
+![line](https://github.com/andreasbm/readme/blob/master/assets/line.png)
+
+## ❯ How to load stylesheets
 
 ### Add the following to your `typings.d.ts` file!
 

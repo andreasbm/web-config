@@ -4,6 +4,8 @@
 
 {{ template:bullets }}
 
+{{ template:toc }}
+
 {{ load:readme/1-installation.md }}
 {{ load:readme/2-setup-rollup.md }}
 {{ load:readme/3-setup-lint.md }}
