@@ -5,12 +5,14 @@
 <a href="https://david-dm.org/andreasbm/web-config"><img alt="Dependencies" src="https://img.shields.io/david/andreasbm/web-config.svg" height="20"/></a>
 <a href="https://github.com/andreasbm/web-config/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/andreasbm/web-config.svg" height="20"/></a>
 	</p>
+
 <p align="center">
   <b>A Rollup configuration to help you build modern web applications.</b></br>
   <sub>The configuration works extremely well with the libraries lit-html and lit-element. I wanted to share it so you can use it too or build on top of it.<sub>
 </p>
 
 <br />
+
 
 * An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.
 * An extensible `create-karma-config.js` to help with your Karma testing setup
@@ -29,7 +31,10 @@
 * [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 * [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
 
-## Table of Contents
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+
+## ❯ Table of Contents
 
 * [❯ Step 1 - Installation](#-step-1---installation)
 * [❯ Step 2 - Setup `rollup.config.js`](#-step-2---setup-rollupconfigjs)
@@ -44,7 +49,8 @@
 	* [Load a stylesheet as a string](#load-a-stylesheet-as-a-string)
 * [❯ License](#-license)
 
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ Step 1 - Installation
 
@@ -52,7 +58,8 @@
 npm i @appnest/web-config --D
 ```
 
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ Step 2 - Setup `rollup.config.js`
 
@@ -134,7 +141,8 @@ export default {
 }
 ```
 
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ Step 3 - Setup `tslint.json`
 
@@ -144,7 +152,8 @@ export default {
 }
 ```
 
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ Step 4 - Setup `tsconfig.json`
 
@@ -154,7 +163,8 @@ export default {
 }
 ```
 
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ Step 5 - Setup `.browserslistrc`
 
@@ -165,7 +175,8 @@ last 2 Chrome versions
 last 2 Safari versions
 last 2 Firefox versions
 ```
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ Step 6 - Setup `karma.conf.js`
 
@@ -182,7 +193,8 @@ module.exports = (config) => {
   });
 };
 ```
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ Step 7 - Add start and build scripts to `package.json`
 
@@ -203,7 +215,8 @@ Here an example on what scripts you could add to your `package.json` file.
 }
 ```
 
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ How to load stylesheets
 
@@ -246,7 +259,8 @@ import css from "./my-component.scss";
 ```
 
 
-![line](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ License
 	

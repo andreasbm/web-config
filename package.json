@@ -104,7 +104,7 @@
 		"workbox-build": "^3.6.3"
 	},
 	"devDependencies": {
-		"@appnest/readme": "^1.0.2",
+		"@appnest/readme": "^1.0.9",
 		"lit-element": "^2.0.1",
 		"lit-html": "^1.0.0"
 	},
