@@ -13,7 +13,6 @@
 
 <br />
 
-
 * An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.
 * An extensible `create-karma-config.js` to help with your Karma testing setup
 * A `tsconfig.json` file to configure your Typescript
@@ -31,7 +30,6 @@
 * [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 * [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
 
-
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
 ## ❯ Table of Contents
@@ -48,7 +46,6 @@
 	* [Load a global stylesheet (it will be added to the template file)](#load-a-global-stylesheet-it-will-be-added-to-the-template-file)
 	* [Load a stylesheet as a string](#load-a-stylesheet-as-a-string)
 * [❯ License](#-license)
-
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
 
@@ -257,7 +254,6 @@ export default {
 ```javascript
 import css from "./my-component.scss";
 ```
-
 
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
