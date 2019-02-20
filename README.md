@@ -30,35 +30,35 @@
 * [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 * [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ Table of Contents
+## ➤ Table of Contents
 
-* [❯ Step 1 - Installation](#-step-1---installation)
-* [❯ Step 2 - Setup `rollup.config.js`](#-step-2---setup-rollupconfigjs)
-* [❯ Step 3 - Setup `tslint.json`](#-step-3---setup-tslintjson)
-* [❯ Step 4 - Setup `tsconfig.json`](#-step-4---setup-tsconfigjson)
-* [❯ Step 5 - Setup `.browserslistrc`](#-step-5---setup-browserslistrc)
-* [❯ Step 6 - Setup `karma.conf.js`](#-step-6---setup-karmaconfjs)
-* [❯ Step 7 - Add start and build scripts to `package.json`](#-step-7---add-start-and-build-scripts-to-packagejson)
-* [❯ How to load stylesheets](#-how-to-load-stylesheets)
+* [➤ Step 1 - Installation](#-step-1---installation)
+* [➤ Step 2 - Setup `rollup.config.js`](#-step-2---setup-rollupconfigjs)
+* [➤ Step 3 - Setup `tslint.json`](#-step-3---setup-tslintjson)
+* [➤ Step 4 - Setup `tsconfig.json`](#-step-4---setup-tsconfigjson)
+* [➤ Step 5 - Setup `.browserslistrc`](#-step-5---setup-browserslistrc)
+* [➤ Step 6 - Setup `karma.conf.js`](#-step-6---setup-karmaconfjs)
+* [➤ Step 7 - Add start and build scripts to `package.json`](#-step-7---add-start-and-build-scripts-to-packagejson)
+* [➤ How to load stylesheets](#-how-to-load-stylesheets)
 	* [Add the following to your `typings.d.ts` file!](#add-the-following-to-your-typingsdts-file)
 	* [Load a global stylesheet (it will be added to the template file)](#load-a-global-stylesheet-it-will-be-added-to-the-template-file)
 	* [Load a stylesheet as a string](#load-a-stylesheet-as-a-string)
-* [❯ License](#-license)
+* [➤ License](#-license)
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ Step 1 - Installation
+## ➤ Step 1 - Installation
 
 ```javascript
 npm i @appnest/web-config --D
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ Step 2 - Setup `rollup.config.js`
+## ➤ Step 2 - Setup `rollup.config.js`
 
 Here's an example on what your Rollup configuration file could look like:
 
@@ -139,9 +139,9 @@ export default {
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ Step 3 - Setup `tslint.json`
+## ➤ Step 3 - Setup `tslint.json`
 
 ```json
 {
@@ -150,9 +150,9 @@ export default {
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ Step 4 - Setup `tsconfig.json`
+## ➤ Step 4 - Setup `tsconfig.json`
 
 ```json
 {
@@ -161,9 +161,9 @@ export default {
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ Step 5 - Setup `.browserslistrc`
+## ➤ Step 5 - Setup `.browserslistrc`
 
 The tools transpiling your code are using `browserslist` to figure out what is supported. Your `.browserslistrc` could look like this.
 
@@ -173,9 +173,9 @@ last 2 Safari versions
 last 2 Firefox versions
 ```
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ Step 6 - Setup `karma.conf.js`
+## ➤ Step 6 - Setup `karma.conf.js`
 
 ```javascript
 const {defaultResolvePlugins, defaultKarmaConfig} = require("@appnest/web-config");
@@ -191,9 +191,9 @@ module.exports = (config) => {
 };
 ```
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ Step 7 - Add start and build scripts to `package.json`
+## ➤ Step 7 - Add start and build scripts to `package.json`
 
 Here an example on what scripts you could add to your `package.json` file.
 
@@ -213,9 +213,9 @@ Here an example on what scripts you could add to your `package.json` file.
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ How to load stylesheets
+## ➤ How to load stylesheets
 
 ### Add the following to your `typings.d.ts` file!
 
@@ -256,8 +256,8 @@ import css from "./my-component.scss";
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/line-colored.png)
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
-## ❯ License
+## ➤ License
 	
 Licensed under [MIT](https://opensource.org/licenses/MIT).
