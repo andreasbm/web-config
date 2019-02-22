@@ -261,11 +261,9 @@ import css from "./my-component.scss";
 
 ## ➤ Contributors
 	
-[<img alt="Andreas Mehlsen" src="https://avatars1.githubusercontent.com/u/6267397?s=460&v=4" width="100">](https://twitter.com/andreasmehlsen) |
-:---: |
-[Andreas Mehlsen](https://twitter.com/andreasmehlsen) |
- | |
-
+|[<img alt="Andreas Mehlsen" src="https://avatars1.githubusercontent.com/u/6267397?s=460&v=4" width="100">](https://twitter.com/andreasmehlsen)|
+|:---:|
+|[Andreas Mehlsen](https://twitter.com/andreasmehlsen)|
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
 
