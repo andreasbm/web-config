@@ -45,6 +45,7 @@
 	* [Add the following to your `typings.d.ts` file!](#add-the-following-to-your-typingsdts-file)
 	* [Load a global stylesheet (it will be added to the template file)](#load-a-global-stylesheet-it-will-be-added-to-the-template-file)
 	* [Load a stylesheet as a string](#load-a-stylesheet-as-a-string)
+* [➤ Contributors](#-contributors)
 * [➤ License](#-license)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
@@ -254,6 +255,16 @@ export default {
 ```javascript
 import css from "./my-component.scss";
 ```
+
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+
+## ➤ Contributors
+	
+[<img alt="Andreas Mehlsen" src="https://avatars1.githubusercontent.com/u/6267397?s=460&v=4" width="100">](https://twitter.com/andreasmehlsen) |
+:---: |
+[Andreas Mehlsen](https://twitter.com/andreasmehlsen) |
+([andmehlsen@gmail.com](mailto:andmehlsen@gmail.com)) |
 
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)

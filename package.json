@@ -108,6 +108,14 @@
 		"lit-element": "^2.0.1",
 		"lit-html": "^1.0.0"
 	},
+	"contributors": [
+		{
+			"name": "Andreas Mehlsen",
+			"email": "andmehlsen@gmail.com",
+			"url": "https://twitter.com/andreasmehlsen",
+			"img": "https://avatars1.githubusercontent.com/u/6267397?s=460&v=4"
+		}
+	],
 	"readme": {
 		"line": "vintage",
 		"toc": true,
