@@ -1,16 +1,24 @@
 @import "mixins.scss";
 
+@function size($size) {
+	@return calc(#{$size} * var(--size-multiplier, 1px));
+}
+
+$padding: var(--padding, #{size(24)});
+
 :root {
 	--background-color: black;
 	--theme-color: lightgrey;
-	--padding: 24px;
 }
 
 /* This is a comment */
 // This is another comment
 body {
 	background: var(--background-color);
-	padding: var(--padding);
+
+	// Test whether nested calc statements work (size will have a calc statement)
+	//padding: calc(#{$padding});
+	padding: calc(var(--padding, calc(24 * var(--side-multiplier, 1px))) + 1);
 
 	p {
 		color: yellow;

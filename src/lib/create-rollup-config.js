@@ -44,7 +44,14 @@ export const postcssPlugins = [
 	autoprefixer(),
 
 	...(isProd ? [
-		cssnano()
+		// Currently there's an issue with nested calcs and custom variables.
+		// It can be reproduces by entering the following in https://cssnano.co/playground/: font-size: calc(var(--padding, calc(24 * var(--base-size, 1px))) + 1);
+		// cssnano uses the following postcss plugins: https://cssnano.co/guides/optimisations.
+		// https://cssnano.co/optimisations/calc is therefore probably the cause for this issue.
+		// Read here for configuration: https://cssnano.co/guides/presets
+		cssnano({preset: ["default", {
+			calc: false
+		}]})
 	] : [])
 ];
 
