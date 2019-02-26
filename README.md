@@ -30,7 +30,7 @@
 * [`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)
 * [`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#table-of-contents)
 
 ## ➤ Table of Contents
 
@@ -48,7 +48,7 @@
 * [➤ Contributors](#-contributors)
 * [➤ License](#-license)
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-1---installation)
 
 ## ➤ Step 1 - Installation
 
@@ -57,7 +57,7 @@ npm i @appnest/web-config --D
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-2---setup-rollupconfigjs)
 
 ## ➤ Step 2 - Setup `rollup.config.js`
 
@@ -140,7 +140,7 @@ export default {
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-3---setup-tslintjson)
 
 ## ➤ Step 3 - Setup `tslint.json`
 
@@ -151,7 +151,7 @@ export default {
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-4---setup-tsconfigjson)
 
 ## ➤ Step 4 - Setup `tsconfig.json`
 
@@ -162,7 +162,7 @@ export default {
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-5---setup-browserslistrc)
 
 ## ➤ Step 5 - Setup `.browserslistrc`
 
@@ -174,7 +174,7 @@ last 2 Safari versions
 last 2 Firefox versions
 ```
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-6---setup-karmaconfjs)
 
 ## ➤ Step 6 - Setup `karma.conf.js`
 
@@ -192,7 +192,7 @@ module.exports = (config) => {
 };
 ```
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-7---add-start-and-build-scripts-to-packagejson)
 
 ## ➤ Step 7 - Add start and build scripts to `package.json`
 
@@ -214,7 +214,7 @@ Here an example on what scripts you could add to your `package.json` file.
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#how-to-load-stylesheets)
 
 ## ➤ How to load stylesheets
 
@@ -257,7 +257,7 @@ import css from "./my-component.scss";
 ```
 
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#contributors)
 
 ## ➤ Contributors
 	
@@ -265,7 +265,7 @@ import css from "./my-component.scss";
 |:---: | :---:|
 |[Andreas Mehlsen](https://twitter.com/andreasmehlsen) | [You?](https://github.com/andreasbm/web-config/blob/master/CONTRIBUTING.md)|
 
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#license)
 
 ## ➤ License
 	
