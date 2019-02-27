@@ -1,0 +1,27 @@
+{
+	"line": "vintage",
+	"toc": true,
+	"text": "The configuration works extremely well with the libraries lit-html and lit-element. I wanted to share it so you can use it too or build on top of it.",
+	"ids": {
+		"npm": "@appnest/web-config",
+		"github": "andreasbm/web-config"
+	},
+	"bullets": [
+		"An extensible `create-rollup-config.js` for using Rollup with sweet features as for example SCSS imports, Service Worker generation with Workbox, live reloading, coping resources, chunking, treeshaking, Typescript, production minifying and compression with brotli and gzip.",
+		"An extensible `create-karma-config.js` to help with your Karma testing setup",
+		"A `tsconfig.json` file to configure your Typescript",
+		"A `tslint.json` file to configure your linting",
+		"A `typings.d.ts` file to configure your typings",
+		"A `.browserslistrc` file to configure how your files are transpiled",
+		"A `.gitignore` file you can use as inspiration for your own `.gitignore` file",
+		"[`rollup-plugin-compress` - A Rollup plugin that compresses the files in the bundle after building](src/lib/rollup-plugins/compress)",
+		"[`rollup-plugin-copy` - A Rollup plugin that copies resources from one location to another](src/lib/rollup-plugins/copy)",
+		"[`rollup-plugin-html-template` - A Rollup plugin that injects the bundle entry points into a HTML file](src/lib/rollup-plugins/html-template)",
+		"[`rollup-plugin-import-styles` - A Rollup plugin that makes it possible to import style files using postcss](src/lib/rollup-plugins/import-styles)",
+		"[`rollup-plugin-live-reload` - A Rollup plugin that live reload files as they changes](src/lib/rollup-plugins/live-reload)",
+		"[`rollup-plugin-minify-lit-html` - A Rollup plugin that minifies lit-html templates](src/lib/rollup-plugins/minify-lit-html)",
+		"[`rollup-plugin-replace` - A Rollup plugin that replaces an import with another import](src/lib/rollup-plugins/replace)",
+		"[`rollup-plugin-workbox` - A Rollup plugin that uses workbox to generate a service worker](src/lib/rollup-plugins/workbox)",
+		"[`rollup-plugin-budget` - A Rollup plugin that compares the sizes of the files to a specified budget](src/lib/rollup-plugins/budget)"
+	]
+}
