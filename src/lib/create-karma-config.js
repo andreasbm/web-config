@@ -1,6 +1,8 @@
 /**
  * Creates a default karma configuration.
  * @param files
+ * @param frameworks
+ * @param reporters
  * @param mime
  * @param preprocessors
  * @param browsers
@@ -14,25 +16,27 @@ export const defaultKarmaConfig = ({files, mime, preprocessors, browsers, karmaP
 		autoWatch: true,
 		singleRun: true,
 		captureTimeout: 60000,
+		browsers: ["ChromeHeadless"],
+		frameworks: ["mocha", "chai", "iframes"],
+		reporters: ["progress"],
 		plugins: [
 			"karma-mocha",
 			"karma-chai",
 			"karma-chrome-launcher",
 			"karma-rollup-preprocessor",
+			"karma-iframes",
 			...(karmaPlugins || [])
 		],
-		browsers: browsers || ["ChromeHeadless"],
-		frameworks: ["mocha", "chai"],
-		reporters: ["progress"],
 		files: [
 			/**
 			 * Make sure to disable Karma’s file watcher
 			 * because the preprocessor will use its own.
 			 */
-			{pattern: "**/*.test.+(ts|js)", watched: false}
+			{pattern: "**/*.test.+(ts|js)", watched: false},
+			...(files || [])
 		],
 		preprocessors: {
-			"**/*.test.+(ts|js)": ["rollup"],
+			"**/*.test.+(ts|js)": ["rollup", "iframes"],
 			...(preprocessors || {})
 		},
 		rollupPreprocessor: {
