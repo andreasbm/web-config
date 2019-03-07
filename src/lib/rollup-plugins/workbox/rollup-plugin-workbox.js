@@ -7,7 +7,8 @@ import {generateSW, injectManifest} from "workbox-build";
  */
 const defaultConfig = {
 	mode: "generateSW",
-	verbose: true
+	verbose: true,
+	timeout: 2000
 };
 
 /**
@@ -32,7 +33,7 @@ function workboxFactory (mode) {
  * @returns {{name: string, generateBundle: generateBundle}}
  */
 export function workbox (config,) {
-	const {workboxConfig, mode, verbose} = {...defaultConfig, ...config};
+	const {workboxConfig, mode, verbose, timeout} = {...defaultConfig, ...config};
 
 	// Ensure a workbox config exists
 	if (workboxConfig == null) {
@@ -45,6 +46,9 @@ export function workbox (config,) {
 			if (!isWrite) return;
 
 			try {
+				setTimeout(async () => {
+					await workboxFactory(mode)(workboxConfig);
+				}, 1000);
 				await workboxFactory(mode)(workboxConfig);
 
 			} catch (ex) {
