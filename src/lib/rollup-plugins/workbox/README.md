@@ -26,7 +26,7 @@ export default {
     workbox({
         workboxConfig: {
           globDirectory:"dist",
-          swDest: "dist"
+          swDest: "sw.json"
         }
     })
   ]
