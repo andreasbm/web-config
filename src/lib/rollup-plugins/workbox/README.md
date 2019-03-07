@@ -10,6 +10,7 @@ Option   |   Type        |    Description     |    Default
 ---------| --------------| ------------------ | ---------------------------------
 `mode` | `"injectManifest" | "generateSW"` | The generateSW mode creates a service worker file for you, and writes it out to disk. The injectManifest mode will generate a list of URLs to precache, and add that precache manifest to an existing service worker file. It will otherwise leave the file as-is. Read more [here](https://developers.google.com/web/tools/workbox/modules/workbox-build)  | `"generateSW"`
 `verbose` | `Boolean` | Disables or enables logging output to the console. | `true`
+`workboxConfig` | Object | Configuration object for workbox (required) | undefined
 
 ### Example
 
@@ -22,7 +23,12 @@ export default {
     dest: "dist/index.js"
   },
   plugins: [
-    workbox()
+    workbox({
+        workboxConfig: {
+          globDirectory:"dist",
+          swDest: "dist"
+        }
+    })
   ]
 };
 ```
