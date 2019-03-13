@@ -10,7 +10,8 @@ export class MyComponent extends LitElement {
 			<style>
 				${css}
 			</style>
-			<p part="text" @click="${() => alert("Hello World")}">${this.text}</p>
+			<p part="text">${this.text}</p>
+			<wl-button @click="${() => alert("Hello World")}">Test</wl-button>
 		`;
 	}
 }

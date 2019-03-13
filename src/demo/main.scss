@@ -21,14 +21,13 @@ body {
 	padding: calc(var(--padding, calc(24 * var(--side-multiplier, 1px))) + 1);
 
 	p {
+		@include weightify(bold);
 		color: yellow;
 
 		&.highlight {
 			color: red;
 		}
 	}
-
-	@include weightify(bold);
 }
 
 ::part(text) {

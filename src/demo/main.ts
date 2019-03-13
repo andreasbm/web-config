@@ -2,6 +2,7 @@ import "./my-component";
 import "./main.scss";
 import { env } from "./env";
 import pkg from "./../../package.json";
+import "weightless/button";
 
 console.log(pkg.name, env.TAG);
 

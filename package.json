@@ -56,7 +56,7 @@
 	"dependencies": {
 		"@types/chai": "^4.1.7",
 		"@types/mocha": "^5.2.6",
-		"@types/node": "^11.11.0",
+		"@types/node": "^11.11.3",
 		"@wessberg/rollup-plugin-ts": "^1.1.34",
 		"autoprefixer": "^9.4.10",
 		"babel-core": "^6.26.3",
@@ -100,14 +100,15 @@
 		"rollup-plugin-visualizer": "^1.0.2",
 		"rollup-pluginutils": "^2.4.1",
 		"targz": "^1.0.1",
-		"ts-lit-plugin": "0.1.7",
+		"ts-lit-plugin": "0.1.8",
 		"typescript": "^3.3.3333",
 		"workbox-build": "^4.1.0"
 	},
 	"devDependencies": {
-		"@appnest/readme": "^1.1.8",
+		"@appnest/readme": "^1.1.14",
 		"lit-element": "^2.0.1",
-		"lit-html": "^1.0.0"
+		"lit-html": "^1.0.0",
+		"weightless": "0.0.5"
 	},
 	"contributors": [
 		{
