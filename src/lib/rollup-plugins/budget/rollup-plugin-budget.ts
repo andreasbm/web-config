@@ -4,8 +4,30 @@ import fileSize from "filesize";
 import fse from "fs-extra";
 import gzipSize from "gzip-size";
 import readdir from "recursive-readdir-sync";
+import { OutputBundle, OutputOptions } from "rollup";
 
-const defaultConfig = {
+export interface IBudgetResult {
+	gzippedSize: number;
+	max: number;
+	sizePerc: number;
+	aboveMax: boolean;
+	name: string;
+	format?: boolean;
+	path: string;
+}
+
+export type BudgetRender = ((result: IBudgetResult) => string);
+
+export interface IRollupPluginBudgetConfig {
+	sizes: {[key: string]: number;},
+	render: BudgetRender;
+	fileName: string;
+	silent: boolean;
+	threshold: number,
+	timeout: number;
+}
+
+const defaultConfig: IRollupPluginBudgetConfig = {
 	sizes: {},
 	render: defaultRender,
 
@@ -27,7 +49,7 @@ const defaultConfig = {
  * @param content
  * @returns {Number}
  */
-function getGzippedSizeBytes (content) {
+function getGzippedSizeBytes (content: string | Buffer): number {
 	return gzipSize.sync(content);
 }
 
@@ -36,7 +58,7 @@ function getGzippedSizeBytes (content) {
  * @param content
  * @returns {number}
  */
-function getSizeBytes (content) {
+function getSizeBytes (content: string): number {
 	return Buffer.byteLength(content);
 }
 
@@ -47,7 +69,7 @@ function getSizeBytes (content) {
  * @param max
  * @returns {number}
  */
-function clamp (value, min, max) {
+function clamp (value: number, min: number, max: number): number {
 	return Math.max(Math.min(value, max), min);
 }
 
@@ -56,7 +78,7 @@ function clamp (value, min, max) {
  * @param num
  * @returns {number}
  */
-function roundNumber (num) {
+function roundNumber (num: number): number {
 	return Math.round(num * 100) / 100;
 }
 
@@ -64,19 +86,18 @@ function roundNumber (num) {
  * Initializes an array with a length and a start value.
  * @param length
  * @param value
- * @returns {any[]}
  */
-function initArray (length, value) {
-	return Array.from({length}, () => value);
+function initArray<T> (length: number, value: T): T[] {
+	return Array(length).fill(value);
+	//return Array.from({length}, () => value);
 }
 
 /**
  * Returns the file name for a path.
  * @param path
- * @returns {*}
  */
-function fileNameForPath (path) {
-	return path.replace(/^.*[\\\/]/, '');
+function fileNameForPath (path: string): string {
+	return path.replace(/^.*[\\\/]/, "");
 }
 
 /**
@@ -87,13 +108,12 @@ function fileNameForPath (path) {
  * @param aboveMax
  * @param name
  * @param format
- * @returns {*}
  */
-function defaultRender ({gzippedSize, max, sizePerc, aboveMax, name, format}) {
+function defaultRender ({gzippedSize, max, sizePerc, aboveMax, name, format}: IBudgetResult): string {
 
-	const titleColor = format ? colors["green"].bold : text => text;
-	const valueColor = format ? colors["yellow"] : text => text;
-	const statusColor = format ? colors[aboveMax ? "red" : "yellow"] : text => text;
+	const titleColor: ((text: string) => string) = format ? colors["green"].bold : (text => text);
+	const valueColor: ((text: string) => string) = format ? colors["yellow"] : (text => text);
+	const statusColor: ((text: string) => string) = format ? colors[aboveMax ? "red" : "yellow"] : (text => text);
 	const barMaxLength = 20;
 
 	const values = [
@@ -101,7 +121,9 @@ function defaultRender ({gzippedSize, max, sizePerc, aboveMax, name, format}) {
 		`${titleColor("Budget Size:")}   ${valueColor(fileSize(max))}`,
 		// `${titleColor("Actual Size:")}   ${statusColor(fileSize(actualSize))}`,
 		`${titleColor("Gzipped Size:")}  ${statusColor(fileSize(gzippedSize))}`,
-		`${statusColor("[")}${statusColor(initArray(Math.round(clamp(sizePerc * barMaxLength, 0, barMaxLength)), "#").join(""))}${statusColor(initArray(clamp(Math.round((1 - sizePerc) * barMaxLength), 0, barMaxLength), ".").join(""))}${statusColor("]")} ${statusColor("(" + roundNumber(sizePerc * 100) + "%)")}`
+		`${statusColor("[")}${statusColor(initArray(Math.round(clamp(sizePerc * barMaxLength, 0, barMaxLength)), "#")
+			.join(""))}${statusColor(initArray(clamp(Math.round((1 - sizePerc) * barMaxLength), 0, barMaxLength), ".")
+			.join(""))}${statusColor("]")} ${statusColor("(" + roundNumber(sizePerc * 100) + "%)")}`
 	];
 
 	return boxen(values.join("\n"), {padding: 1});
@@ -114,7 +136,7 @@ function defaultRender ({gzippedSize, max, sizePerc, aboveMax, name, format}) {
  * @param sizes
  * @returns {*}
  */
-function budgetForPath (path, sizes) {
+function budgetForPath (path: string, sizes: {[key: string]: number}): number | null {
 	for (const [name, max] of Object.entries(sizes)) {
 		const isExtension = name.startsWith(".");
 		if (path.match(name + (isExtension ? "$" : ""))) {
@@ -130,13 +152,13 @@ function budgetForPath (path, sizes) {
  * @param config
  * @returns {{name: string, generateBundle(*, *, *): (undefined|void)}}
  */
-export function budget (config = defaultConfig) {
+export function budget (config: Partial<IRollupPluginBudgetConfig>) {
 	const {sizes, timeout, render, silent, fileName, threshold} = {...defaultConfig, ...config};
 	const isOutputJson = fileName.endsWith(".json");
 
 	return {
 		name: "budget",
-		generateBundle (outputOptions, bundle, isWrite) {
+		generateBundle: async (outputOptions: OutputOptions, bundle: OutputBundle, isWrite: boolean): Promise<void> => {
 
 			// If no sizes has been specifies we can already abort now.
 			if (Object.keys(sizes).length === 0) {
@@ -148,11 +170,11 @@ export function budget (config = defaultConfig) {
 				const stream = fse.createWriteStream(`${outputOptions.dir}/${fileName}`);
 
 				const results = readdir(target)
-					.map(path => {
-						return {max: budgetForPath(path, sizes), path}
+					.map((path: string) => {
+						return {max: budgetForPath(path, sizes), path};
 					})
-					.filter(({max}) => max != null && max > 0)
-					.map(({path, max}) => {
+					.filter(({max}: {max: number}) => max != null && max > 0)
+					.map(({path, max}: {path: string, max: number}): IBudgetResult => {
 						const content = fse.readFileSync(path);
 						const name = fileNameForPath(path);
 						const gzippedSize = getGzippedSizeBytes(content);
@@ -161,7 +183,7 @@ export function budget (config = defaultConfig) {
 						return {name, gzippedSize, sizePerc, aboveMax, max, path};
 					})
 					// Ensure the ones closest to the budget are in top
-					.sort((a, b) => b.sizePerc - a.sizePerc);
+					.sort((a: IBudgetResult, b: IBudgetResult) => b.sizePerc - a.sizePerc);
 
 				for (const result of results) {
 

@@ -1,5 +1,5 @@
 export const defaultBabelConfig = () => {
-	return (api) => {
+	return (api: any) => {
 		api.cache(false);
 		const presets = [
 			[

@@ -1,11 +1,18 @@
-import colors from "colors";
+import {yellow} from "colors";
 import fse from "fs-extra";
+import { OutputBundle, OutputOptions } from "rollup";
+
+export interface IRollupPluginCopyConfig {
+	resources: [string, string][];
+	verbose: boolean;
+	overwrite: boolean;
+}
 
 /**
  * Default configuration for the copy plugin.
  * @type {{resources: Array}}
  */
-const defaultConfig = {
+const defaultConfig: IRollupPluginCopyConfig = {
 	resources: [],
 	verbose: true,
 	overwrite: true
@@ -14,24 +21,22 @@ const defaultConfig = {
 /**
  * A Rollup plugin that copies resources from one location to another.
  * @param config
- * @param config
- * @returns {{name: string, generateBundle: generateBundle}}
  */
-export function copy (config) {
+export function copy (config: Partial<IRollupPluginCopyConfig>) {
 	const {resources, verbose, overwrite} = {...defaultConfig, ...config};
 
 	return {
 		name: "copy",
-		generateBundle: async (outputOptions, bundle, isWrite) => {
+		generateBundle: async (outputOptions: OutputOptions, bundle: OutputBundle, isWrite: boolean): Promise<void> => {
 			if (!isWrite) return;
 			for (const [from, to] of resources) {
 				try {
 					if (overwrite || !fse.existsSync(to)) {
 						await fse.copy(from, to);
 					}
-				} catch (ex) {
+				} catch (err) {
 					if (verbose) {
-						console.log(colors.yellow(`[copy] - The file "${from}" could not be copied to "${to}"\n`, ex.message));
+						console.log(yellow(`[copy] - The file "${from}" could not be copied to "${to}"\n`), err.message);
 					}
 				}
 			}

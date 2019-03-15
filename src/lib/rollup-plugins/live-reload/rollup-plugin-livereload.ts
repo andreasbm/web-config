@@ -2,6 +2,12 @@ import colors from "colors";
 import {createServer} from "livereload";
 import {resolve} from "path";
 
+export interface IRollupPLuginLivereloadConfig {
+	watch: string;
+	port: number;
+	verbose: boolean;
+}
+
 /**
  * #########################################
  * Parts of this code is heavily inspired by https://github.com/thgh/rollup-plugin-livereload.
@@ -11,9 +17,8 @@ import {resolve} from "path";
 
 /**
  * Default configuration for the livereload plugin.
- * @type {{watch: string, port: number, verbose: boolean}}
  */
-const defaultConfig = {
+const defaultConfig: IRollupPLuginLivereloadConfig = {
 	watch: "dist",
 	port: 35729,
 	verbose: true
@@ -22,7 +27,7 @@ const defaultConfig = {
 /**
  * Returns the livereload html.
  */
-function livereloadHtml (port) {
+function livereloadHtml (port: number): string {
 	return `/* Inserted by the Livereload plugin */
 	if (typeof document !== 'undefined') {
 		(function(doc, id) {
@@ -50,16 +55,16 @@ function livereloadHtml (port) {
  * Subscribes the server to terminate when required.
  * @param server
  */
-function attachTerminationListeners (server) {
+function attachTerminationListeners (server: any) {
 
 	// Hook up listeners that kills the server if the process is terminated for some reason
 	const terminationSignals = ["SIGINT", "SIGTERM", "SIGQUIT"];
 	for (const signal of terminationSignals) {
-		process.on(signal, () => killServer(server));
+		process.on(<any>signal, () => killServer(server));
 	}
 
 	// Rethrow the error
-	server.on("error", err => {
+	server.on("error", (err: Error) => {
 		server.close();
 		throw err;
 	});
@@ -69,7 +74,7 @@ function attachTerminationListeners (server) {
  * Tears down the server.
  * @param server
  */
-function killServer (server) {
+function killServer (server: any) {
 	server.close();
 	process.exit();
 }
@@ -79,13 +84,15 @@ function killServer (server) {
  * @param config
  * @returns {*}
  */
-export function livereload (config) {
+export function livereload (config: Partial<IRollupPLuginLivereloadConfig>) {
 	const {watch, port, verbose} = {...defaultConfig, ...config};
 
 	// Start watching the files
 	const server = createServer({watch, port, verbose});
 	const paths = Array.isArray(watch) ? watch : [watch];
-	server.watch(paths.map(p => resolve(process.cwd(), p)));
+
+	// @ts-ignore // TODO
+	server.watch(paths.map((p: string) => resolve(process.cwd(), p)));
 	attachTerminationListeners(server);
 
 	return {
@@ -93,7 +100,7 @@ export function livereload (config) {
 		banner: () => livereloadHtml(port),
 		generateBundle: () => {
 			if (verbose) {
-				console.log(colors.green(`[livereload] - Enabled`));
+				console.log(colors.green(`[livereload] - Enabled on port "${port}".`));
 			}
 		}
 	}

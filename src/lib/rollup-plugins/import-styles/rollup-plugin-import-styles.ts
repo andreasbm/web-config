@@ -1,40 +1,51 @@
 import MagicString from "magic-string";
-import path from "path";
 import postcss from "postcss";
-import {emptySourcemap} from "../util.js";
+import { ResolveIdResult, TransformSourceDescription } from "rollup";
+import {emptySourcemap} from "../util";
 import sass from "node-sass";
-import {resolve} from "path";
+import {resolve, dirname} from "path";
+
+export type Transformer = ((css: string) => string);
+export type GetTransformer = ((id: string, isGlobal: boolean) => Transformer);
+
+export interface IRollupPluginImportStylesConfig {
+	// Postcss plugins.
+	plugins: any[];
+
+	// File types handled by this plugin.
+	extensions: string[];
+
+	// Global files that are injected into the DOM.
+	globals: string[];
+
+	// Configuration objects for sass and postcss
+	postcssConfig: any;
+	sassConfig: any;
+
+	// Transform function for the styles
+	transform: GetTransformer;
+}
 
 /**
  * Default configuration for the import SCSS plugin.
  * @type {{plugins: Array, extensions: string[], globals: Array}}
  */
-const defaultConfig = {
-
-	// Postcss plugins.
+const defaultConfig: IRollupPluginImportStylesConfig = {
 	plugins: [],
-
-	// File types handled by this plugin.
 	extensions: [".css", ".scss"],
-
-	// Global files that are injected into the DOM.
 	globals: [],
-
-	// Configuration objects for sass and postcss
 	postcssConfig: {},
 	sassConfig: {},
-
-	// Transform function for the styles
 	transform: transformImport
 };
+
 
 /**
  * Default transform.
  * @param id
  * @param isGlobal
- * @returns {function(css: string): string}
  */
-function transformImport (id, isGlobal) {
+function transformImport (id: string, isGlobal: boolean) {
 	return isGlobal ? transformGlobal : transformDefault;
 }
 
@@ -43,7 +54,7 @@ function transformImport (id, isGlobal) {
  * @param css
  * @returns {string}
  */
-function transformDefault (css) {
+function transformDefault (css: string): string {
 	return `export default \`${css}\``;
 }
 
@@ -52,7 +63,7 @@ function transformDefault (css) {
  * @param css
  * @returns {string}
  */
-function transformGlobal (css) {
+function transformGlobal (css: string): string {
 	return `
 		const css = \`${css}\`;
 		const $styles = document.createElement("style");
@@ -70,14 +81,13 @@ function transformGlobal (css) {
  * @param overwrite
  * @param postcssConfig
  * @param sassConfig
- * @returns {Promise<any>}
  */
-function processFile ({data, id, processor, overwrite, postcssConfig, sassConfig}) {
+async function processFile ({data, id, processor, overwrite, postcssConfig, sassConfig}: IRollupPluginImportStylesConfig & {overwrite: Transformer; data: string; id: string; processor: postcss.Processor}) {
 	return new Promise((res) => {
 
 		// Compile the data using the sass compiler
 		const css = sass.renderSync({
-			file: resolve(process.cwd(), id),
+			file: resolve(id),
 			sourceMap: false, /* We generate sourcemaps later */
 			...(sassConfig || {})
 		}).css.toString();
@@ -120,29 +130,31 @@ function processFile ({data, id, processor, overwrite, postcssConfig, sassConfig
  * A Rollup plugin that makes it possible to import style files using postcss.
  * Looks for the "import css from 'styles.scss'" and "import 'styles.scss'" syntax as default.
  * @param config
- * @returns {{name: string, resolveId: resolveId, transform: transform}}
  */
-export function importStyles (config = defaultConfig) {
-	const {plugins, extensions, globals, postcssConfig, sassConfig, transform} = {...defaultConfig, ...config};
+export function importStyles (config: Partial<IRollupPluginImportStylesConfig>) {
+	config = {...defaultConfig, ...config};
+	const {plugins, extensions, globals, transform} = config as IRollupPluginImportStylesConfig;
 
 	// Determines whether the file should be handled by the plugin or not.
-	const filter = (id) => extensions.find(ext => id.endsWith(ext)) != null;
+	const filter = (id: string) => extensions.find(ext => id.endsWith(ext)) != null;
 
 	// Determines whether the file is global or not
-	const isGlobal = (id) => globals.find(name => id.endsWith(name)) != null;
+	const isGlobal = (id: string) => globals.find(name => id.endsWith(name)) != null;
 
 	// Create the postcss processor based on the plugins.
 	const processor = postcss(plugins);
 
 	return {
 		name: "importStyles",
-		resolveId: (id, importer) => {
+		resolveId: (id: string, importer: string): ResolveIdResult => {
 			if (!importer || !filter(id)) return;
-			return path.resolve(path.dirname(importer), id);
+			return resolve(dirname(importer), id);
 		},
-		transform: (data, id) => {
+		transform: async (data: string, id: string): Promise<TransformSourceDescription | string | void> => {
 			if (!filter(id)) return;
-			return processFile({data, id, processor, postcssConfig, sassConfig, overwrite: transform(id, isGlobal(id))});
+			const overwrite = transform(id, isGlobal(id));
+			// @ts-ignore
+			return processFile({...config, processor, overwrite, id, data});
 		}
 	}
 }

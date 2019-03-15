@@ -1,11 +1,23 @@
-import * as escodegen from "escodegen";
-import * as esprima from "esprima";
-import * as estraverse from "estraverse";
-import * as htmlMinifier from "html-minifier";
-import path from "path";
-import {createFilter} from "rollup-pluginutils";
-import {emptySourcemap} from "../util.js";
 import colors from "colors";
+import {generate} from "escodegen";
+import { parseModule, ParseOptions, parseScript, Program } from "esprima";
+import {replace as estraverseReplace, VisitorOption } from "estraverse";
+import * as ESTree from "estree";
+import { minify } from "html-minifier";
+import {resolve, dirname} from "path";
+import { ResolveIdResult, TransformSourceDescription } from "rollup";
+import { createFilter } from "rollup-pluginutils";
+import { emptySourcemap } from "../util";
+
+export type HtmlMinifierConfig = any;
+
+export interface IRollupPluginMinifyLitHtml {
+	include: (string | RegExp)[],
+	exclude: (string | RegExp)[],
+	verbose: boolean;
+	esprima: ParseOptions,
+	htmlMinifier: HtmlMinifierConfig
+}
 
 /**
  * #########################################
@@ -16,14 +28,12 @@ import colors from "colors";
 
 /**
  * The default configuration for the minify-lit-html plugin.
- * @type {{include: RegExp[], exclude: Array, esprima: {sourceType: string, loc: boolean, range: boolean}, htmlMinifier: {caseSensitive: boolean, collapseWhitespace: boolean, minifyCSS: boolean, preventAttributesEscaping: boolean, removeComments: boolean, ignoreCustomFragments: RegExp[]}}}
  */
-const defaultConfig = {
+const defaultConfig: IRollupPluginMinifyLitHtml = {
 	include: [/\.js$/, /\.ts$/],
 	exclude: [],
 	verbose: true,
 	esprima: {
-		attachComment: false,
 		loc: true,
 		range: true,
 		tolerant: true,
@@ -53,13 +63,12 @@ const defaultConfig = {
  * This function is heavily inspired by https://github.com/edge0701/minify-lit-html-loader/blob/master/src/index.ts.
  * @param code
  * @param config
- * @returns {function(*=): *}
  */
-function createTransformer ({code, config}) {
+function createTransformer ({code, config}: {code: string, config: HtmlMinifierConfig}) {
 	const chunks = code.split("");
-	return (ast) => {
-		return estraverse.replace(ast, {
-			enter: (node) => {
+	return (ast: any) => {
+		return estraverseReplace(ast, {
+			enter: (node: ESTree.Node): VisitorOption | ESTree.Node | void => {
 
 				// If the node type is a TaggedTemplateExpression we know we are looking at a TemplateResult.
 				if (node.type === "TaggedTemplateExpression") {
@@ -71,13 +80,13 @@ function createTransformer ({code, config}) {
 							&& node.tag.property.name === "html")) {
 
 						// Minify the HTML inside the html tagged template literals.
-						const mini = htmlMinifier.minify(
-							chunks.slice(node.quasi.range[0] + 1, node.quasi.range[1] - 1).join(''),
+						const mini = minify(
+							chunks.slice(node.quasi.range![0] + 1, node.quasi.range![1] - 1).join(""),
 							config.htmlMinifier
 						);
 
 						// Return the new node
-						return {
+						return <any>{
 							...node,
 							quasi: {
 								...node.quasi,
@@ -86,33 +95,29 @@ function createTransformer ({code, config}) {
 									value: {
 										raw: mini
 									},
-									range: [node.quasi.range[0], mini.length]
+									range: [node.quasi.range![0], mini.length]
 								}]
 							}
 						};
 					}
 				}
 			},
-			fallback: "iteration",
+			fallback: "iteration"
 		});
-	}
+	};
 }
 
 /**
  * Figures out whether the code is a script type or module type.
  * @param code
- * @returns {string}
+ * @param config
  */
-function deduceSourceType(code) {
-	let type = 'module';
-
+function parseAst ({code, config}: {code: string, config: IRollupPluginMinifyLitHtml}): Program {
 	try {
-		esprima.parse(code, { sourceType: 'script' });
-		type = 'script';
+		return parseModule(code, config.esprima);
 	} catch (e) {
+		return parseScript(code, config.esprima);
 	}
-
-	return type;
 }
 
 /**
@@ -122,30 +127,36 @@ function deduceSourceType(code) {
  * @param config
  * @returns {Promise<void>}
  */
-function processFile ({code, id, config}) {
+function processFile ({code, id, config}: {code: string, id: string, config: IRollupPluginMinifyLitHtml}): Promise<TransformSourceDescription> {
 	return new Promise(res => {
+
+
 
 		try {
 			// Create transformer that traverses the ast and minifies the html`...` parts.
-			const transform = createTransformer({code, config, sourceType: deduceSourceType(code)});
+			const transform = createTransformer({code, config});
 
 			// Build an ast from the current config
-			const ast = esprima.parse(code, config.esprima);
+			const ast = parseAst({code, config});
 
-			// Create new ast using the transformer
+			// // Create new ast using the transformer
 			const newAst = transform(ast);
 
 			// Regenerate the code based on the new ast.
-			const gen = escodegen.generate(newAst, {
-				sourceMap: id,
+			// If sourceMapWithCode is truthy, an object is returned from
+			// generate() of the form: { code: .. , map: .. }
+			const {code: minifiedCode, map} = <any>generate(newAst, {
 				sourceMapWithCode: true,
+				sourceMap: id,
 				sourceContent: code,
+				sourceCode: code
 			});
 
-			res({
-				code: gen.code,
-				map: gen.map.toString(),
-			})
+			return res({
+				code: minifiedCode,
+				map: map.toString()
+			} as TransformSourceDescription);
+
 		} catch (err) {
 			if (config.verbose) {
 				console.log(colors.yellow(`[minifyLitHTML] - Could not parse "${err.toString()}" in "${id}"\n`));
@@ -155,7 +166,7 @@ function processFile ({code, id, config}) {
 			res({
 				code,
 				map: emptySourcemap
-			});
+			} as TransformSourceDescription);
 		}
 	});
 }
@@ -166,20 +177,21 @@ function processFile ({code, id, config}) {
  * @returns {{name: string, resolveId: (function(*=, *=): *), transform: (function(*, *=): Promise<void>)}}
  */
 export function minifyLitHTML (config = defaultConfig) {
-	const {include, exclude, esprima, htmlMinifier, verbose} = {...defaultConfig, ...config};
+	config = {...defaultConfig, ...config};
+	const {include, exclude} = config;
 
 	// Generate a filter that determines whether the file should be handled by the plugin or not.
 	const filter = createFilter(include, exclude);
 
 	return {
-		name: 'minifyLitHTML',
-		resolveId: (id, importer) => {
+		name: "minifyLitHTML",
+		resolveId: (id: string, importer: string): ResolveIdResult => {
 			if (!importer || !filter(id)) return;
-			return path.resolve(path.dirname(importer), id);
+			return resolve(dirname(importer), id);
 		},
-		transform: (code, id) => {
+		transform: (code: string, id: string): void | Promise<TransformSourceDescription | string | void> => {
 			if (!filter(id)) return;
-			return processFile({code, id, config: {esprima, htmlMinifier, verbose}});
+			return processFile({code, id, config});
 		}
-	}
+	};
 }

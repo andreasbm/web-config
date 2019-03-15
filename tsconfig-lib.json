@@ -1,0 +1,8 @@
+{
+	"extends": "./src/lib/tsconfig.json",
+	"compilerOptions": {
+		"noImplicitAny": false,
+		"emitDecoratorMetadata": true,
+		"declaration": true
+	}
+}

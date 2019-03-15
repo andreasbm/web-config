@@ -1,28 +1,46 @@
-import {readFile} from 'fs';
-import fse from "fs-extra";
-import {createFilter} from 'rollup-pluginutils';
 import colors from "colors";
+import { readFile } from "fs";
+import fse from "fs-extra";
+import { OutputBundle, OutputOptions } from "rollup";
+import { createFilter } from "rollup-pluginutils";
+
+export enum ScriptTypeKind {
+	MODULE = "module",
+	SCRIPT = "script"
+}
+
+export interface ITransformInfo {
+	template: string;
+	bodyCloseTagIndex: number;
+	fileNames: string[];
+	scriptType: ScriptTypeKind;
+}
+
+export interface IRollupPluginHtmlTemplateConfig {
+	// HTML template (needs to contain a body tag)
+	template: string;
+
+	// The target destination for the generated file
+	target: string;
+
+	// Transforms the template
+	transform: ((info: ITransformInfo) => string);
+	verbose: boolean;
+	include: (string | RegExp)[];
+	exclude: (string | RegExp)[];
+	scriptType: ScriptTypeKind.MODULE;
+}
 
 /**
  * Default configuration for the html template plugin.
  * Note that both template and target are required.
- * @type {{template: null, target: null}}
  */
-const defaultConfig = {
-
-	// HTML template (needs to contain a body tag)
-	template: null,
-
-	// The target destination for the generated file
-	target: null,
-
-	// Transforms the template
+const defaultConfig: Partial<IRollupPluginHtmlTemplateConfig> = {
 	transform: transformTemplate,
-
 	verbose: true,
 	include: [],
 	exclude: [],
-	scriptType: "module"
+	scriptType: ScriptTypeKind.MODULE
 };
 
 /**
@@ -32,14 +50,13 @@ const defaultConfig = {
  * @param bodyCloseTagIndex
  * @param fileNames
  * @param scriptType
- * @returns {string}
  */
-function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType}) {
+function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType}: ITransformInfo): string {
 	return [
 		template.slice(0, bodyCloseTagIndex),
 		...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
 		template.slice(bodyCloseTagIndex, template.length)
-	].join('');
+	].join("");
 }
 
 /**
@@ -54,9 +71,8 @@ function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType}
  * @param include
  * @param exclude
  * @param transform
- * @returns {Promise<any>}
  */
-function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude, transform}) {
+async function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude, transform}: IRollupPluginHtmlTemplateConfig & {bundle: OutputBundle, filter: ((path: string) => boolean)}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -69,7 +85,7 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose, i
 			const template = buffer.toString("utf8");
 
 			// Grab the index of the body close tag
-			const bodyCloseTagIndex = template.lastIndexOf('</body>');
+			const bodyCloseTagIndex = template.lastIndexOf("</body>");
 
 			// Grab fileNames of the entry points
 			const unfilteredFilenames = Object.values(bundle).map(value => value.fileName);
@@ -91,17 +107,17 @@ function generateFile ({bundle, template, target, filter, scriptType, verbose, i
 			} catch (err) {
 				rej(err);
 			}
-		})
+		});
 	});
 }
 
 /**
  * A Rollup plugin that injects the bundle entry points into a HTML file.
  * @param config
- * @returns {{name: string, generateBundle: (function(*, *, *): Promise<any>)}}
  */
-export function htmlTemplate (config = defaultConfig) {
-	const {template, target, include, exclude, scriptType, verbose, transform} = {...defaultConfig, ...config};
+export function htmlTemplate (config: Partial<IRollupPluginHtmlTemplateConfig> & {target: string, template: string}) {
+	config = {...defaultConfig, ...config};
+	const {template, target, include, exclude} = {...defaultConfig, ...config};
 	const filter = createFilter(include, exclude);
 
 	// Throw error if neither the template nor the target has been defined
@@ -111,9 +127,10 @@ export function htmlTemplate (config = defaultConfig) {
 
 	return {
 		name: "htmlTemplate",
-		generateBundle: (outputOptions, bundle, isWrite) => {
+		generateBundle: async (outputOptions: OutputOptions, bundle: OutputBundle, isWrite: boolean): Promise<void> => {
 			if (!isWrite) return;
-			return generateFile({bundle, template, target, filter, scriptType, verbose, include, exclude, transform});
-		},
-	}
+			// @ts-ignore // TODO!
+			return generateFile({...config, ...{bundle, filter}});
+		}
+	};
 }

@@ -1,15 +1,20 @@
+export interface IDefaultKarmaConfig {
+	files: {pattern: string, watched: boolean}[];
+	mime: {[key: string]: string[]};
+	preprocessors: {[key: string]: string[]};
+	karmaPlugins: string[];
+	rollupPlugins: any[];
+}
+
 /**
  * Creates a default karma configuration.
  * @param files
- * @param frameworks
- * @param reporters
  * @param mime
  * @param preprocessors
- * @param browsers
  * @param karmaPlugins
  * @param rollupPlugins
  */
-export const defaultKarmaConfig = ({files, mime, preprocessors, browsers, karmaPlugins, rollupPlugins} = {}) => {
+export const defaultKarmaConfig = ({files, mime, preprocessors, karmaPlugins, rollupPlugins}: Partial<IDefaultKarmaConfig> = {}) => {
 	return {
 		concurrency: Infinity,
 		colors: true,

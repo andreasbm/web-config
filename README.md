@@ -64,7 +64,7 @@ npm i @appnest/web-config --D
 Here's an example on what your Rollup configuration file could look like:
 
 ```javascript
-import path from "path";
+import {resolve, join} from "path";
 import pkg from "./package.json";
 import {
   defaultExternals,
@@ -78,16 +78,16 @@ import {
 } from "@appnest/web-config";
 
 const folders = {
-  dist: path.resolve(__dirname, "dist"),
-  src: path.resolve(__dirname, "src/demo"),
-  src_assets: path.resolve(__dirname, "src/demo/assets"),
-  dist_assets: path.resolve(__dirname, "dist/assets")
+  dist: resolve(__dirname, "dist"),
+  src: resolve(__dirname, "src/demo"),
+  src_assets: resolve(__dirname, "src/demo/assets"),
+  dist_assets: resolve(__dirname, "dist/assets")
 };
 
 const files = {
-  main: path.join(folders.src, "main.ts"),
-  src_index: path.join(folders.src, "index.html"),
-  dist_index: path.join(folders.dist, "index.html")
+  main: join(folders.src, "main.ts"),
+  src_index: join(folders.src, "index.html"),
+  dist_index: join(folders.dist, "index.html")
 };
 
 export default {

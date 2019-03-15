@@ -1,4 +1,4 @@
-import path from "path";
+import {resolve, join} from "path";
 import {
 	defaultOutputConfig,
 	defaultPlugins,
@@ -6,19 +6,19 @@ import {
 	defaultServePlugins,
 	isProd,
 	isServe
-} from "./src/lib/create-rollup-config.js";
+} from "./dist/lib/index.esm.js";
 
 const folders = {
-	dist: path.resolve(__dirname, "dist"),
-	src: path.resolve(__dirname, "src/demo"),
-	src_assets: path.resolve(__dirname, "src/demo/assets"),
-	dist_assets: path.resolve(__dirname, "dist/assets")
+	dist: resolve(__dirname, "dist/demo"),
+	src: resolve(__dirname, "src/demo"),
+	src_assets: resolve(__dirname, "src/demo/assets"),
+	dist_assets: resolve(__dirname, "dist/demo/assets")
 };
 
 const files = {
-	main: path.join(folders.src, "main.ts"),
-	src_index: path.join(folders.src, "index.html"),
-	dist_index: path.join(folders.dist, "index.html")
+	main: join(folders.src, "main.ts"),
+	src_index: join(folders.src, "index.html"),
+	dist_index: join(folders.dist, "index.html")
 };
 
 export default {
@@ -36,7 +36,7 @@ export default {
 			replaceConfig: {
 				resources: [
 					(isProd ?
-						[path.resolve(__dirname, "src/demo/env.ts"), path.resolve(__dirname, "src/demo/env.prod.ts")]
+						[resolve(__dirname, "src/demo/env.ts"), resolve(__dirname, "src/demo/env.prod.ts")]
 					: [])
 				]
 			},
