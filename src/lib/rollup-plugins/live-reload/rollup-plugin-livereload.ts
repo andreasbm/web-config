@@ -84,7 +84,7 @@ function killServer (server: any) {
  * @param config
  * @returns {*}
  */
-export function livereload (config: Partial<IRollupPLuginLivereloadConfig>) {
+export function livereload (config: Partial<IRollupPLuginLivereloadConfig> = {}) {
 	const {watch, port, verbose} = {...defaultConfig, ...config};
 
 	// Start watching the files

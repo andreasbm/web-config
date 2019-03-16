@@ -176,7 +176,7 @@ function processFile ({code, id, config}: {code: string, id: string, config: IRo
  * @param config
  * @returns {{name: string, resolveId: (function(*=, *=): *), transform: (function(*, *=): Promise<void>)}}
  */
-export function minifyLitHTML (config = defaultConfig) {
+export function minifyLitHTML (config: Partial<IRollupPluginMinifyLitHtml> = {}) {
 	config = {...defaultConfig, ...config};
 	const {include, exclude} = config;
 
@@ -191,7 +191,7 @@ export function minifyLitHTML (config = defaultConfig) {
 		},
 		transform: (code: string, id: string): void | Promise<TransformSourceDescription | string | void> => {
 			if (!filter(id)) return;
-			return processFile({code, id, config});
+			return processFile({code, id, config: config as IRollupPluginMinifyLitHtml});
 		}
 	};
 }

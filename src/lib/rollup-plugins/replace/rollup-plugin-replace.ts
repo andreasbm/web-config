@@ -16,7 +16,7 @@ const defaultConfig: IRollupPluginReplaceConfig = {
  * A Rollup plugin that replaces an import with another import.
  * @param config
  */
-export function replace (config: Partial<IRollupPluginReplaceConfig>) {
+export function replace (config: Partial<IRollupPluginReplaceConfig> = {}) {
 	const {resources, verbose} = {...defaultConfig, ...config};
 
 	return {

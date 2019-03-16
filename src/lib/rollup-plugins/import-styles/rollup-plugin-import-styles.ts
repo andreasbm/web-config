@@ -131,7 +131,7 @@ async function processFile ({data, id, processor, overwrite, postcssConfig, sass
  * Looks for the "import css from 'styles.scss'" and "import 'styles.scss'" syntax as default.
  * @param config
  */
-export function importStyles (config: Partial<IRollupPluginImportStylesConfig>) {
+export function importStyles (config: Partial<IRollupPluginImportStylesConfig> = {}) {
 	config = {...defaultConfig, ...config};
 	const {plugins, extensions, globals, transform} = config as IRollupPluginImportStylesConfig;
 

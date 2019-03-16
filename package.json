@@ -40,7 +40,7 @@
 		"b:demo:prod": "rollup -c --environment NODE_ENV:prod",
 		"s:demo:dev": "rollup -c --watch --environment NODE_ENV:dev",
 		"s:demo:prod": "rollup -c --watch --environment NODE_ENV:prod",
-		"s": "npm run s:demo:dev",
+		"s": "npm run b:lib && npm run s:demo:dev",
 		"b:lib": "rollup -c=rollup-lib.config.js && node post-build.js",
 		"ncu": "ncu -u -a && npm update && npm install",
 		"bump:patch": "npm version patch && git add . && git commit --no-edit --amend --no-verify",

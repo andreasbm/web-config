@@ -115,7 +115,7 @@ async function generateFile ({bundle, template, target, filter, scriptType, verb
  * A Rollup plugin that injects the bundle entry points into a HTML file.
  * @param config
  */
-export function htmlTemplate (config: Partial<IRollupPluginHtmlTemplateConfig> & {target: string, template: string}) {
+export function htmlTemplate (config: Partial<IRollupPluginHtmlTemplateConfig> = {}) {
 	config = {...defaultConfig, ...config};
 	const {template, target, include, exclude} = {...defaultConfig, ...config};
 	const filter = createFilter(include, exclude);

@@ -45,7 +45,7 @@ function workboxFactory (mode: GenerateServiceWorkerKind): typeof generateSW | t
  * A Rollup plugin that uses workbox to generate a service worker.
  * @param config
  */
-export function workbox (config: Partial<IRollupPluginWorkboxConfig>) {
+export function workbox (config: Partial<IRollupPluginWorkboxConfig> = {}) {
 	const {workboxConfig, mode, verbose, timeout} = {...defaultConfig, ...config};
 
 	// Ensure a workbox config exists

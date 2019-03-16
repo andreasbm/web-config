@@ -2,6 +2,7 @@ import ts, { TypescriptPluginOptions } from "@wessberg/rollup-plugin-ts";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import precss from "precss";
+import { OutputOptions } from "rollup";
 import cleaner from "rollup-plugin-cleaner";
 import commonjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
@@ -11,23 +12,41 @@ import progress from "rollup-plugin-progress";
 import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
 import visualizer from "rollup-plugin-visualizer";
-import { budget } from "./rollup-plugins/budget/rollup-plugin-budget";
-import { compress } from "./rollup-plugins/compress/rollup-plugin-compress";
-import { copy } from "./rollup-plugins/copy/rollup-plugin-copy";
-import { htmlTemplate } from "./rollup-plugins/html-template/rollup-plugin-html-template";
+import { budget, IRollupPluginBudgetConfig } from "./rollup-plugins/budget/rollup-plugin-budget";
+import { compress, IRollupPluginCompressConfig } from "./rollup-plugins/compress/rollup-plugin-compress";
+import { copy, IRollupPluginCopyConfig } from "./rollup-plugins/copy/rollup-plugin-copy";
+import { htmlTemplate, IRollupPluginHtmlTemplateConfig } from "./rollup-plugins/html-template/rollup-plugin-html-template";
 import { importStyles, IRollupPluginImportStylesConfig } from "./rollup-plugins/import-styles/rollup-plugin-import-styles";
 import { livereload } from "./rollup-plugins/live-reload/rollup-plugin-livereload";
-import { minifyLitHTML } from "./rollup-plugins/minify-lit-html/rollup-plugin-minify-lit-html";
+import { IRollupPluginMinifyLitHtml, minifyLitHTML } from "./rollup-plugins/minify-lit-html/rollup-plugin-minify-lit-html";
 import { IRollupPluginReplaceConfig, replace } from "./rollup-plugins/replace/rollup-plugin-replace";
 import {join} from "path";
 
 export interface IDefaultResolvePlugins {
-	importStylesConfig: IRollupPluginImportStylesConfig;
-	replaceConfig: IRollupPluginReplaceConfig;
+	importStylesConfig: Partial<IRollupPluginImportStylesConfig>;
+	replaceConfig: Partial<IRollupPluginReplaceConfig>;
 	tsConfig: TypescriptPluginOptions;
 	commonjsConfig: any;
 	jsonConfig: any;
 	resolveConfig: any;
+}
+
+export interface IDefaultPlugins extends IDefaultResolvePlugins{
+	copyConfig: Partial<IRollupPluginCopyConfig>;
+	htmlTemplateConfig: Partial<IRollupPluginHtmlTemplateConfig>;
+	replaceConfig: Partial<IRollupPluginReplaceConfig>;
+	cleanerConfig: any;
+	progressConfig: any;
+}
+
+export interface IDefaultProdPlugins {
+	minifyLitHtmlConfig: Partial<IRollupPluginMinifyLitHtml>;
+	budgetConfig: Partial<IRollupPluginBudgetConfig>;
+	compressConfig: Partial<IRollupPluginCompressConfig>;
+	dist: string;
+	licenseConfig: any;
+	terserConfig: any;
+	visualizerConfig: any;
 }
 
 // Information about the environment.
@@ -67,20 +86,28 @@ export const postcssPlugins = [
 
 /**
  * Default configuration for the output.
+ * @param config
  */
-export const defaultOutputConfig = (config = {}) => {
+export const defaultOutputConfig = (config: Partial<OutputOptions>) => {
 	// format: (system, amd, cjs, esm, iife, umd)
 	return {
 		entryFileNames: "[name]-[hash].js",
 		chunkFileNames: "[name]-[hash].js",
 		sourcemap: true,
+		format: "esm",
 		...configOrDefault(config)
 	};
 };
 
 /**
  * Default plugins for resolve.
- **/
+ * @param importStylesConfig
+ * @param replaceConfig
+ * @param tsConfig
+ * @param commonjsConfig
+ * @param jsonConfig
+ * @param resolveConfig
+ */
 export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveConfig, tsConfig, commonjsConfig, replaceConfig}: Partial<IDefaultResolvePlugins> = {}) => [
 
 	// Teaches Rollup what files should be replaced
@@ -127,8 +154,18 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 
 /**
  * Default configuration for the plugins that runs every time the bundle is created.
+ * @param cleanerConfig
+ * @param copyConfig
+ * @param importStylesConfig
+ * @param jsonConfig
+ * @param htmlTemplateConfig
+ * @param resolveConfig
+ * @param progressConfig
+ * @param tsConfig
+ * @param commonjsConfig
+ * @param replaceConfig
  */
-export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig, replaceConfig}: any = {}) => [
+export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig, replaceConfig}: Partial<IDefaultPlugins> = {}) => [
 
 	// Shows a progress indicator while building
 	progress({
@@ -140,6 +177,7 @@ export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, j
 		...configOrDefault(cleanerConfig)
 	}),
 
+	// Teach rollup how to resolve imports
 	...defaultResolvePlugins({
 		importStylesConfig,
 		jsonConfig,
@@ -162,6 +200,9 @@ export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, j
 
 /**
  * Default plugins that only run when the bundle is being served.
+ * @param dist
+ * @param serveConfig
+ * @param livereloadConfig
  */
 export const defaultServePlugins = ({dist, serveConfig, livereloadConfig}: any = {}) => [
 
@@ -187,8 +228,15 @@ export const defaultServePlugins = ({dist, serveConfig, livereloadConfig}: any =
 
 /**
  * Default plugins that only run when the bundle is being created in prod mode.
+ * @param dist
+ * @param minifyLitHtmlConfig
+ * @param licenseConfig
+ * @param terserConfig
+ * @param budgetConfig
+ * @param visualizerConfig
+ * @param compressConfig
  */
-export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, budgetConfig, visualizerConfig, compressConfig}: any = {}) => [
+export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, budgetConfig, visualizerConfig, compressConfig}: Partial<IDefaultProdPlugins> = {}) => [
 
 	// Minifies the lit-html files
 	minifyLitHTML({
@@ -227,6 +275,9 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 
 /**
  * Default external dependencies.
+ * @param dependencies
+ * @param devDependencies
+ * @param peerDependencies
  */
 export const defaultExternals = ({dependencies, devDependencies, peerDependencies}: {dependencies?: string[], devDependencies?: string[], peerDependencies?: string[]}) => [
 	...Object.keys(configOrDefault(dependencies)),

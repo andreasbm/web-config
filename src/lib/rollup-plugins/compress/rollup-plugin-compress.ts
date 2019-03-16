@@ -13,8 +13,10 @@ export interface IRollupPluginCompressConfig {
 	include: (string | RegExp)[];
 	exclude: (string | RegExp)[];
 	compressors: Compressor[];
-	timeout: number;
 	dir?: string;
+
+	// We need a timeout to make sure all files have been bundled
+	timeout: number;
 }
 
 const defaultConfig: IRollupPluginCompressConfig = {
@@ -26,7 +28,6 @@ const defaultConfig: IRollupPluginCompressConfig = {
 		compressBrotli
 	],
 
-	// We need a timeout to make sure all files have been bundled
 	timeout: 2000
 };
 
@@ -67,7 +68,7 @@ export function compressBrotli ({src, verbose}: {src: string, verbose: boolean})
  * @param config
  * @returns {{name: string, generateBundle: generateBundle}}
  */
-export function compress (config: Partial<IRollupPluginCompressConfig>) {
+export function compress (config: Partial<IRollupPluginCompressConfig> = {}) {
 	const {verbose, dir, timeout, compressors, include, exclude} = {...defaultConfig, ...config};
 	const filter = createFilter(include, exclude);
 

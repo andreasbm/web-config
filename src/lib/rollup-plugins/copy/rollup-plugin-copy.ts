@@ -22,7 +22,7 @@ const defaultConfig: IRollupPluginCopyConfig = {
  * A Rollup plugin that copies resources from one location to another.
  * @param config
  */
-export function copy (config: Partial<IRollupPluginCopyConfig>) {
+export function copy (config: Partial<IRollupPluginCopyConfig> = {}) {
 	const {resources, verbose, overwrite} = {...defaultConfig, ...config};
 
 	return {

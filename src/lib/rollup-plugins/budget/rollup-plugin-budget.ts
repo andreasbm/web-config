@@ -1,7 +1,7 @@
 import boxen from "boxen";
 import colors from "colors";
 import fileSize from "filesize";
-import fse from "fs-extra";
+import {readFileSync, createWriteStream} from "fs-extra";
 import gzipSize from "gzip-size";
 import readdir from "recursive-readdir-sync";
 import { OutputBundle, OutputOptions } from "rollup";
@@ -12,7 +12,7 @@ export interface IBudgetResult {
 	sizePerc: number;
 	aboveMax: boolean;
 	name: string;
-	format?: boolean;
+	formatted?: boolean;
 	path: string;
 }
 
@@ -21,26 +21,26 @@ export type BudgetRender = ((result: IBudgetResult) => string);
 export interface IRollupPluginBudgetConfig {
 	sizes: {[key: string]: number;},
 	render: BudgetRender;
+
+	// The name of the output file where the budget for the files is printed to.
 	fileName: string;
+
+	// Whether or not the budget for the files should be printed to the console.
 	silent: boolean;
+
+	// The threshold of what files should be ignored. Every percentage below the threshold is ignored
 	threshold: number,
+
+	// We need a timeout to make sure all files have been bundled
 	timeout: number;
 }
 
 const defaultConfig: IRollupPluginBudgetConfig = {
 	sizes: {},
 	render: defaultRender,
-
-	// The name of the output file where the budget for the files is printed to.
 	fileName: "budget.txt",
-
-	// Whether or not the budget for the files should be printed to the console.
 	silent: true,
-
-	// The threshold of what files should be ignored. Every percentage below the threshold is ignored
 	threshold: 0,
-
-	// We need a timeout to make sure all files have been bundled
 	timeout: 2000
 };
 
@@ -89,7 +89,6 @@ function roundNumber (num: number): number {
  */
 function initArray<T> (length: number, value: T): T[] {
 	return Array(length).fill(value);
-	//return Array.from({length}, () => value);
 }
 
 /**
@@ -109,11 +108,12 @@ function fileNameForPath (path: string): string {
  * @param name
  * @param format
  */
-function defaultRender ({gzippedSize, max, sizePerc, aboveMax, name, format}: IBudgetResult): string {
+function defaultRender ({gzippedSize, max, sizePerc, aboveMax, name, formatted}: IBudgetResult): string {
 
-	const titleColor: ((text: string) => string) = format ? colors["green"].bold : (text => text);
-	const valueColor: ((text: string) => string) = format ? colors["yellow"] : (text => text);
-	const statusColor: ((text: string) => string) = format ? colors[aboveMax ? "red" : "yellow"] : (text => text);
+	// Create methods for formatting the colors
+	const titleColor: ((text: string) => string) = formatted ? colors["green"].bold : (text => text);
+	const valueColor: ((text: string) => string) = formatted ? colors["yellow"] : (text => text);
+	const statusColor: ((text: string) => string) = formatted ? colors[aboveMax ? "red" : "yellow"] : (text => text);
 	const barMaxLength = 20;
 
 	const values = [
@@ -152,7 +152,7 @@ function budgetForPath (path: string, sizes: {[key: string]: number}): number | 
  * @param config
  * @returns {{name: string, generateBundle(*, *, *): (undefined|void)}}
  */
-export function budget (config: Partial<IRollupPluginBudgetConfig>) {
+export function budget (config: Partial<IRollupPluginBudgetConfig> = {}) {
 	const {sizes, timeout, render, silent, fileName, threshold} = {...defaultConfig, ...config};
 	const isOutputJson = fileName.endsWith(".json");
 
@@ -165,9 +165,10 @@ export function budget (config: Partial<IRollupPluginBudgetConfig>) {
 				return;
 			}
 
+			// Wait a small amount of time for the bundle to finish before analyzing the bundle.
 			setTimeout(() => {
 				const target = outputOptions.dir;
-				const stream = fse.createWriteStream(`${outputOptions.dir}/${fileName}`);
+				const stream = createWriteStream(`${outputOptions.dir}/${fileName}`);
 
 				const results = readdir(target)
 					.map((path: string) => {
@@ -175,7 +176,7 @@ export function budget (config: Partial<IRollupPluginBudgetConfig>) {
 					})
 					.filter(({max}: {max: number}) => max != null && max > 0)
 					.map(({path, max}: {path: string, max: number}): IBudgetResult => {
-						const content = fse.readFileSync(path);
+						const content = readFileSync(path);
 						const name = fileNameForPath(path);
 						const gzippedSize = getGzippedSizeBytes(content);
 						const sizePerc = gzippedSize / max;
@@ -185,6 +186,7 @@ export function budget (config: Partial<IRollupPluginBudgetConfig>) {
 					// Ensure the ones closest to the budget are in top
 					.sort((a: IBudgetResult, b: IBudgetResult) => b.sizePerc - a.sizePerc);
 
+				// Go through all results and report them
 				for (const result of results) {
 
 					// Skip the reporting if the size perc is below the threshold
@@ -194,7 +196,7 @@ export function budget (config: Partial<IRollupPluginBudgetConfig>) {
 
 					// Print to the console if not silent
 					if (!silent) {
-						console.log(render({...result, format: true}));
+						console.log(render({...result, formatted: true}));
 					}
 
 					// Write to the file
@@ -209,7 +211,6 @@ export function budget (config: Partial<IRollupPluginBudgetConfig>) {
 				}
 
 				stream.end();
-
 			}, timeout);
 		}
 	};
