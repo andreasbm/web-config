@@ -43,7 +43,7 @@ export default {
 			copyConfig: {
 				resources: [[folders.src_assets, folders.dist_assets]]
 			},
-			cleanerConfig: {
+			cleanConfig: {
 				targets: [
 					folders.dist
 				]

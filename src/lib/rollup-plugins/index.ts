@@ -7,3 +7,4 @@ export * from "./workbox/rollup-plugin-workbox";
 export * from "./compress/rollup-plugin-compress";
 export * from "./replace/rollup-plugin-replace";
 export * from "./budget/rollup-plugin-budget";
+export * from "./clean/rollup-plugin-clean";

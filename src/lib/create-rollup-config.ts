@@ -3,7 +3,6 @@ import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import precss from "precss";
 import { OutputOptions } from "rollup";
-import cleaner from "rollup-plugin-cleaner";
 import commonjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
 import license from "rollup-plugin-license";
@@ -13,6 +12,7 @@ import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
 import visualizer from "rollup-plugin-visualizer";
 import { budget, IRollupPluginBudgetConfig } from "./rollup-plugins/budget/rollup-plugin-budget";
+import { clean, IRollupPluginCleanConfig } from "./rollup-plugins/clean/rollup-plugin-clean";
 import { compress, IRollupPluginCompressConfig } from "./rollup-plugins/compress/rollup-plugin-compress";
 import { copy, IRollupPluginCopyConfig } from "./rollup-plugins/copy/rollup-plugin-copy";
 import { htmlTemplate, IRollupPluginHtmlTemplateConfig } from "./rollup-plugins/html-template/rollup-plugin-html-template";
@@ -35,7 +35,7 @@ export interface IDefaultPlugins extends IDefaultResolvePlugins{
 	copyConfig: Partial<IRollupPluginCopyConfig>;
 	htmlTemplateConfig: Partial<IRollupPluginHtmlTemplateConfig>;
 	replaceConfig: Partial<IRollupPluginReplaceConfig>;
-	cleanerConfig: any;
+	cleanConfig: Partial<IRollupPluginCleanConfig>
 	progressConfig: any;
 }
 
@@ -154,7 +154,7 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 
 /**
  * Default configuration for the plugins that runs every time the bundle is created.
- * @param cleanerConfig
+ * @param cleanConfig
  * @param copyConfig
  * @param importStylesConfig
  * @param jsonConfig
@@ -165,7 +165,7 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
  * @param commonjsConfig
  * @param replaceConfig
  */
-export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig, replaceConfig}: Partial<IDefaultPlugins> = {}) => [
+export const defaultPlugins = ({cleanConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig, replaceConfig}: Partial<IDefaultPlugins> = {}) => [
 
 	// Shows a progress indicator while building
 	progress({
@@ -173,8 +173,8 @@ export const defaultPlugins = ({cleanerConfig, copyConfig, importStylesConfig, j
 	}),
 
 	// Cleans the dist folder to get rid of files from the previous build
-	cleaner({
-		...configOrDefault(cleanerConfig)
+	clean({
+		...configOrDefault(cleanConfig)
 	}),
 
 	// Teach rollup how to resolve imports
