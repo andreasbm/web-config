@@ -93,7 +93,6 @@
 		"prompts": "^2.0.4",
 		"recursive-readdir-sync": "^1.0.6",
 		"rollup": "^1.6.0",
-		"rollup-plugin-cleaner": "^0.2.0",
 		"rollup-plugin-commonjs": "^9.2.1",
 		"rollup-plugin-json": "^3.1.0",
 		"rollup-plugin-license": "^0.8.1",
