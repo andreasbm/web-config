@@ -386,7 +386,8 @@ ehthumbs.db
 function setupBaseFiles (config: INewCommandConfig) {
 
 	const mainScssContent = `html { font-size: 12px; }`;
-	const mainTsContent = `document.addEventListener("click", () => alert("Hello World!"));`;
+	const mainTsContent = `import "main.scss";
+document.addEventListener("click", () => alert("Hello World!"));`;
 	const indexContent = `<!DOCTYPE html>
 <html>
 <head>
