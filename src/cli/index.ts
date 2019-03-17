@@ -9,10 +9,9 @@ program
 	.command("new")
 	.description("Setup a new project from scratch.")
 	.option('-d, --dir', `Base directory`, "")
-	.action(options => {
-		newCommand({
-			dir: options.dir
-		}).then();
+	.action(dir => {
+		dir = typeof dir == "string" ? dir : "";
+		newCommand({dir}).then();
 	});
 
 // Error on unknown commands
