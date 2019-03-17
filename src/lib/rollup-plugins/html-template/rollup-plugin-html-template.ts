@@ -14,6 +14,16 @@ export interface ITransformInfo {
 	bodyCloseTagIndex: number;
 	fileNames: string[];
 	scriptType: ScriptTypeKind;
+	polyfillConfig: IPolyfillConfig;
+}
+
+export interface IPolyfillConfig {
+	src: string;
+	crossorigin: boolean;
+	force: boolean;
+	context: "window" | "worker" | "node";
+	features: string[];
+	options: string[];
 }
 
 export interface IRollupPluginHtmlTemplateConfig {
@@ -29,7 +39,20 @@ export interface IRollupPluginHtmlTemplateConfig {
 	include: (string | RegExp)[];
 	exclude: (string | RegExp)[];
 	scriptType: ScriptTypeKind.MODULE;
+	polyfillConfig: Partial<IPolyfillConfig>;
 }
+
+/**
+ * Default configuration for the polyfill.
+ */
+const defaultPolyfillConfig: IPolyfillConfig = {
+	src: "https://polyfill.app/api/polyfill",
+	crossorigin: true,
+	force: false,
+	context: "window",
+	features: [],
+	options: []
+};
 
 /**
  * Default configuration for the html template plugin.
@@ -40,8 +63,14 @@ const defaultConfig: Partial<IRollupPluginHtmlTemplateConfig> = {
 	verbose: true,
 	include: [],
 	exclude: [],
-	scriptType: ScriptTypeKind.MODULE
+	scriptType: ScriptTypeKind.MODULE,
+	polyfillConfig: defaultPolyfillConfig
 };
+
+export function getPolyfillScript (config: IPolyfillConfig) {
+	const src = `${config.src}?${config.features.join("&")}${config.options.length > 0 ? `|${config.options.join("|")}` : ""}`;
+	return `<script ${config.crossorigin ? "crossorigin" : ""} src="${src}"></script>`
+}
 
 /**
  * Transform the template and inserts a script tag for each file.
@@ -51,10 +80,11 @@ const defaultConfig: Partial<IRollupPluginHtmlTemplateConfig> = {
  * @param fileNames
  * @param scriptType
  */
-function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType}: ITransformInfo): string {
+export function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType, polyfillConfig}: ITransformInfo): string {
 	return [
 		template.slice(0, bodyCloseTagIndex),
 		...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
+		(polyfillConfig.features.length > 0 ? `${getPolyfillScript(polyfillConfig)}\n` : ""),
 		template.slice(bodyCloseTagIndex, template.length)
 	].join("");
 }
@@ -72,7 +102,7 @@ function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType}
  * @param exclude
  * @param transform
  */
-async function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude, transform}: IRollupPluginHtmlTemplateConfig & {bundle: OutputBundle, filter: ((path: string) => boolean)}) {
+async function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude, transform, polyfillConfig}: IRollupPluginHtmlTemplateConfig & {bundle: OutputBundle, filter: ((path: string) => boolean)}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -97,7 +127,7 @@ async function generateFile ({bundle, template, target, filter, scriptType, verb
 			}
 
 			// Transform the template
-			const html = transform({template, bodyCloseTagIndex, fileNames, scriptType});
+			const html = transform({template, bodyCloseTagIndex, fileNames, scriptType, polyfillConfig: polyfillConfig as IPolyfillConfig});
 
 			// Write the injected template to a file.
 			try {
@@ -117,20 +147,21 @@ async function generateFile ({bundle, template, target, filter, scriptType, verb
  */
 export function htmlTemplate (config: Partial<IRollupPluginHtmlTemplateConfig> = {}) {
 	config = {...defaultConfig, ...config};
-	const {template, target, include, exclude} = {...defaultConfig, ...config};
+	const {template, target, include, exclude, polyfillConfig} = {...defaultConfig, ...config};
 	const filter = createFilter(include, exclude);
 
 	// Throw error if neither the template nor the target has been defined
 	if (template == null || target == null) {
-		throw new Error(`The htmlTemplate plugin needs both a template and a target`);
+		throw new Error(`The htmlTemplate plugin needs both a template and a target.`);
 	}
 
 	return {
 		name: "htmlTemplate",
 		generateBundle: async (outputOptions: OutputOptions, bundle: OutputBundle, isWrite: boolean): Promise<void> => {
 			if (!isWrite) return;
-			// @ts-ignore // TODO!
-			return generateFile({...config, ...{bundle, filter}});
+
+			// @ts-ignore
+			return generateFile({...config, polyfillConfig: {...defaultPolyfillConfig, ...polyfillConfig}, bundle, filter});
 		}
 	};
 }
