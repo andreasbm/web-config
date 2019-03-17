@@ -52,6 +52,15 @@
 
 ## ➤ Step 1 - Installation
 
+The fastest way to get started is to use the simple. Run the following two commands to setup your project from scratch.
+
+```javascript
+npm i @appnest/web-config -g
+web-config new --dir="my-project"
+```
+
+To use it in your project you can install it like this.
+
 ```javascript
 npm i @appnest/web-config --D
 ```
@@ -261,9 +270,11 @@ import css from "./my-component.scss";
 
 ## ➤ Contributors
 	
-|[<img alt="Andreas Mehlsen" src="https://avatars1.githubusercontent.com/u/6267397?s=460&v=4" width="100">](https://twitter.com/andreasmehlsen) | [<img alt="You?" src="https://joeschmoe.io/api/v1/random" width="100">](https://github.com/andreasbm/web-config/blob/master/CONTRIBUTING.md)|
-|:---: | :---:|
-|[Andreas Mehlsen](https://twitter.com/andreasmehlsen) | [You?](https://github.com/andreasbm/web-config/blob/master/CONTRIBUTING.md)|
+
+| [<img alt="Andreas Mehlsen" src="https://avatars1.githubusercontent.com/u/6267397?s=460&v=4" width="100">](https://twitter.com/andreasmehlsen) | [<img alt="You?" src="https://joeschmoe.io/api/v1/random" width="100">](https://github.com/andreasbm/web-config/blob/master/CONTRIBUTING.md) |
+|:--------------------------------------------------:|:--------------------------------------------------:|
+| [Andreas Mehlsen](https://twitter.com/andreasmehlsen) | [You?](https://github.com/andreasbm/web-config/blob/master/CONTRIBUTING.md) |
+
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#license)
 
