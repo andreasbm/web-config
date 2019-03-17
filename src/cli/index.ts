@@ -8,15 +8,21 @@ program
 program
 	.command("new")
 	.description("Setup a new project from scratch.")
-	.option('-d, --dir', `Base directory`, "")
-	.action(dir => {
-		dir = typeof dir == "string" ? dir : "";
-		newCommand({dir}).then();
+	.option('--d, --dir [value]', `Base directory`, "")
+	.action(cmd => {
+		const options = cmd.opts();
+		newCommand({dir: options.dir}).then();
 	});
 
-// Error on unknown commands
+// Do some error handling
+const userArgs = process.argv.slice(2);
+if (userArgs.length === 0) {
+	program.help();
+}
+
+// Handle unknown commands
 program.on("command:*", () => {
-	console.error("Invalid command: %s\nSee --help for a list of available commands.");
+	console.error(`Invalid command: ${userArgs.join(" ")}\nSee --help for a list of available commands.`);
 	process.exit(1);
 });
 
