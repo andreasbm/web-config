@@ -1,6 +1,7 @@
 import ts from "@wessberg/rollup-plugin-ts";
 import commonjs from "rollup-plugin-commonjs";
 import resolve from "rollup-plugin-node-resolve";
+import json from "rollup-plugin-json";
 import pkg from "./package.json";
 
 const distPath = "dist/lib";
@@ -15,6 +16,7 @@ const config = {
 			main: false,
 			modulesOnly: false
 		}),
+		json(),
 		ts({
 			transpiler: "babel",
 			tsconfig: "tsconfig-lib.json"
@@ -30,19 +32,33 @@ const config = {
 	treeshake: false
 };
 
-export default {
-	...config,
-	input: `${srcPath}/lib/index.ts`,
-	output: [
-		{
-			file: `${distPath}/index.cjs.js`,
-			format: "cjs",
-			sourcemap: true
-		},
-		{
-			file: `${distPath}/index.esm.js`,
-			format: "esm",
-			sourcemap: true
-		}
-	]
-};
+export default [
+	{
+		...config,
+		input: `${srcPath}/lib/index.ts`,
+		output: [
+			{
+				file: `${distPath}/index.cjs.js`,
+				format: "cjs"
+			},
+			{
+				file: `${distPath}/index.esm.js`,
+				format: "esm"
+			}
+		]
+	},
+	{
+		...config,
+		input: `${srcPath}/cli/index.ts`,
+		output: [
+			{
+				file: `${distPath}/cli.cjs.js`,
+				format: "cjs"
+			},
+			{
+				file: `${distPath}/cli.esm.js`,
+				format: "esm"
+			}
+		]
+	}
+];

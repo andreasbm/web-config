@@ -6,7 +6,7 @@ import {
 	defaultServePlugins,
 	isProd,
 	isServe
-} from "./src/lib/create-rollup-config.js";
+} from "./dist/lib/index.esm.js";
 
 const folders = {
 	dist: resolve(__dirname, "dist"),
