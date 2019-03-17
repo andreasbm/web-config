@@ -1,6 +1,6 @@
 import {compress as brotliCompress} from "brotli";
 import {yellow, green} from "colors";
-import fse from "fs-extra";
+import {appendFile, readFileSync} from "fs-extra";
 import readdir from "recursive-readdir-sync";
 import { OutputBundle, OutputOptions } from "rollup";
 import { createFilter } from "rollup-pluginutils";
@@ -53,10 +53,10 @@ export function compressGzip ({src, verbose}: {src: string, verbose: boolean}) {
  * @param verbose
  */
 export function compressBrotli ({src, verbose}: {src: string, verbose: boolean}) {
-	const buffer = brotliCompress(fse.readFileSync(src));
+	const buffer = brotliCompress(readFileSync(src));
 	const dest = `${src}.br`;
 
-	fse.appendFile(dest, buffer, (err: Error) => {
+	appendFile(dest, buffer, (err: Error) => {
 		if (verbose && err != null) {
 			console.log(yellow(`[brotli] - Could not compress "${src}" to "${dest}"\n`), err);
 		}

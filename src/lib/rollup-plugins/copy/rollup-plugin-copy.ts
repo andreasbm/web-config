@@ -1,5 +1,5 @@
 import {yellow} from "colors";
-import fse from "fs-extra";
+import {existsSync, copy as fsCopy} from "fs-extra";
 import { OutputBundle, OutputOptions } from "rollup";
 
 export interface IRollupPluginCopyConfig {
@@ -31,8 +31,8 @@ export function copy (config: Partial<IRollupPluginCopyConfig> = {}) {
 			if (!isWrite) return;
 			for (const [from, to] of resources) {
 				try {
-					if (overwrite || !fse.existsSync(to)) {
-						await fse.copy(from, to);
+					if (overwrite || !existsSync(to)) {
+						await fsCopy(from, to);
 					}
 				} catch (err) {
 					if (verbose) {
