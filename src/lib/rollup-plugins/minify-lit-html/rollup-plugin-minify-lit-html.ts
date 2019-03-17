@@ -159,7 +159,7 @@ function processFile ({code, id, config}: {code: string, id: string, config: IRo
 
 		} catch (err) {
 			if (config.verbose) {
-				console.log(colors.yellow(`[minifyLitHTML] - Could not parse "${err.toString()}" in "${id}"\n`));
+				console.log(colors.yellow(`[minifyLitHTML] - Could not parse "${err.message}" in "${id}"\n`));
 			}
 
 			// Sometimes we cannot parse the file. This should however not stop the build from finishing.

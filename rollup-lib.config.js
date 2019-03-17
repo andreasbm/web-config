@@ -28,6 +28,7 @@ const config = {
 	external: [
 		...Object.keys(pkg.dependencies || {}),
 		...Object.keys(pkg.devDependencies || {}),
+		"child_process"
 	],
 	treeshake: false
 };
@@ -53,11 +54,13 @@ export default [
 		output: [
 			{
 				file: `${distPath}/cli.cjs.js`,
-				format: "cjs"
+				format: "cjs",
+				banner: "#! /usr/bin/env node"
 			},
 			{
 				file: `${distPath}/cli.esm.js`,
-				format: "esm"
+				format: "esm",
+				banner: "#! /usr/bin/env node"
 			}
 		]
 	}

@@ -2,6 +2,7 @@ import { exec } from "child_process";
 import { existsSync, mkdirpSync, outputFileSync } from "fs-extra";
 import { join, resolve } from "path";
 import prompts from "prompts";
+import {red, green} from "colors";
 
 const NPM_ID = `@appnest/web-config`;
 const names = {
@@ -24,6 +25,7 @@ interface INewCommandConfig {
 	src: string;
 	dir: string;
 	overwrite: boolean;
+	dry: boolean;
 }
 
 /**
@@ -49,6 +51,12 @@ async function getNewCommandConfig ({dir}: {dir: string}): Promise<INewCommandCo
 			name: "overwrite",
 			message: `Do you want to overwrite existing files?`,
 			initial: true
+		},
+		{
+			type: "confirm",
+			name: "dry",
+			message: `Do you want a dry run?`,
+			initial: false
 		}
 	], {
 		onCancel: () => {
@@ -66,27 +74,37 @@ async function getNewCommandConfig ({dir}: {dir: string}): Promise<INewCommandCo
  * @param config
  */
 function writeFile (name: string, content: string, config: INewCommandConfig) {
-	const path = resolve(config.dir, name);
+	const path = join(resolve(process.cwd(), config.dir), name);
 
 	// Check if the file exists and if we should then abort
 	if (!config.overwrite && existsSync(path)) {
 		return;
 	}
 
+	console.log(green(`Creating "${name}"`));
+
+	// Check if the command is dry.
+	if (config.dry) {
+		console.log(content);
+		return;
+	}
+
 	outputFileSync(path, content);
 }
 
-function run (cmd: string) {
-	exec(cmd, (error, stdout, stderr) => {
-		if (stderr !== null) {
-			console.log("" + stderr);
-		}
-		if (stdout !== null) {
-			console.log("" + stdout);
-		}
-		if (error !== null) {
-			console.log("" + error);
-		}
+/**
+ * Runs a command.
+ * @param cmd
+ */
+function run (cmd: string): Promise<void> {
+	return new Promise((res, rej) => {
+		exec(cmd, error => {
+			if (error !== null) {
+				return rej(error);
+			}
+
+			res();
+		});
 	});
 }
 
@@ -94,9 +112,20 @@ function run (cmd: string) {
  * Install dependencies.
  * @param config
  */
-function installDependencies (config: INewCommandConfig) {
-	run(`cd "${resolve(process.cwd(), config.dir)}"`);
-	run(`npm i @appnest/web-config`);
+async function installDependencies (config: INewCommandConfig) {
+	console.log(green(`Installing dependencies...`));
+
+	// Check if the command is dry
+	if (config.dry) {
+		return;
+	}
+
+	// Run the command
+	try {
+		await run(`cd ${resolve(process.cwd(), config.dir)} && npm i @appnest/web-config -D`);
+	} catch (err) {
+		console.log(red(`Could not install dependencies: ${err.message}`));
+	}
 }
 
 /**
@@ -244,9 +273,6 @@ function setupScripts (config: INewCommandConfig) {
 		"s:dev": "rollup -c --watch --environment NODE_ENV:dev",
 		"s:prod": "rollup -c --watch --environment NODE_ENV:prod",
 		"s": "npm run s:dev"
-	},
-	"devDependencies": {
-		"${NPM_ID}": "latest"
 	}
 }`;
 
@@ -372,14 +398,17 @@ function setupBaseFiles (config: INewCommandConfig) {
 </body>
 </html>`;
 
-	mkdirpSync(resolve(config.dir, join(config.src, names.ASSETS)));
-	writeFile(resolve(config.dir, join(config.src, names.MAIN_TS)), mainTsContent, config);
-	writeFile(resolve(config.dir, join(config.src, names.MAIN_SCSS)), mainScssContent, config);
-	writeFile(resolve(config.dir, join(config.src, names.INDEX_HTML)), indexContent, config);
+	mkdirpSync(join(resolve(process.cwd(), config.dir), join(config.src, names.ASSETS)));
+	writeFile(join(config.src, names.MAIN_TS), mainTsContent, config);
+	writeFile(join(config.src, names.MAIN_SCSS), mainScssContent, config);
+	writeFile(join(config.src, names.INDEX_HTML), indexContent, config);
 }
 
+/**
+ * Executes the new command.
+ * @param dir
+ */
 export async function newCommand ({dir}: {dir: string}) {
-	dir = "test";
 	const config = await getNewCommandConfig({dir});
 	setupRollup(config);
 	setupTslint(config);
@@ -390,5 +419,6 @@ export async function newCommand ({dir}: {dir: string}) {
 	setupTypings(config);
 	setupGitIgnore(config);
 	setupBaseFiles(config);
-	installDependencies(config);
+	await installDependencies(config);
+	console.log(green(`Finished creating project in "${resolve(process.cwd(), dir)}"`));
 }
