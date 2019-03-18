@@ -86,6 +86,7 @@ export function getPolyfillScript ({crossorigin, features, src, options}: IPolyf
  * @param bodyCloseTagIndex
  * @param fileNames
  * @param scriptType
+ * @param polyfillConfig
  */
 export function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType, polyfillConfig}: ITransformInfo): string {
 	return [
