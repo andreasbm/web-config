@@ -13,9 +13,6 @@
 		"type": "git",
 		"url": "git+https://github.com/andreasbm/web-config.git"
 	},
-	"bin": {
-		"web-config": "cli.cjs.js"
-	},
 	"keywords": [
 		"configuration",
 		"webapp",
@@ -46,15 +43,12 @@
 		"s": "npm run b:lib && npm run s:demo:dev",
 		"b:lib": "rollup -c=rollup-lib.config.js && node post-build.js",
 		"ncu": "ncu -u -a && npm update && npm install",
-		"bump:patch": "npm version patch && git add . && git commit --no-edit --amend --no-verify",
-		"bump:minor": "npm version minor && git add . && git commit --no-edit --amend --no-verify",
-		"bump:major": "npm version major && git add . && git commit --no-edit --amend --no-verify",
-		"publish:dist": "cd dist/lib && npm publish --access=public && cd ../..",
-		"publish:patch": "npm run bump:patch && git push && npm run b:lib && npm run publish:dist",
-		"publish:minor": "npm run bump:minor && git push && npm run b:lib && npm run publish:dist",
-		"publish:major": "npm run bump:major && git push && npm run b:lib && npm run publish:dist",
 		"test": "npm run b:lib && karma start karma.conf.js",
-		"readme": "node node_modules/.bin/readme generate"
+		"readme": "node node_modules/.bin/readme generate",
+		"postversion": "npm run readme && npm run b:lib",
+		"publish:patch": "np patch --contents=dist/lib",
+		"publish:minor": "np minor --contents=dist/lib",
+		"publish:major": "np major --contents=dist/lib"
 	},
 	"dependencies": {
 		"@types/chai": "^4.1.7",
