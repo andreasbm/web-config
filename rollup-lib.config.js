@@ -47,21 +47,5 @@ export default [
 				format: "esm"
 			}
 		]
-	},
-	{
-		...config,
-		input: `${srcPath}/cli/index.ts`,
-		output: [
-			{
-				file: `${distPath}/cli.cjs.js`,
-				format: "cjs",
-				banner: "#! /usr/bin/env node"
-			},
-			{
-				file: `${distPath}/cli.esm.js`,
-				format: "esm",
-				banner: "#! /usr/bin/env node"
-			}
-		]
 	}
 ];
