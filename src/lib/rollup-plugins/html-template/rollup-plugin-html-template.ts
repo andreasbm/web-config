@@ -75,7 +75,7 @@ const defaultConfig: Partial<IRollupPluginHtmlTemplateConfig> = {
  * @param options
  */
 export function getPolyfillScript ({crossorigin, features, src, options}: IPolyfillConfig) {
-	src = `${src}?${features.length > 0 ? `features=${features.join("&")}` : ""}${options.length > 0 ? `|${options.join("|")}` : ""}`;
+	src = `${src}?${features.length > 0 ? `features=${features.join(",")}` : ""}${options.length > 0 ? `|${options.join("|")}` : ""}`;
 	return `<script ${crossorigin ? "crossorigin" : ""} src="${src}"></script>`
 }
 
