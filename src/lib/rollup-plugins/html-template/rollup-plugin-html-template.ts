@@ -90,8 +90,8 @@ export function getPolyfillScript ({crossorigin, features, src, options}: IPolyf
 export function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType, polyfillConfig}: ITransformInfo): string {
 	return [
 		template.slice(0, bodyCloseTagIndex),
-		...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
 		(polyfillConfig.features.length > 0 ? `${getPolyfillScript(polyfillConfig)}\n` : ""),
+		...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
 		template.slice(bodyCloseTagIndex, template.length)
 	].join("");
 }
