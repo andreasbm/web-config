@@ -37,7 +37,7 @@ export default {
 				resources: [
 					(isProd ?
 						[resolve(__dirname, "src/demo/env.ts"), resolve(__dirname, "src/demo/env.prod.ts")]
-					: [])
+					: []) as [string, string]
 				]
 			},
 			copyConfig: {

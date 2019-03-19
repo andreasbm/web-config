@@ -36,7 +36,7 @@
 ## ➤ Table of Contents
 
 * [➤ Step 1 - Installation](#-step-1---installation)
-* [➤ Step 2 - Setup `rollup.config.js`](#-step-2---setup-rollupconfigjs)
+* [➤ Step 2 - Setup `rollup.config.ts`](#-step-2---setup-rollupconfigts)
 * [➤ Step 3 - Setup `tslint.json`](#-step-3---setup-tslintjson)
 * [➤ Step 4 - Setup `tsconfig.json`](#-step-4---setup-tsconfigjson)
 * [➤ Step 5 - Setup `.browserslistrc`](#-step-5---setup-browserslistrc)
@@ -66,9 +66,9 @@ $ npm i @appnest/web-config --D
 ```
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-2---setup-rollupconfigjs)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-2---setup-rollupconfigts)
 
-## ➤ Step 2 - Setup `rollup.config.js`
+## ➤ Step 2 - Setup `rollup.config.ts`
 
 Here's an example on what your Rollup configuration file could look like:
 

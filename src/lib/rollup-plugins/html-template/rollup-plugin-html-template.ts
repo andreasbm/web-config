@@ -6,7 +6,7 @@ import { createFilter } from "rollup-pluginutils";
 
 export enum ScriptTypeKind {
 	MODULE = "module",
-	SCRIPT = "script"
+	SCRIPT = "text/javascript"
 }
 
 export interface ITransformInfo {
@@ -36,8 +36,8 @@ export interface IRollupPluginHtmlTemplateConfig {
 	// Transforms the template
 	transform: ((info: ITransformInfo) => string);
 	verbose: boolean;
-	include: (string | RegExp)[];
-	exclude: (string | RegExp)[];
+	include: (string | RegExp)[] | string | RegExp | null;
+	exclude: (string | RegExp)[] | string | RegExp | null;
 	scriptType: ScriptTypeKind.MODULE;
 	polyfillConfig: Partial<IPolyfillConfig>;
 }

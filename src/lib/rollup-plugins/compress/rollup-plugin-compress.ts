@@ -10,8 +10,8 @@ export type Compressor = (({src, verbose}: {src: string, verbose: boolean}) => v
 
 export interface IRollupPluginCompressConfig {
 	verbose: boolean;
-	include: (string | RegExp)[];
-	exclude: (string | RegExp)[];
+	include: (string | RegExp)[] | string | RegExp | null;
+	exclude: (string | RegExp)[] | string | RegExp | null;
 	compressors: Compressor[];
 	dir?: string;
 

@@ -19,7 +19,7 @@
 //
 // // @ts-ignore
 // declare module "rollup-pluginutils" {
-// 	export function createFilter(include: (string | RegExp)[], exclude: (string | RegExp)[]): ((id: string) => boolean);
+// 	export function createFilter(include: (string | RegExp)[] | string | RegExp | null, exclude: (string | RegExp)[] | string | RegExp | null): ((id: string) => boolean);
 // }
 //
 //

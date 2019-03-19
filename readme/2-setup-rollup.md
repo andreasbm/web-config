@@ -1,4 +1,4 @@
-## Step 2 - Setup `rollup.config.js`
+## Step 2 - Setup `rollup.config.ts`
 
 Here's an example on what your Rollup configuration file could look like:
 

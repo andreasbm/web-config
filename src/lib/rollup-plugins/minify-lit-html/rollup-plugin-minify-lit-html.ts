@@ -12,8 +12,8 @@ import { emptySourcemap } from "../util";
 export type HtmlMinifierConfig = any;
 
 export interface IRollupPluginMinifyLitHtml {
-	include: (string | RegExp)[],
-	exclude: (string | RegExp)[],
+	include: (string | RegExp)[] | string | RegExp | null,
+	exclude: (string | RegExp)[] | string | RegExp | null,
 	verbose: boolean;
 	esprima: ParseOptions,
 	htmlMinifier: HtmlMinifierConfig
