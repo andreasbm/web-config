@@ -1,16 +1,17 @@
 import colors from "colors";
 import { OutputBundle, OutputOptions } from "rollup";
-import {generateSW, injectManifest} from "workbox-build";
+import { generateSW, injectManifest } from "workbox-build";
 
 export type WorkboxConfig = any;
 
+export type GenerateServiceWorkerType = "generateSW" | "injectManifest";
 export enum GenerateServiceWorkerKind {
 	generateSw = "generateSW",
 	injectManifest = "injectManifest"
 }
 
 export interface IRollupPluginWorkboxConfig {
-	mode: GenerateServiceWorkerKind;
+	mode: GenerateServiceWorkerType;
 	verbose: boolean;
 	timeout: number;
 	workboxConfig: WorkboxConfig;
@@ -30,7 +31,7 @@ const defaultConfig: IRollupPluginWorkboxConfig = {
  * Returns the correct method to for generating the Service Worker.
  * @param mode
  */
-function workboxFactory (mode: GenerateServiceWorkerKind): typeof generateSW | typeof injectManifest {
+function workboxFactory (mode: GenerateServiceWorkerType): typeof generateSW | typeof injectManifest {
 	switch (mode) {
 		case GenerateServiceWorkerKind.generateSw:
 			return generateSW;
@@ -70,6 +71,6 @@ export function workbox (config: Partial<IRollupPluginWorkboxConfig> = {}) {
 				}
 			}
 		}
-	}
+	};
 }
 

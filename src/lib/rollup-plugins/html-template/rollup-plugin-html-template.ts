@@ -4,16 +4,13 @@ import fse from "fs-extra";
 import { OutputBundle, OutputOptions } from "rollup";
 import { createFilter } from "rollup-pluginutils";
 
-export enum ScriptTypeKind {
-	MODULE = "module",
-	SCRIPT = "text/javascript"
-}
+export type ScriptTypes = "module" | "text/javascript";
 
 export interface ITransformInfo {
 	template: string;
 	bodyCloseTagIndex: number;
 	fileNames: string[];
-	scriptType: ScriptTypeKind;
+	scriptType: ScriptTypes;
 	polyfillConfig: IPolyfillConfig;
 }
 
@@ -38,7 +35,7 @@ export interface IRollupPluginHtmlTemplateConfig {
 	verbose: boolean;
 	include: (string | RegExp)[] | string | RegExp | null;
 	exclude: (string | RegExp)[] | string | RegExp | null;
-	scriptType: ScriptTypeKind.MODULE;
+	scriptType: ScriptTypes;
 	polyfillConfig: Partial<IPolyfillConfig>;
 }
 
@@ -63,7 +60,7 @@ const defaultConfig: Partial<IRollupPluginHtmlTemplateConfig> = {
 	verbose: true,
 	include: [],
 	exclude: [],
-	scriptType: ScriptTypeKind.MODULE,
+	scriptType: "module",
 	polyfillConfig: defaultPolyfillConfig
 };
 
