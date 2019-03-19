@@ -1,6 +1,6 @@
 {
 	"name": "@appnest/web-config",
-	"version": "0.4.5",
+	"version": "0.4.6",
 	"description": "A Rollup configuration to help you build modern web applications.",
 	"author": "Appnest",
 	"main": "index.cjs.js",
