@@ -5,7 +5,7 @@ import {generateSW, injectManifest} from "workbox-build";
 export type WorkboxConfig = any;
 
 export enum GenerateServiceWorkerKind {
-	generateSw = "generateSw",
+	generateSw = "generateSW",
 	injectManifest = "injectManifest"
 }
 
