@@ -6,7 +6,7 @@ import {
 	defaultServePlugins,
 	isProd,
 	isServe
-} from "./dist/lib/index.esm.js";
+} from "./dist/lib/index.esm";
 
 const folders = {
 	dist: resolve(__dirname, "dist/demo"),
@@ -32,12 +32,13 @@ export default {
 		})
 	],
 	plugins: [
+		// @ts-ignore
 		...defaultPlugins({
 			replaceConfig: {
 				resources: [
 					(isProd ?
 						[resolve(__dirname, "src/demo/env.ts"), resolve(__dirname, "src/demo/env.prod.ts")]
-					: []) as [string, string]
+					: [])
 				]
 			},
 			copyConfig: {
@@ -59,27 +60,24 @@ export default {
 		}),
 
 		// Serve
-		...(isServe ? [
-			...defaultServePlugins({
+		...(isServe ? defaultServePlugins({
 				dist: folders.dist
 			})
-		] : []),
+		: []),
 
 		// Production
-		...(isProd ? [
-			...defaultProdPlugins({
-				dist: folders.dist,
-				minifyLitHtmlConfig: {
-					include: [/my-component.ts$/]
-				},
-				budgetConfig: {
-					sizes: {
-						".js": 1024 * 170, // Max file size in bytes (170kb)
-						".jpg": 1024 * 400
-					}
+		...(isProd ? defaultProdPlugins({
+			dist: folders.dist,
+			minifyLitHtmlConfig: {
+				include: /my-component.ts$/
+			},
+			budgetConfig: {
+				sizes: {
+					".js": 1024 * 170, // Max file size in bytes (170kb)
+					".jpg": 1024 * 400
 				}
-			})
-		] : [])
+			}
+		}) : [])
 	],
 	treeshake: isProd,
 	context: "window"

@@ -41,7 +41,7 @@
 		"s:demo:dev": "rollup -c rollup.config.ts --watch --environment NODE_ENV:dev",
 		"s:demo:prod": "rollup -c rollup.config.ts --watch --environment NODE_ENV:prod",
 		"s": "npm run b:lib && npm run s:demo:dev",
-		"b:lib": "rollup -c=rollup-lib.config.js && node post-build.js",
+		"b:lib": "rollup -c=rollup-lib.config.ts && node post-build.js",
 		"ncu": "ncu -u -a && npm update && npm install",
 		"test": "npm run b:lib && karma start karma.conf.js",
 		"readme": "node node_modules/.bin/readme generate",
