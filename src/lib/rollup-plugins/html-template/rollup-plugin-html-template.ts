@@ -4,14 +4,22 @@ import fse from "fs-extra";
 import { OutputBundle, OutputOptions } from "rollup";
 import { createFilter } from "rollup-pluginutils";
 
-export type ScriptTypes = "module" | "text/javascript";
+export type ScriptType = "module" | "text/javascript";
 
-export interface ITransformInfo {
+export type TransformScript = (({filename, scriptType}: ITransformScriptOptions) => string);
+
+export interface ITransformScriptOptions {
+	filename: string;
+	scriptType: ScriptType;
+}
+
+export interface ITransformOptions {
 	template: string;
 	bodyCloseTagIndex: number;
 	fileNames: string[];
-	scriptType: ScriptTypes;
+	scriptType: ScriptType;
 	polyfillConfig: IPolyfillConfig;
+	transformScript: TransformScript;
 }
 
 export interface IPolyfillConfig {
@@ -31,11 +39,15 @@ export interface IRollupPluginHtmlTemplateConfig {
 	target: string;
 
 	// Transforms the template
-	transform: ((info: ITransformInfo) => string);
+	transform: ((info: ITransformOptions) => string);
+
+	// Transform the script
+	transformScript: TransformScript;
+
 	verbose: boolean;
 	include: (string | RegExp)[] | string | RegExp | null;
 	exclude: (string | RegExp)[] | string | RegExp | null;
-	scriptType: ScriptTypes;
+	scriptType: ScriptType;
 	polyfillConfig: Partial<IPolyfillConfig>;
 }
 
@@ -57,6 +69,7 @@ const defaultPolyfillConfig: IPolyfillConfig = {
  */
 const defaultConfig: Partial<IRollupPluginHtmlTemplateConfig> = {
 	transform: transformTemplate,
+	transformScript: transformScript,
 	verbose: true,
 	include: [],
 	exclude: [],
@@ -73,7 +86,16 @@ const defaultConfig: Partial<IRollupPluginHtmlTemplateConfig> = {
  */
 export function getPolyfillScript ({crossorigin, features, src, options}: IPolyfillConfig) {
 	src = `${src}?${features.length > 0 ? `features=${features.join(",")}` : ""}${options.length > 0 ? `|${options.join("|")}` : ""}`;
-	return `<script ${crossorigin ? "crossorigin" : ""} src="${src}"></script>`
+	return `<script ${crossorigin ? "crossorigin" : ""} src="${src}"></script>`;
+}
+
+/**
+ * Transform the script tag.
+ * @param filename
+ * @param scriptType
+ */
+export function transformScript ({filename, scriptType}: ITransformScriptOptions) {
+	return `<script src="${filename}" type="${scriptType}"></script>`;
 }
 
 /**
@@ -84,12 +106,13 @@ export function getPolyfillScript ({crossorigin, features, src, options}: IPolyf
  * @param fileNames
  * @param scriptType
  * @param polyfillConfig
+ * @param transformScript
  */
-export function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType, polyfillConfig}: ITransformInfo): string {
+export function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType, polyfillConfig, transformScript}: ITransformOptions): string {
 	return [
 		template.slice(0, bodyCloseTagIndex),
 		(polyfillConfig.features.length > 0 ? `${getPolyfillScript(polyfillConfig)}\n` : ""),
-		...fileNames.map(filename => `<script src="${filename}" type="${scriptType}"></script>\n`),
+		...fileNames.map(filename => transformScript({filename, scriptType})).join("\n"),
 		template.slice(bodyCloseTagIndex, template.length)
 	].join("");
 }
@@ -106,8 +129,10 @@ export function transformTemplate ({template, bodyCloseTagIndex, fileNames, scri
  * @param include
  * @param exclude
  * @param transform
+ * @param polyfillConfig
+ * @param transformScript
  */
-async function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude, transform, polyfillConfig}: IRollupPluginHtmlTemplateConfig & {bundle: OutputBundle, filter: ((path: string) => boolean)}) {
+async function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude, transform, polyfillConfig, transformScript}: IRollupPluginHtmlTemplateConfig & {bundle: OutputBundle, filter: ((path: string) => boolean)}) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 
@@ -132,7 +157,14 @@ async function generateFile ({bundle, template, target, filter, scriptType, verb
 			}
 
 			// Transform the template
-			const html = transform({template, bodyCloseTagIndex, fileNames, scriptType, polyfillConfig: polyfillConfig as IPolyfillConfig});
+			const html = transform({
+				template,
+				bodyCloseTagIndex,
+				fileNames,
+				scriptType,
+				transformScript,
+				polyfillConfig: polyfillConfig as IPolyfillConfig
+			});
 
 			// Write the injected template to a file.
 			try {
@@ -166,7 +198,12 @@ export function htmlTemplate (config: Partial<IRollupPluginHtmlTemplateConfig> =
 			if (!isWrite) return;
 
 			// @ts-ignore
-			return generateFile({...config, polyfillConfig: {...defaultPolyfillConfig, ...polyfillConfig}, bundle, filter});
+			return generateFile({
+				...config,
+				polyfillConfig: {...defaultPolyfillConfig, ...polyfillConfig},
+				bundle,
+				filter
+			});
 		}
 	};
 }
