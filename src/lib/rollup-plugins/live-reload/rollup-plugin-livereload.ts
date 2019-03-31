@@ -100,7 +100,7 @@ export function livereload (config: Partial<IRollupPLuginLivereloadConfig> = {})
 		banner: () => livereloadHtml(port),
 		generateBundle: () => {
 			if (verbose) {
-				console.log(colors.green(`[livereload] - Enabled on port "${port}".`));
+				console.log(colors.green(`[livereload] - Enabled.`));
 			}
 		}
 	}
