@@ -3,6 +3,8 @@
 		"target": "esnext",
 		"module": "esnext",
 		"moduleResolution": "node",
+		"incremental": true,
+		"tsBuildInfoFile": "./.cache/tsconfig",
 		"emitDecoratorMetadata": false,
 		"newLine": "LF",
 		"sourceMap": true,
@@ -17,7 +19,6 @@
 		"noEmitOnError": true,
 		"strictNullChecks": true,
 		"experimentalDecorators": true,
-		"incremental": true,
 		"lib": [
 			"es2015.promise",
 			"dom",
