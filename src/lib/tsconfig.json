@@ -3,8 +3,6 @@
 		"target": "esnext",
 		"module": "esnext",
 		"moduleResolution": "node",
-		"incremental": true,
-		"tsBuildInfoFile": "./.cache/tsconfig",
 		"emitDecoratorMetadata": false,
 		"newLine": "LF",
 		"sourceMap": true,
