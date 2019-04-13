@@ -10,10 +10,11 @@ const srcPath = "src";
 const config = {
 	plugins: [
 		resolve({
-			module: true,
-			browser: true,
-			jsnext: true,
-			main: false,
+			mainFields: [
+				"module",
+				"browser",
+				"jsnext:main"
+			],
 			modulesOnly: false
 		}),
 		json(),

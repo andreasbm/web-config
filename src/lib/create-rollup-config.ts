@@ -116,12 +116,14 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 	}),
 
 	// Teaches Rollup how to find external modules
+	// https://github.com/rollup/rollup-plugin-node-resolve
 	resolve({
-		module: true,
-		browser: true,
-		jsnext: true,
-		main: false,
 		modulesOnly: false,
+		mainFields: [
+			"module",
+			"browser",
+			"jsnext:main"
+		],
 		...configOrDefault(resolveConfig)
 	}),
 
