@@ -105,7 +105,7 @@
 		"@types/esprima": "^4.0.2",
 		"@types/estraverse": "0.0.6",
 		"@types/filesize": "^4.1.0",
-		"@types/fs-extra": "^5.0.5",
+		"@types/fs-extra": "^5.1.0",
 		"@types/gzip-size": "^5.1.1",
 		"@types/node-sass": "^4.11.0",
 		"lit-element": "^2.1.0",
