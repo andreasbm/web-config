@@ -21,7 +21,7 @@ export function replace (config: Partial<IRollupPluginReplaceConfig> = {}) {
 
 	return {
 		name: "replace",
-		resolveId: (id: string, importer: string): ResolveIdResult => {
+		resolveId: (id: string, importer: string): ResolveIdResult | void => {
 			if (!importer) return;
 
 			const {name: idName} = parse(id);
