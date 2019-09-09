@@ -5,6 +5,7 @@
 	"author": "Appnest",
 	"main": "index.cjs.js",
 	"module": "index.esm.js",
+	"types": "index.esm.d.ts",
 	"bugs": {
 		"url": "https://github.com/andreasbm/web-config/issues"
 	},
@@ -51,9 +52,9 @@
 		"publish:major": "np major --contents=dist/lib"
 	},
 	"dependencies": {
-		"@types/chai": "^4.2.0",
+		"@types/chai": "^4.2.1",
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.7.3",
+		"@types/node": "^12.7.4",
 		"@wessberg/rollup-plugin-ts": "^1.1.64",
 		"autoprefixer": "^9.6.1",
 		"boxen": "^4.1.0",
@@ -81,10 +82,10 @@
 		"mocha": "^6.2.0",
 		"node-sass": "^4.12.0",
 		"path": "^0.12.7",
-		"postcss": "^7.0.17",
+		"postcss": "^7.0.18",
 		"precss": "^4.0.0",
 		"recursive-readdir-sync": "^1.0.6",
-		"rollup": "^1.20.3",
+		"rollup": "^1.21.2",
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-json": "^4.0.0",
 		"rollup-plugin-license": "^0.12.1",
