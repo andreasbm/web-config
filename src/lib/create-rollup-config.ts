@@ -254,6 +254,10 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 
 	// Minifies the code
 	terser({
+		output: {
+			// Don't preserve any comments, we create a license.txt instead.
+			comments: () => false,
+		},
 		...configOrDefault(terserConfig)
 	}),
 
