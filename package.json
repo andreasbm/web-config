@@ -85,7 +85,7 @@
 		"postcss": "^7.0.18",
 		"precss": "^4.0.0",
 		"recursive-readdir-sync": "^1.0.6",
-		"rollup": "^1.23.1",
+		"rollup": "^1.25.1",
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-json": "^4.0.0",
 		"rollup-plugin-license": "^0.12.1",
@@ -96,7 +96,7 @@
 		"rollup-plugin-visualizer": "^2.6.0",
 		"rollup-pluginutils": "^2.8.2",
 		"targz": "^1.0.1",
-		"ts-lit-plugin": "1.1.8",
+		"ts-lit-plugin": "1.1.9",
 		"typescript": "^3.6.4",
 		"workbox-build": "^4.3.1"
 	},
