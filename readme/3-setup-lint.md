@@ -1,7 +1,7 @@
-## Step 3 - Setup `tslint.json`
+## Step 3 - Setup `.eslintrc.json`
 
 ```json
 {
-  "extends": "./node_modules/@appnest/web-config/tslint.json"
+  "extends": "./node_modules/@appnest/web-config/eslint.js"
 }
 ```

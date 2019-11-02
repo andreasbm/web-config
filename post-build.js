@@ -16,13 +16,15 @@ async function postBuild () {
 	await copyFiles("src/lib", distPath, [
 		"tsconfig.json",
 		"tslint.json",
-		"typings.d.ts"
+		"typings.d.ts",
+		"eslint.js"
 	]);
 
 	// Copy the root files
 	await copyFiles("", distPath, [
 		".gitignore",
 		".npmignore",
+		".eslintignore",
 		".browserslistrc",
 		"README.md",
 		"package.json"
