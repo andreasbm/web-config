@@ -1,10 +1,10 @@
 import colors from "colors";
-import {generate} from "escodegen";
+import { generate } from "escodegen";
 import { parseModule, ParseOptions, parseScript, Program } from "esprima";
-import {replace as estraverseReplace, VisitorOption } from "estraverse";
+import { replace as estraverseReplace, VisitorOption } from "estraverse";
 import * as ESTree from "estree";
 import { minify } from "html-minifier";
-import {resolve, dirname} from "path";
+import { resolve, dirname } from "path";
 import { ResolveIdResult, TransformSourceDescription } from "rollup";
 import { createFilter } from "rollup-pluginutils";
 import { emptySourcemap } from "../util";
@@ -12,11 +12,11 @@ import { emptySourcemap } from "../util";
 export type HtmlMinifierConfig = any;
 
 export interface IRollupPluginMinifyLitHtml {
-	include: (string | RegExp)[] | string | RegExp | null,
-	exclude: (string | RegExp)[] | string | RegExp | null,
+	include: (string | RegExp)[] | string | RegExp | null;
+	exclude: (string | RegExp)[] | string | RegExp | null;
 	verbose: boolean;
-	esprima: ParseOptions,
-	htmlMinifier: HtmlMinifierConfig
+	esprima: ParseOptions;
+	htmlMinifier: HtmlMinifierConfig;
 }
 
 /**
@@ -41,7 +41,7 @@ const defaultConfig: IRollupPluginMinifyLitHtml = {
 	},
 	htmlMinifier: {
 		caseSensitive: true,
-		minifyCSS: false, /* Should be set as true, but the HTML minifier won't allow the <style>${css}</style> syntax, so I disabled it */
+		minifyCSS: false /* Should be set as true, but the HTML minifier won't allow the <style>${css}</style> syntax, so I disabled it */,
 		preventAttributesEscaping: true,
 		preserveLineBreaks: false,
 		collapseWhitespace: true,
@@ -64,39 +64,35 @@ const defaultConfig: IRollupPluginMinifyLitHtml = {
  * @param code
  * @param config
  */
-function createTransformer ({code, config}: {code: string, config: HtmlMinifierConfig}) {
+function createTransformer({ code, config }: { code: string; config: HtmlMinifierConfig }) {
 	const chunks = code.split("");
 	return (ast: any) => {
 		return estraverseReplace(ast, {
 			enter: (node: ESTree.Node): VisitorOption | ESTree.Node | void => {
-
 				// If the node type is a TaggedTemplateExpression we know we are looking at a TemplateResult.
 				if (node.type === "TaggedTemplateExpression") {
-
 					// If the tag name or property name is html we know we are looking at a html`...` part.
-					if ((node.tag.type === "Identifier" && node.tag.name === "html")
-						|| (node.tag.type === "MemberExpression"
-							&& node.tag.property.type === "Identifier"
-							&& node.tag.property.name === "html")) {
-
+					if (
+						(node.tag.type === "Identifier" && node.tag.name === "html") ||
+						(node.tag.type === "MemberExpression" && node.tag.property.type === "Identifier" && node.tag.property.name === "html")
+					) {
 						// Minify the HTML inside the html tagged template literals.
-						const mini = minify(
-							chunks.slice(node.quasi.range![0] + 1, node.quasi.range![1] - 1).join(""),
-							config.htmlMinifier
-						);
+						const mini = minify(chunks.slice(node.quasi.range![0] + 1, node.quasi.range![1] - 1).join(""), config.htmlMinifier);
 
 						// Return the new node
 						return <any>{
 							...node,
 							quasi: {
 								...node.quasi,
-								quasis: [{
-									type: "TemplateElement",
-									value: {
-										raw: mini
-									},
-									range: [node.quasi.range![0], mini.length]
-								}]
+								quasis: [
+									{
+										type: "TemplateElement",
+										value: {
+											raw: mini
+										},
+										range: [node.quasi.range![0], mini.length]
+									}
+								]
 							}
 						};
 					}
@@ -112,7 +108,7 @@ function createTransformer ({code, config}: {code: string, config: HtmlMinifierC
  * @param code
  * @param config
  */
-function parseAst ({code, config}: {code: string, config: IRollupPluginMinifyLitHtml}): Program {
+function parseAst({ code, config }: { code: string; config: IRollupPluginMinifyLitHtml }): Program {
 	try {
 		return parseModule(code, config.esprima);
 	} catch (e) {
@@ -127,17 +123,14 @@ function parseAst ({code, config}: {code: string, config: IRollupPluginMinifyLit
  * @param config
  * @returns {Promise<void>}
  */
-function processFile ({code, id, config}: {code: string, id: string, config: IRollupPluginMinifyLitHtml}): Promise<TransformSourceDescription> {
+function processFile({ code, id, config }: { code: string; id: string; config: IRollupPluginMinifyLitHtml }): Promise<TransformSourceDescription> {
 	return new Promise(res => {
-
-
-
 		try {
 			// Create transformer that traverses the ast and minifies the html`...` parts.
-			const transform = createTransformer({code, config});
+			const transform = createTransformer({ code, config });
 
 			// Build an ast from the current config
-			const ast = parseAst({code, config});
+			const ast = parseAst({ code, config });
 
 			// // Create new ast using the transformer
 			const newAst = transform(ast);
@@ -145,7 +138,7 @@ function processFile ({code, id, config}: {code: string, id: string, config: IRo
 			// Regenerate the code based on the new ast.
 			// If sourceMapWithCode is truthy, an object is returned from
 			// generate() of the form: { code: .. , map: .. }
-			const {code: minifiedCode, map} = <any>generate(newAst, {
+			const { code: minifiedCode, map } = <any>generate(newAst, {
 				sourceMapWithCode: true,
 				sourceMap: id,
 				sourceContent: code,
@@ -156,7 +149,6 @@ function processFile ({code, id, config}: {code: string, id: string, config: IRo
 				code: minifiedCode,
 				map: map.toString()
 			} as TransformSourceDescription);
-
 		} catch (err) {
 			if (config.verbose) {
 				console.log(colors.yellow(`[minifyLitHTML] - Could not parse "${err.message}" in "${id}"\n`));
@@ -176,9 +168,9 @@ function processFile ({code, id, config}: {code: string, id: string, config: IRo
  * @param config
  * @returns {{name: string, resolveId: (function(*=, *=): *), transform: (function(*, *=): Promise<void>)}}
  */
-export function minifyLitHTML (config: Partial<IRollupPluginMinifyLitHtml> = {}) {
-	config = {...defaultConfig, ...config};
-	const {include, exclude} = config;
+export function minifyLitHTML(config: Partial<IRollupPluginMinifyLitHtml> = {}) {
+	config = { ...defaultConfig, ...config };
+	const { include, exclude } = config;
 
 	// Generate a filter that determines whether the file should be handled by the plugin or not.
 	const filter = createFilter(include, exclude);
@@ -191,7 +183,7 @@ export function minifyLitHTML (config: Partial<IRollupPluginMinifyLitHtml> = {})
 		},
 		transform: (code: string, id: string): void | Promise<TransformSourceDescription | string | void> => {
 			if (!filter(id)) return;
-			return processFile({code, id, config: config as IRollupPluginMinifyLitHtml});
+			return processFile({ code, id, config: config as IRollupPluginMinifyLitHtml });
 		}
 	};
 }

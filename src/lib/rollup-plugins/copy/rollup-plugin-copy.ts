@@ -1,5 +1,5 @@
-import {yellow} from "colors";
-import {existsSync, copy as fsCopy} from "fs-extra";
+import { yellow } from "colors";
+import { existsSync, copy as fsCopy } from "fs-extra";
 import { OutputBundle, OutputOptions } from "rollup";
 
 export interface IRollupPluginCopyConfig {
@@ -22,8 +22,8 @@ const defaultConfig: IRollupPluginCopyConfig = {
  * A Rollup plugin that copies resources from one location to another.
  * @param config
  */
-export function copy (config: Partial<IRollupPluginCopyConfig> = {}) {
-	const {resources, verbose, overwrite} = {...defaultConfig, ...config};
+export function copy(config: Partial<IRollupPluginCopyConfig> = {}) {
+	const { resources, verbose, overwrite } = { ...defaultConfig, ...config };
 
 	return {
 		name: "copy",
@@ -40,9 +40,6 @@ export function copy (config: Partial<IRollupPluginCopyConfig> = {}) {
 					}
 				}
 			}
-
 		}
 	};
 }
-
-

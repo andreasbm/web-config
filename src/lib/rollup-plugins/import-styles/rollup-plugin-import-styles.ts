@@ -1,12 +1,12 @@
 import MagicString from "magic-string";
 import postcss from "postcss";
 import { ResolveIdResult, TransformSourceDescription } from "rollup";
-import {emptySourcemap} from "../util";
+import { emptySourcemap } from "../util";
 import sass from "node-sass";
-import {resolve, dirname} from "path";
+import { resolve, dirname } from "path";
 
-export type Transformer = ((css: string) => string);
-export type GetTransformer = ((id: string, isGlobal: boolean) => Transformer);
+export type Transformer = (css: string) => string;
+export type GetTransformer = (id: string, isGlobal: boolean) => Transformer;
 
 export interface IRollupPluginImportStylesConfig {
 	// Postcss plugins.
@@ -39,13 +39,12 @@ const defaultConfig: IRollupPluginImportStylesConfig = {
 	transform: transformImport
 };
 
-
 /**
  * Default transform.
  * @param id
  * @param isGlobal
  */
-function transformImport (id: string, isGlobal: boolean) {
+function transformImport(id: string, isGlobal: boolean) {
 	return isGlobal ? transformGlobal : transformDefault;
 }
 
@@ -54,7 +53,7 @@ function transformImport (id: string, isGlobal: boolean) {
  * @param css
  * @returns {string}
  */
-function transformDefault (css: string): string {
+function transformDefault(css: string): string {
 	return `export default \`${css}\``;
 }
 
@@ -63,7 +62,7 @@ function transformDefault (css: string): string {
  * @param css
  * @returns {string}
  */
-function transformGlobal (css: string): string {
+function transformGlobal(css: string): string {
 	return `
 		const css = \`${css}\`;
 		const $styles = document.createElement("style");
@@ -82,15 +81,23 @@ function transformGlobal (css: string): string {
  * @param postcssConfig
  * @param sassConfig
  */
-async function processFile ({data, id, processor, overwrite, postcssConfig, sassConfig}: IRollupPluginImportStylesConfig & {overwrite: Transformer; data: string; id: string; processor: postcss.Processor}) {
-	return new Promise((res) => {
-
+async function processFile({
+	data,
+	id,
+	processor,
+	overwrite,
+	postcssConfig,
+	sassConfig
+}: IRollupPluginImportStylesConfig & { overwrite: Transformer; data: string; id: string; processor: postcss.Processor }) {
+	return new Promise(res => {
 		// Compile the data using the sass compiler
-		const css = sass.renderSync({
-			file: resolve(id),
-			sourceMap: false, /* We generate sourcemaps later */
-			...(sassConfig || {})
-		}).css.toString();
+		const css = sass
+			.renderSync({
+				file: resolve(id),
+				sourceMap: false /* We generate sourcemaps later */,
+				...(sassConfig || {})
+			})
+			.css.toString();
 
 		// The magic strings cannot handle empty strings, therefore we test whether we should already abort now.
 		if (css.trim() === "") {
@@ -121,7 +128,7 @@ async function processFile ({data, id, processor, overwrite, postcssConfig, sass
 			res({
 				code: stringContainer.toString(),
 				map: stringContainer.generateMap()
-			})
+			});
 		});
 	});
 }
@@ -131,9 +138,9 @@ async function processFile ({data, id, processor, overwrite, postcssConfig, sass
  * Looks for the "import css from 'styles.scss'" and "import 'styles.scss'" syntax as default.
  * @param config
  */
-export function importStyles (config: Partial<IRollupPluginImportStylesConfig> = {}) {
-	config = {...defaultConfig, ...config};
-	const {plugins, extensions, globals, transform} = config as IRollupPluginImportStylesConfig;
+export function importStyles(config: Partial<IRollupPluginImportStylesConfig> = {}) {
+	config = { ...defaultConfig, ...config };
+	const { plugins, extensions, globals, transform } = config as IRollupPluginImportStylesConfig;
 
 	// Determines whether the file should be handled by the plugin or not.
 	const filter = (id: string) => extensions.find(ext => id.endsWith(ext)) != null;
@@ -154,7 +161,7 @@ export function importStyles (config: Partial<IRollupPluginImportStylesConfig> =
 			if (!filter(id)) return;
 			const overwrite = transform(id, isGlobal(id));
 			// @ts-ignore
-			return processFile({...config, processor, overwrite, id, data});
+			return processFile({ ...config, processor, overwrite, id, data });
 		}
-	}
+	};
 }

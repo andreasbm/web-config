@@ -1,7 +1,7 @@
 export interface IDefaultKarmaConfig {
-	files: {pattern: string, watched: boolean}[];
-	mime: {[key: string]: string[]};
-	preprocessors: {[key: string]: string[]};
+	files: { pattern: string; watched: boolean }[];
+	mime: { [key: string]: string[] };
+	preprocessors: { [key: string]: string[] };
 	karmaPlugins: string[];
 	rollupPlugins: any[];
 }
@@ -14,7 +14,7 @@ export interface IDefaultKarmaConfig {
  * @param karmaPlugins
  * @param rollupPlugins
  */
-export const defaultKarmaConfig = ({files, mime, preprocessors, karmaPlugins, rollupPlugins}: Partial<IDefaultKarmaConfig> = {}) => {
+export const defaultKarmaConfig = ({ files, mime, preprocessors, karmaPlugins, rollupPlugins }: Partial<IDefaultKarmaConfig> = {}) => {
 	return {
 		concurrency: Infinity,
 		colors: true,
@@ -24,20 +24,13 @@ export const defaultKarmaConfig = ({files, mime, preprocessors, karmaPlugins, ro
 		browsers: ["ChromeHeadless"],
 		frameworks: ["mocha", "chai", "iframes"],
 		reporters: ["progress"],
-		plugins: [
-			"karma-mocha",
-			"karma-chai",
-			"karma-chrome-launcher",
-			"karma-rollup-preprocessor",
-			"karma-iframes",
-			...(karmaPlugins || [])
-		],
+		plugins: ["karma-mocha", "karma-chai", "karma-chrome-launcher", "karma-rollup-preprocessor", "karma-iframes", ...(karmaPlugins || [])],
 		files: [
 			/**
 			 * Make sure to disable Karma’s file watcher
 			 * because the preprocessor will use its own.
 			 */
-			{pattern: "**/*.test.+(ts|js)", watched: false},
+			{ pattern: "**/*.test.+(ts|js)", watched: false },
 			...(files || [])
 		],
 		preprocessors: {
@@ -62,5 +55,5 @@ export const defaultKarmaConfig = ({files, mime, preprocessors, karmaPlugins, ro
 			"text/x-typescript": ["ts"],
 			...(mime || {})
 		}
-	}
+	};
 };

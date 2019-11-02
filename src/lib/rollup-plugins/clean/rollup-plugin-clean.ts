@@ -16,8 +16,8 @@ const defaultConfig: IRollupPluginCleanConfig = {
  * A Rollup plugin that clean directories before rebuilding.
  * @param config
  */
-export function clean (config: Partial<IRollupPluginCleanConfig> = {}) {
-	const {targets, verbose} = {...defaultConfig, ...config};
+export function clean(config: Partial<IRollupPluginCleanConfig> = {}) {
+	const { targets, verbose } = { ...defaultConfig, ...config };
 	return {
 		name: "clean",
 		generateBundle: (): void => {

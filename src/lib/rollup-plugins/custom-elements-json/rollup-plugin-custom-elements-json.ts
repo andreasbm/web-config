@@ -17,8 +17,8 @@ const defaultConfig: IRollupPluginCustomElementsJsonConfig = {
  * A Rollup plugin that uses web component analyzer to generate a custom-elements.json file.
  * @param config
  */
-export function customElementsJson (config: Partial<IRollupPluginCustomElementsJsonConfig> = {}) {
-	const {verbose} = {...defaultConfig, ...config};
+export function customElementsJson(config: Partial<IRollupPluginCustomElementsJsonConfig> = {}) {
+	const { verbose } = { ...defaultConfig, ...config };
 
 	return {
 		name: "customElementsJson",
@@ -27,7 +27,6 @@ export function customElementsJson (config: Partial<IRollupPluginCustomElementsJ
 
 			try {
 				//analyzeComponents(sourceFile, { checker }); what? :-)
-
 			} catch (ex) {
 				if (verbose) {
 					console.log(colors.red(`[customElementsJson] - Something went wrong: "${ex.message}"`));
@@ -36,4 +35,3 @@ export function customElementsJson (config: Partial<IRollupPluginCustomElementsJ
 		}
 	};
 }
-

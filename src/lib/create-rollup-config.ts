@@ -20,7 +20,7 @@ import { importStyles, IRollupPluginImportStylesConfig } from "./rollup-plugins/
 import { livereload } from "./rollup-plugins/live-reload/rollup-plugin-livereload";
 import { IRollupPluginMinifyLitHtml, minifyLitHTML } from "./rollup-plugins/minify-lit-html/rollup-plugin-minify-lit-html";
 import { IRollupPluginReplaceConfig, replace } from "./rollup-plugins/replace/rollup-plugin-replace";
-import {join} from "path";
+import { join } from "path";
 
 export interface IDefaultResolvePlugins {
 	importStylesConfig: Partial<IRollupPluginImportStylesConfig>;
@@ -31,11 +31,11 @@ export interface IDefaultResolvePlugins {
 	resolveConfig: any;
 }
 
-export interface IDefaultPlugins extends IDefaultResolvePlugins{
+export interface IDefaultPlugins extends IDefaultResolvePlugins {
 	copyConfig: Partial<IRollupPluginCopyConfig>;
 	htmlTemplateConfig: Partial<IRollupPluginHtmlTemplateConfig>;
 	replaceConfig: Partial<IRollupPluginReplaceConfig>;
-	cleanConfig: Partial<IRollupPluginCleanConfig>
+	cleanConfig: Partial<IRollupPluginCleanConfig>;
 	progressConfig: any;
 }
 
@@ -59,7 +59,7 @@ export const isServe = process.env.ROLLUP_WATCH || false;
  * Returns the config or an empty default.
  * @param config
  */
-const configOrDefault = <T> (config: T | null | undefined): T => {
+const configOrDefault = <T>(config: T | null | undefined): T => {
 	return config || <T>{};
 };
 
@@ -70,18 +70,23 @@ export const postcssPlugins = [
 	precss(),
 	autoprefixer(),
 
-	...(isProd ? [
-		// Currently there's an issue with nested calcs and custom variables.
-		// It can be reproduces by entering the following in https://cssnano.co/playground/: font-size: calc(var(--padding, calc(24 * var(--base-size, 1px))) + 1);
-		// cssnano uses the following postcss plugins: https://cssnano.co/guides/optimisations.
-		// https://cssnano.co/optimisations/calc is therefore probably the cause for this issue.
-		// Read here for configuration: https://cssnano.co/guides/presets
-		cssnano({
-			preset: ["default", {
-				calc: false
-			}]
-		})
-	] : [])
+	...(isProd
+		? [
+				// Currently there's an issue with nested calcs and custom variables.
+				// It can be reproduces by entering the following in https://cssnano.co/playground/: font-size: calc(var(--padding, calc(24 * var(--base-size, 1px))) + 1);
+				// cssnano uses the following postcss plugins: https://cssnano.co/guides/optimisations.
+				// https://cssnano.co/optimisations/calc is therefore probably the cause for this issue.
+				// Read here for configuration: https://cssnano.co/guides/presets
+				cssnano({
+					preset: [
+						"default",
+						{
+							calc: false
+						}
+					]
+				})
+		  ]
+		: [])
 ];
 
 /**
@@ -108,8 +113,14 @@ export const defaultOutputConfig = (config: Partial<OutputOptions>) => {
  * @param jsonConfig
  * @param resolveConfig
  */
-export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveConfig, tsConfig, commonjsConfig, replaceConfig}: Partial<IDefaultResolvePlugins> = {}) => [
-
+export const defaultResolvePlugins = ({
+	importStylesConfig,
+	jsonConfig,
+	resolveConfig,
+	tsConfig,
+	commonjsConfig,
+	replaceConfig
+}: Partial<IDefaultResolvePlugins> = {}) => [
 	// Teaches Rollup what files should be replaced
 	replace({
 		...configOrDefault(replaceConfig)
@@ -119,11 +130,7 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
 	// https://github.com/rollup/rollup-plugin-node-resolve
 	resolve({
 		modulesOnly: false,
-		mainFields: [
-			"module",
-			"browser",
-			"jsnext:main"
-		],
+		mainFields: ["module", "browser", "jsnext:main"],
 		...configOrDefault(resolveConfig)
 	}),
 
@@ -167,8 +174,18 @@ export const defaultResolvePlugins = ({importStylesConfig, jsonConfig, resolveCo
  * @param commonjsConfig
  * @param replaceConfig
  */
-export const defaultPlugins = ({cleanConfig, copyConfig, importStylesConfig, jsonConfig, htmlTemplateConfig, resolveConfig, progressConfig, tsConfig, commonjsConfig, replaceConfig}: Partial<IDefaultPlugins> = {}) => [
-
+export const defaultPlugins = ({
+	cleanConfig,
+	copyConfig,
+	importStylesConfig,
+	jsonConfig,
+	htmlTemplateConfig,
+	resolveConfig,
+	progressConfig,
+	tsConfig,
+	commonjsConfig,
+	replaceConfig
+}: Partial<IDefaultPlugins> = {}) => [
 	// Shows a progress indicator while building
 	progress({
 		...configOrDefault(progressConfig)
@@ -206,8 +223,7 @@ export const defaultPlugins = ({cleanConfig, copyConfig, importStylesConfig, jso
  * @param serveConfig
  * @param livereloadConfig
  */
-export const defaultServePlugins = ({dist, serveConfig, livereloadConfig}: any = {}) => [
-
+export const defaultServePlugins = ({ dist, serveConfig, livereloadConfig }: any = {}) => [
 	// Serves the application files
 	serve({
 		open: true,
@@ -217,13 +233,13 @@ export const defaultServePlugins = ({dist, serveConfig, livereloadConfig}: any =
 		headers: {
 			"Access-Control-Allow-Origin": "*"
 		},
-		...(dist != null ? {contentBase: dist} : {}),
+		...(dist != null ? { contentBase: dist } : {}),
 		...configOrDefault(serveConfig)
 	}),
 
 	// Reloads the page when run in watch mode
 	livereload({
-		...(dist != null ? {watch: dist} : {}),
+		...(dist != null ? { watch: dist } : {}),
 		...configOrDefault(livereloadConfig)
 	})
 ];
@@ -238,8 +254,15 @@ export const defaultServePlugins = ({dist, serveConfig, livereloadConfig}: any =
  * @param visualizerConfig
  * @param compressConfig
  */
-export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, terserConfig, budgetConfig, visualizerConfig, compressConfig}: Partial<IDefaultProdPlugins> = {}) => [
-
+export const defaultProdPlugins = ({
+	dist,
+	minifyLitHtmlConfig,
+	licenseConfig,
+	terserConfig,
+	budgetConfig,
+	visualizerConfig,
+	compressConfig
+}: Partial<IDefaultProdPlugins> = {}) => [
 	// Minifies the lit-html files
 	minifyLitHTML({
 		...configOrDefault(minifyLitHtmlConfig)
@@ -248,7 +271,7 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 	// Collects all the license files
 	license({
 		sourcemap: true,
-		...(dist != null ? {thirdParty: {output: join(dist, "licenses.txt")}} : {}),
+		...(dist != null ? { thirdParty: { output: join(dist, "licenses.txt") } } : {}),
 		...configOrDefault(licenseConfig)
 	}),
 
@@ -256,7 +279,7 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 	terser({
 		output: {
 			// Don't preserve any comments, we create a license.txt instead.
-			comments: () => false,
+			comments: () => false
 		},
 		...configOrDefault(terserConfig)
 	}),
@@ -269,7 +292,7 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
 	// Create a HTML file visualizing the size of each module
 	visualizer({
 		sourcemap: true,
-		...(dist != null ? {filename: join(dist, "stats.html")} : {}),
+		...(dist != null ? { filename: join(dist, "stats.html") } : {}),
 		...configOrDefault(visualizerConfig)
 	}),
 
@@ -285,7 +308,15 @@ export const defaultProdPlugins = ({dist, minifyLitHtmlConfig, licenseConfig, te
  * @param devDependencies
  * @param peerDependencies
  */
-export const defaultExternals = ({dependencies, devDependencies, peerDependencies}: {dependencies?: string[], devDependencies?: string[], peerDependencies?: string[]}) => [
+export const defaultExternals = ({
+	dependencies,
+	devDependencies,
+	peerDependencies
+}: {
+	dependencies?: string[];
+	devDependencies?: string[];
+	peerDependencies?: string[];
+}) => [
 	...Object.keys(configOrDefault(dependencies)),
 	...Object.keys(configOrDefault(devDependencies)),
 	...Object.keys(configOrDefault(peerDependencies))

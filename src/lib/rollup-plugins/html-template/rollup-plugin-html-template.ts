@@ -6,7 +6,7 @@ import { createFilter } from "rollup-pluginutils";
 
 export type ScriptType = "module" | "text/javascript";
 
-export type TransformScript = (({filename, scriptType}: ITransformScriptOptions) => string);
+export type TransformScript = ({ filename, scriptType }: ITransformScriptOptions) => string;
 
 export interface ITransformScriptOptions {
 	filename: string;
@@ -39,7 +39,7 @@ export interface IRollupPluginHtmlTemplateConfig {
 	target: string;
 
 	// Transforms the template
-	transform: ((info: ITransformOptions) => string);
+	transform: (info: ITransformOptions) => string;
 
 	// Transform the script
 	transformScript: TransformScript;
@@ -84,7 +84,7 @@ const defaultConfig: Partial<IRollupPluginHtmlTemplateConfig> = {
  * @param src
  * @param options
  */
-export function getPolyfillScript ({crossorigin, features, src, options}: IPolyfillConfig) {
+export function getPolyfillScript({ crossorigin, features, src, options }: IPolyfillConfig) {
 	src = `${src}?${features.length > 0 ? `features=${features.join(",")}` : ""}${options.length > 0 ? `|${options.join("|")}` : ""}`;
 	return `<script ${crossorigin ? "crossorigin" : ""} src="${src}"></script>`;
 }
@@ -94,7 +94,7 @@ export function getPolyfillScript ({crossorigin, features, src, options}: IPolyf
  * @param filename
  * @param scriptType
  */
-export function transformScript ({filename, scriptType}: ITransformScriptOptions) {
+export function transformScript({ filename, scriptType }: ITransformScriptOptions) {
 	return `<script src="${filename}" type="${scriptType}"></script>`;
 }
 
@@ -108,11 +108,18 @@ export function transformScript ({filename, scriptType}: ITransformScriptOptions
  * @param polyfillConfig
  * @param transformScript
  */
-export function transformTemplate ({template, bodyCloseTagIndex, fileNames, scriptType, polyfillConfig, transformScript}: ITransformOptions): string {
+export function transformTemplate({
+	template,
+	bodyCloseTagIndex,
+	fileNames,
+	scriptType,
+	polyfillConfig,
+	transformScript
+}: ITransformOptions): string {
 	return [
 		template.slice(0, bodyCloseTagIndex),
-		(polyfillConfig.features.length > 0 ? `${getPolyfillScript(polyfillConfig)}\n` : ""),
-		...fileNames.map(filename => transformScript({filename, scriptType})).join("\n"),
+		polyfillConfig.features.length > 0 ? `${getPolyfillScript(polyfillConfig)}\n` : "",
+		...fileNames.map(filename => transformScript({ filename, scriptType })).join("\n"),
 		template.slice(bodyCloseTagIndex, template.length)
 	].join("");
 }
@@ -132,10 +139,21 @@ export function transformTemplate ({template, bodyCloseTagIndex, fileNames, scri
  * @param polyfillConfig
  * @param transformScript
  */
-async function generateFile ({bundle, template, target, filter, scriptType, verbose, include, exclude, transform, polyfillConfig, transformScript}: IRollupPluginHtmlTemplateConfig & {bundle: OutputBundle, filter: ((path: string) => boolean)}) {
+async function generateFile({
+	bundle,
+	template,
+	target,
+	filter,
+	scriptType,
+	verbose,
+	include,
+	exclude,
+	transform,
+	polyfillConfig,
+	transformScript
+}: IRollupPluginHtmlTemplateConfig & { bundle: OutputBundle; filter: (path: string) => boolean }) {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
-
 			// If the file could not be read, abort!
 			if (err) {
 				return rej(err);
@@ -153,7 +171,13 @@ async function generateFile ({bundle, template, target, filter, scriptType, verb
 
 			// Error handling
 			if (verbose && fileNames.length === 0) {
-				console.log(colors.yellow(`[htmlTemplate] - No scripts were injected into the "${target}" template file. Make sure to specify the files that should be injected using the include option. Currently the include option has been set to "${include}" and the exclude option to "${exclude}". The filenames passed to the plugin are "${unfilteredFilenames.join(", ")}"\n`));
+				console.log(
+					colors.yellow(
+						`[htmlTemplate] - No scripts were injected into the "${target}" template file. Make sure to specify the files that should be injected using the include option. Currently the include option has been set to "${include}" and the exclude option to "${exclude}". The filenames passed to the plugin are "${unfilteredFilenames.join(
+							", "
+						)}"\n`
+					)
+				);
 			}
 
 			// Transform the template
@@ -170,7 +194,6 @@ async function generateFile ({bundle, template, target, filter, scriptType, verb
 			try {
 				fse.outputFileSync(target, html);
 				res();
-
 			} catch (err) {
 				rej(err);
 			}
@@ -182,9 +205,9 @@ async function generateFile ({bundle, template, target, filter, scriptType, verb
  * A Rollup plugin that injects the bundle entry points into a HTML file.
  * @param config
  */
-export function htmlTemplate (config: Partial<IRollupPluginHtmlTemplateConfig> = {}) {
-	config = {...defaultConfig, ...config};
-	const {template, target, include, exclude, polyfillConfig} = {...defaultConfig, ...config};
+export function htmlTemplate(config: Partial<IRollupPluginHtmlTemplateConfig> = {}) {
+	config = { ...defaultConfig, ...config };
+	const { template, target, include, exclude, polyfillConfig } = { ...defaultConfig, ...config };
 	const filter = createFilter(include, exclude);
 
 	// Throw error if neither the template nor the target has been defined
@@ -200,7 +223,7 @@ export function htmlTemplate (config: Partial<IRollupPluginHtmlTemplateConfig> =
 			// @ts-ignore
 			return generateFile({
 				...config,
-				polyfillConfig: {...defaultPolyfillConfig, ...polyfillConfig},
+				polyfillConfig: { ...defaultPolyfillConfig, ...polyfillConfig },
 				bundle,
 				filter
 			});

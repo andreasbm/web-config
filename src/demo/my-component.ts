@@ -3,9 +3,9 @@ import css from "./my-component.scss";
 
 @customElement("my-component")
 export class MyComponent extends LitElement {
-	@property({type: String}) text!: string;
+	@property({ type: String }) text!: string;
 
-	render () {
+	render() {
 		return html`
 			<style>
 				${css}

@@ -10,4 +10,3 @@ export const emptySourcemap = {
 	names: [],
 	mappings: ""
 };
-

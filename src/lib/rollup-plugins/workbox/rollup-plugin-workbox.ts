@@ -31,7 +31,7 @@ const defaultConfig: IRollupPluginWorkboxConfig = {
  * Returns the correct method to for generating the Service Worker.
  * @param mode
  */
-function workboxFactory (mode: GenerateServiceWorkerType): typeof generateSW | typeof injectManifest {
+function workboxFactory(mode: GenerateServiceWorkerType): typeof generateSW | typeof injectManifest {
 	switch (mode) {
 		case GenerateServiceWorkerKind.generateSw:
 			return generateSW;
@@ -46,8 +46,8 @@ function workboxFactory (mode: GenerateServiceWorkerType): typeof generateSW | t
  * A Rollup plugin that uses workbox to generate a service worker.
  * @param config
  */
-export function workbox (config: Partial<IRollupPluginWorkboxConfig> = {}) {
-	const {workboxConfig, mode, verbose, timeout} = {...defaultConfig, ...config};
+export function workbox(config: Partial<IRollupPluginWorkboxConfig> = {}) {
+	const { workboxConfig, mode, verbose, timeout } = { ...defaultConfig, ...config };
 
 	// Ensure a workbox config exists
 	if (workboxConfig == null) {
@@ -64,7 +64,6 @@ export function workbox (config: Partial<IRollupPluginWorkboxConfig> = {}) {
 					await workboxFactory(mode)(workboxConfig);
 				}, timeout);
 				await workboxFactory(mode)(workboxConfig);
-
 			} catch (ex) {
 				if (verbose) {
 					console.log(colors.red(`[workbox] - The Service Worker could not be generated: "${ex.message}"`));
@@ -73,4 +72,3 @@ export function workbox (config: Partial<IRollupPluginWorkboxConfig> = {}) {
 		}
 	};
 }
-

@@ -1,6 +1,6 @@
 import colors from "colors";
-import {createServer} from "livereload";
-import {resolve} from "path";
+import { createServer } from "livereload";
+import { resolve } from "path";
 
 export interface IRollupPLuginLivereloadConfig {
 	watch: string;
@@ -27,7 +27,7 @@ const defaultConfig: IRollupPLuginLivereloadConfig = {
 /**
  * Returns the livereload html.
  */
-function livereloadHtml (port: number): string {
+function livereloadHtml(port: number): string {
 	return `/* Inserted by the Livereload plugin */
 	if (typeof document !== 'undefined') {
 		(function(doc, id) {
@@ -48,15 +48,14 @@ function livereloadHtml (port: number): string {
 			$container.insertBefore($script, $container.firstChild);
 			
 		})(document, "rollup-plugin-livereload");
-	}`
+	}`;
 }
 
 /**
  * Subscribes the server to terminate when required.
  * @param server
  */
-function attachTerminationListeners (server: any) {
-
+function attachTerminationListeners(server: any) {
 	// Hook up listeners that kills the server if the process is terminated for some reason
 	const terminationSignals = ["SIGINT", "SIGTERM", "SIGQUIT"];
 	for (const signal of terminationSignals) {
@@ -74,7 +73,7 @@ function attachTerminationListeners (server: any) {
  * Tears down the server.
  * @param server
  */
-function killServer (server: any) {
+function killServer(server: any) {
 	server.close();
 	process.exit();
 }
@@ -84,11 +83,11 @@ function killServer (server: any) {
  * @param config
  * @returns {*}
  */
-export function livereload (config: Partial<IRollupPLuginLivereloadConfig> = {}) {
-	const {watch, port, verbose} = {...defaultConfig, ...config};
+export function livereload(config: Partial<IRollupPLuginLivereloadConfig> = {}) {
+	const { watch, port, verbose } = { ...defaultConfig, ...config };
 
 	// Start watching the files
-	const server = createServer({watch, port, verbose});
+	const server = createServer({ watch, port, verbose });
 	const paths = Array.isArray(watch) ? watch : [watch];
 
 	// @ts-ignore // TODO
@@ -103,6 +102,5 @@ export function livereload (config: Partial<IRollupPLuginLivereloadConfig> = {})
 				console.log(colors.green(`[livereload] - Enabled.`));
 			}
 		}
-	}
+	};
 }
-
