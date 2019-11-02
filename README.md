@@ -37,7 +37,7 @@
 
 * [➤ Step 1 - Installation](#-step-1---installation)
 * [➤ Step 2 - Setup `rollup.config.ts`](#-step-2---setup-rollupconfigts)
-* [➤ Step 3 - Setup `tslint.json`](#-step-3---setup-tslintjson)
+* [➤ Step 3 - Setup `.eslintrc.json`](#-step-3---setup-eslintrcjson)
 * [➤ Step 4 - Setup `tsconfig.json`](#-step-4---setup-tsconfigjson)
 * [➤ Step 5 - Setup `.browserslistrc`](#-step-5---setup-browserslistrc)
 * [➤ Step 6 - Setup `karma.conf.js`](#-step-6---setup-karmaconfjs)
@@ -149,13 +149,13 @@ export default {
 ```
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-3---setup-tslintjson)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-3---setup-eslintrcjson)
 
-## ➤ Step 3 - Setup `tslint.json`
+## ➤ Step 3 - Setup `.eslintrc.json`
 
 ```json
 {
-  "extends": "./node_modules/@appnest/web-config/tslint.json"
+  "extends": "./node_modules/@appnest/web-config/eslint.js"
 }
 ```
 

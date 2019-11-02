@@ -17,7 +17,8 @@ async function postBuild () {
 		"tsconfig.json",
 		"tslint.json",
 		"typings.d.ts",
-		"eslint.js"
+		"eslint.js",
+		"prettier.config.js"
 	]);
 
 	// Copy the root files
@@ -25,6 +26,7 @@ async function postBuild () {
 		".gitignore",
 		".npmignore",
 		".eslintignore",
+		".prettierignore",
 		".browserslistrc",
 		"README.md",
 		"package.json"

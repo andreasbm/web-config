@@ -52,7 +52,9 @@
 		"publish:minor": "np minor --contents=dist/lib",
 		"publish:major": "np major --contents=dist/lib",
 		"lint:demo": " ./node_modules/.bin/eslint src/demo/**/*.ts",
-		"lint:lib": " ./node_modules/.bin/eslint src/lib/**/*.ts"
+		"lint:lib": " ./node_modules/.bin/eslint src/lib/**/*.ts",
+		"prettier:check": "prettier --list-different \"src/**/*.ts\"",
+		"prettier:write": "prettier --write \"src/**/*.ts\""
 	},
 	"dependencies": {
 		"@types/chai": "^4.2.4",
