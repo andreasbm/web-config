@@ -10,6 +10,7 @@
 {{ load:readme/5-setup-browserslist.md }}
 {{ load:readme/6-setup-karma.md }}
 {{ load:readme/7-setup-scripts.md }}
+{{ load:readme/8-setup-prettier.md }}
 {{ load:readme/stylesheets.md }}
 {{ template:contributors }}
 {{ template:license }}

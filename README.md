@@ -42,6 +42,7 @@
 * [➤ Step 5 - Setup `.browserslistrc`](#-step-5---setup-browserslistrc)
 * [➤ Step 6 - Setup `karma.conf.js`](#-step-6---setup-karmaconfjs)
 * [➤ Step 7 - Add start and build scripts to `package.json`](#-step-7---add-start-and-build-scripts-to-packagejson)
+* [➤ Step 8 - Setup `prettier.config.js`](#-step-8---setup-prettierconfigjs)
 * [➤ How to load stylesheets](#-how-to-load-stylesheets)
 	* [Add the following to your `typings.d.ts` file!](#add-the-following-to-your-typingsdts-file)
 	* [Load a global stylesheet (it will be added to the template file)](#load-a-global-stylesheet-it-will-be-added-to-the-template-file)
@@ -220,6 +221,17 @@ Here an example on what scripts you could add to your `package.json` file.
   }
   ...
 }
+```
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/vintage.png)](#step-8---setup-prettierconfigjs)
+
+## ➤ Step 8 - Setup `prettier.config.js`
+
+```js
+module.exports = {
+   ...require("../node_modules/@appnest/web-config/rettier.config.js")
+};
 ```
 
 
