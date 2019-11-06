@@ -19,6 +19,7 @@ export const defaultBabelConfig = () => {
 			"@babel/plugin-proposal-class-properties",
 			"@babel/plugin-external-helpers",
 			"@babel/plugin-proposal-object-rest-spread",
+			"@babel/plugin-proposal-optional-chaining",
 			[
 				"@babel/plugin-transform-runtime",
 				{

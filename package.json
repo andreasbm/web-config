@@ -59,9 +59,9 @@
 	"dependencies": {
 		"@types/chai": "^4.2.4",
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.12.5",
-		"@typescript-eslint/eslint-plugin": "^2.6.0",
-		"@typescript-eslint/parser": "^2.6.0",
+		"@types/node": "^12.12.6",
+		"@typescript-eslint/eslint-plugin": "^2.6.1",
+		"@typescript-eslint/parser": "^2.6.1",
 		"@wessberg/rollup-plugin-ts": "^1.1.73",
 		"autoprefixer": "^9.7.1",
 		"boxen": "^4.1.0",
@@ -103,16 +103,16 @@
 		"rollup-plugin-progress": "^1.1.1",
 		"rollup-plugin-serve": "^1.0.1",
 		"rollup-plugin-terser": "^5.1.2",
-		"rollup-plugin-visualizer": "^2.7.0",
+		"rollup-plugin-visualizer": "^2.7.2",
 		"rollup-pluginutils": "^2.8.2",
 		"targz": "^1.0.1",
 		"ts-lit-plugin": "1.1.9",
-		"typescript": "^3.6.4",
-		"web-component-analyzer": "^0.1.18",
+		"typescript": "^3.7.2",
+		"web-component-analyzer": "^0.1.20",
 		"workbox-build": "^4.3.1"
 	},
 	"devDependencies": {
-		"@appnest/readme": "^1.2.4",
+		"@appnest/readme": "^1.2.5",
 		"@types/escodegen": "0.0.6",
 		"@types/esprima": "^4.0.2",
 		"@types/estraverse": "0.0.6",
@@ -122,7 +122,7 @@
 		"@types/node-sass": "^4.11.0",
 		"lit-element": "^2.2.1",
 		"lit-html": "^1.1.2",
-		"weightless": "0.0.34"
+		"weightless": "0.0.36"
 	},
 	"contributors": [
 		{
