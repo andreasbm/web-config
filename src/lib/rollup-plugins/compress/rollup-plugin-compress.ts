@@ -24,7 +24,6 @@ const defaultConfig: IRollupPluginCompressConfig = {
 	include: [],
 	exclude: [],
 	compressors: [compressGzip, compressBrotli],
-
 	timeout: 2000
 };
 
