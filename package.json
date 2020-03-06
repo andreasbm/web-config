@@ -95,7 +95,7 @@
 		"precss": "^4.0.0",
 		"prettier": "^1.19.1",
 		"recursive-readdir-sync": "^1.0.6",
-		"rollup": "^2.0.0-2",
+		"rollup": "^1.32.1",
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-json": "^4.0.0",
 		"rollup-plugin-license": "^0.13.0",
