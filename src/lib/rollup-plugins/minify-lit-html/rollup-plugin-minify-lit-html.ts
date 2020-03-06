@@ -5,7 +5,7 @@ import { replace as estraverseReplace, VisitorOption } from "estraverse";
 import * as ESTree from "estree";
 import { minify } from "html-minifier";
 import { resolve, dirname } from "path";
-import { ResolveIdResult, TransformSourceDescription } from "rollup";
+import { ResolveIdResult, SourceDescription } from "rollup";
 import { createFilter } from "rollup-pluginutils";
 import { emptySourcemap } from "../util";
 
@@ -123,7 +123,7 @@ function parseAst({ code, config }: { code: string; config: IRollupPluginMinifyL
  * @param config
  * @returns {Promise<void>}
  */
-function processFile({ code, id, config }: { code: string; id: string; config: IRollupPluginMinifyLitHtml }): Promise<TransformSourceDescription> {
+function processFile({ code, id, config }: { code: string; id: string; config: IRollupPluginMinifyLitHtml }): Promise<SourceDescription> {
 	return new Promise(res => {
 		try {
 			// Create transformer that traverses the ast and minifies the html`...` parts.
@@ -148,7 +148,7 @@ function processFile({ code, id, config }: { code: string; id: string; config: I
 			return res({
 				code: minifiedCode,
 				map: map.toString()
-			} as TransformSourceDescription);
+			} as SourceDescription);
 		} catch (err) {
 			if (config.verbose) {
 				console.log(colors.yellow(`[minifyLitHTML] - Could not parse "${err.message}" in "${id}"\n`));
@@ -158,7 +158,7 @@ function processFile({ code, id, config }: { code: string; id: string; config: I
 			res({
 				code,
 				map: emptySourcemap
-			} as TransformSourceDescription);
+			} as SourceDescription);
 		}
 	});
 }
@@ -181,7 +181,7 @@ export function minifyLitHTML(config: Partial<IRollupPluginMinifyLitHtml> = {}) 
 			if (!importer || !filter(id)) return;
 			return resolve(dirname(importer), id);
 		},
-		transform: (code: string, id: string): void | Promise<TransformSourceDescription | string | void> => {
+		transform: (code: string, id: string): void | Promise<SourceDescription | string | void> => {
 			if (!filter(id)) return;
 			return processFile({ code, id, config: config as IRollupPluginMinifyLitHtml });
 		}

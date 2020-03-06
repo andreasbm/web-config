@@ -1,6 +1,6 @@
 import MagicString from "magic-string";
 import postcss from "postcss";
-import { ResolveIdResult, TransformSourceDescription } from "rollup";
+import { ResolveIdResult, SourceDescription } from "rollup";
 import { emptySourcemap } from "../util";
 import sass from "node-sass";
 import { resolve, dirname } from "path";
@@ -157,7 +157,7 @@ export function importStyles(config: Partial<IRollupPluginImportStylesConfig> = 
 			if (!importer || !filter(id)) return;
 			return resolve(dirname(importer), id);
 		},
-		transform: async (data: string, id: string): Promise<TransformSourceDescription | string | void> => {
+		transform: async (data: string, id: string): Promise<SourceDescription | string | void> => {
 			if (!filter(id)) return;
 			const overwrite = transform(id, isGlobal(id));
 			// @ts-ignore
