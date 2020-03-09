@@ -3,7 +3,7 @@ import { yellow, green } from "colors";
 import { appendFile, readFileSync } from "fs-extra";
 import readdir from "recursive-readdir-sync";
 import { OutputBundle, OutputOptions } from "rollup";
-import { createFilter } from "rollup-pluginutils";
+import { createFilter } from "@rollup/pluginutils";
 import { compress as tagzCompress } from "targz";
 
 export type Compressor = ({ src, verbose }: { src: string; verbose: boolean }) => void;

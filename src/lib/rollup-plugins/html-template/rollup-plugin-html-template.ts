@@ -2,7 +2,7 @@ import colors from "colors";
 import { readFile } from "fs";
 import fse from "fs-extra";
 import { OutputBundle, OutputOptions } from "rollup";
-import { createFilter } from "rollup-pluginutils";
+import { createFilter } from "@rollup/pluginutils";
 
 export type ScriptType = "module" | "text/javascript";
 

@@ -6,7 +6,7 @@ import * as ESTree from "estree";
 import { minify } from "html-minifier";
 import { resolve, dirname } from "path";
 import { ResolveIdResult, SourceDescription } from "rollup";
-import { createFilter } from "rollup-pluginutils";
+import { createFilter } from "@rollup/pluginutils";
 import { emptySourcemap } from "../util";
 
 export type HtmlMinifierConfig = any;
