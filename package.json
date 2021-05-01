@@ -13,6 +13,9 @@
 		"yarn": false,
 		"contents": "dist/lib"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"homepage": "https://github.com/andreasbm/web-config#readme",
 	"repository": {
 		"type": "git",
