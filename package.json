@@ -9,6 +9,10 @@
 	"bugs": {
 		"url": "https://github.com/andreasbm/web-config/issues"
 	},
+	"np": {
+		"yarn": false,
+		"contents": "dist/lib"
+	},
 	"homepage": "https://github.com/andreasbm/web-config#readme",
 	"repository": {
 		"type": "git",
@@ -48,9 +52,9 @@
 		"test": "npm run b:lib && karma start karma.conf.js",
 		"readme": "node node_modules/.bin/readme generate",
 		"postversion": "npm run readme && npm run b:lib",
-		"publish:patch": "np patch --contents=dist/lib",
-		"publish:minor": "np minor --contents=dist/lib",
-		"publish:major": "np major --contents=dist/lib",
+		"publish:patch": "np patch",
+		"publish:minor": "np minor",
+		"publish:major": "np major",
 		"lint:demo": " ./node_modules/.bin/eslint src/demo/**/*.ts",
 		"lint:lib": " ./node_modules/.bin/eslint src/lib/**/*.ts",
 		"prettier:check": "prettier --list-different \"src/**/*.ts\"",
