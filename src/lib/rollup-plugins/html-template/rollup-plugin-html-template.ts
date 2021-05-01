@@ -151,7 +151,7 @@ async function generateFile({
 	transform,
 	polyfillConfig,
 	transformScript
-}: IRollupPluginHtmlTemplateConfig & { bundle: OutputBundle; filter: (path: string) => boolean }) {
+}: IRollupPluginHtmlTemplateConfig & { bundle: OutputBundle; filter: (path: string) => boolean }): Promise<void> {
 	return new Promise((res, rej) => {
 		readFile(template, (err, buffer) => {
 			// If the file could not be read, abort!

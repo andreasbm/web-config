@@ -1,5 +1,6 @@
 import MagicString from "magic-string";
 import postcss from "postcss";
+import Processor from "postcss/lib/processor";
 import { ResolveIdResult, SourceDescription } from "rollup";
 import { emptySourcemap } from "../util";
 import sass from "node-sass";
@@ -7,7 +8,6 @@ import { resolve, dirname } from "path";
 
 export type Transformer = (css: string) => string;
 export type GetTransformer = (id: string, isGlobal: boolean) => Transformer;
-
 export interface IRollupPluginImportStylesConfig {
 	// Postcss plugins.
 	plugins: any[];
@@ -88,7 +88,7 @@ async function processFile({
 	overwrite,
 	postcssConfig,
 	sassConfig
-}: IRollupPluginImportStylesConfig & { overwrite: Transformer; data: string; id: string; processor: postcss.Processor }) {
+}: IRollupPluginImportStylesConfig & { overwrite: Transformer; data: string; id: string; processor: Processor }) {
 	return new Promise(res => {
 		// Compile the data using the sass compiler
 		const css = sass

@@ -1,4 +1,4 @@
-import { compress as brotliCompress } from "brotli";
+import brotli from "brotli";
 import { yellow, green } from "colors";
 import { appendFile, readFileSync } from "fs-extra";
 import readdir from "recursive-readdir-sync";
@@ -23,7 +23,7 @@ const defaultConfig: IRollupPluginCompressConfig = {
 	verbose: true,
 	include: [],
 	exclude: [],
-	compressors: [compressGzip, compressBrotli],
+	compressors: [compressGzip], /*, compressBrotli],*/
 	timeout: 2000
 };
 
@@ -53,7 +53,7 @@ export function compressGzip({ src, verbose }: { src: string; verbose: boolean }
  * @param verbose
  */
 export function compressBrotli({ src, verbose }: { src: string; verbose: boolean }) {
-	const buffer = brotliCompress(readFileSync(src));
+	const buffer = brotli.compress(readFileSync(src));
 	const dest = `${src}.br`;
 
 	appendFile(dest, buffer, (err: Error) => {

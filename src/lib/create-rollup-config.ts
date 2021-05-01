@@ -150,6 +150,7 @@ export const defaultResolvePlugins = ({
 	// Teaches Rollup how to transpile Typescript
 	// https://github.com/wessberg/rollup-plugin-ts
 	ts({
+		/* @ts-ignore */
 		transpiler: "babel",
 		...configOrDefault(tsConfig)
 	}),
