@@ -151,7 +151,7 @@ function processFile({ code, id, config }: { code: string; id: string; config: I
 			} as SourceDescription);
 		} catch (err) {
 			if (config.verbose) {
-				console.log(colors.yellow(`[minifyLitHTML] - Could not parse "${err.message}" in "${id}"\n`));
+				console.log(colors.yellow(`[minifyLitHTML] - Could not parse "${(err as Error).message}" in "${id}"\n`));
 			}
 
 			// Sometimes we cannot parse the file. This should however not stop the build from finishing.

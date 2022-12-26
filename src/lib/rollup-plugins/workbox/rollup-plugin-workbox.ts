@@ -64,9 +64,9 @@ export function workbox(config: Partial<IRollupPluginWorkboxConfig> = {}) {
 					await workboxFactory(mode)(workboxConfig);
 				}, timeout);
 				await workboxFactory(mode)(workboxConfig);
-			} catch (ex) {
+			} catch (err) {
 				if (verbose) {
-					console.log(colors.red(`[workbox] - The Service Worker could not be generated: "${ex.message}"`));
+					console.log(colors.red(`[workbox] - The Service Worker could not be generated: "${(err as Error).message}"`));
 				}
 			}
 		}

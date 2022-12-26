@@ -36,7 +36,7 @@ export function copy(config: Partial<IRollupPluginCopyConfig> = {}) {
 					}
 				} catch (err) {
 					if (verbose) {
-						console.log(yellow(`[copy] - The file "${from}" could not be copied to "${to}"\n`), err.message);
+						console.log(yellow(`[copy] - The file "${from}" could not be copied to "${to}"\n`), (err as Error).message);
 					}
 				}
 			}

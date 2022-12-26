@@ -50,7 +50,7 @@ const defaultConfig: IRollupPluginBudgetConfig = {
  * @returns {Number}
  */
 function getGzippedSizeBytes(content: string | Buffer): number {
-	return gzipSize.sync(content);
+	return gzipSize.gzipSizeSync(content);
 }
 
 /**

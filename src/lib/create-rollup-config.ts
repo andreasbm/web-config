@@ -1,4 +1,4 @@
-import ts, { TypescriptPluginOptions } from "@wessberg/rollup-plugin-ts";
+import ts, { TypescriptPluginOptions } from "rollup-plugin-ts";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import precss from "precss";

@@ -32,14 +32,11 @@ export default {
 		})
 	],
 	plugins: [
-		// @ts-ignore
 		...defaultPlugins({
 			replaceConfig: {
-				resources: [
-					(isProd ?
-						[resolve(__dirname, "src/demo/env.ts"), resolve(__dirname, "src/demo/env.prod.ts")]
-					: [])
-				]
+				resources: isProd
+					? [[resolve(__dirname, "src/demo/env.ts"), resolve(__dirname, "src/demo/env.prod.ts")]]
+					: []
 			},
 			copyConfig: {
 				resources: [[folders.src_assets, folders.dist_assets]]
