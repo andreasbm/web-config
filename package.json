@@ -97,7 +97,7 @@
 		"magic-string": "^0.25.7",
 		"minimist": "^1.2.5",
 		"mocha": "^8.3.2",
-		"node-sass": "^5.0.0",
+		"node-sass": "^9.0.0",
 		"path": "^0.12.7",
 		"postcss": "^8.2.13",
 		"precss": "^4.0.0",
